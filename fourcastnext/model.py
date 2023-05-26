@@ -14,6 +14,7 @@ class FourCastNext(pl.LightningModule):
     model_params: dict, 
     base_lr=1e-3,
     grad_accum_schedule=None,
+    precision= 16,
 
   ):
     super().__init__()
@@ -26,6 +27,11 @@ class FourCastNext(pl.LightningModule):
 
     self.model = AFNONet(**model_params)
     self.model_params = model_params
+
+    if precision == 16:
+      self.dtype = torch.float16
+    else:
+      self.dtype = torch.float32
 
   def forward(self, x, net):
     value, flow = net(x)
@@ -85,7 +91,7 @@ class FourCastNext(pl.LightningModule):
     """
     B T C H W
     """
-    inp, tar = batch
+    inp, tar = map(lambda x: x.to(dtype = self.dtype), batch)
     B, T, C, H, W = inp.shape
     if T > 1:
       input0 = inp[:,0]
@@ -169,7 +175,7 @@ class FourCastNext(pl.LightningModule):
 
   def predict_step(self, batch, batch_idx):
 
-    inp, tar = batch
+    inp, tar = map(lambda x: x.to(dtype = self.dtype), batch)
 
     B, T, C, H, W = inp.shape
     if T > 1:
