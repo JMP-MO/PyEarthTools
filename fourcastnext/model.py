@@ -123,7 +123,6 @@ class FourCastNext(pl.LightningModule):
             tar_idx = i
         output0 = self.forward(input1, self.model)
         total_loss = F.mse_loss(output0, tar[:, tar_idx + 1]) 
-        self.log('recurrent/step', i)
 
     else:
       output1 = self.forward(input1, self.model)
