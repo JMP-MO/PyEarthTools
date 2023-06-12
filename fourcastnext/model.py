@@ -195,7 +195,7 @@ class FourCastNext(pl.LightningModule):
     return total_loss
   
   def predict_step(self, batch, batch_idx):
-
+    
     inp, tar = map(lambda x: x.to(dtype = self._dtype), batch)
 
     B, T, C, H, W = inp.shape
@@ -204,13 +204,23 @@ class FourCastNext(pl.LightningModule):
       input1 = inp[:,1]
     else:
       input1 = inp[:,0]
+    
     n_pred_steps = tar.shape[1]
 
-    predictions = self.forward(input1, self.model)
-    # for i in range(n_pred_steps):
-    #   predictions = torch.stack((predictions, self.forward(predictions.unsqueeze(1)[:,0], self.model)), dim = 1)
-    # else:
-    predictions = predictions.unsqueeze(1)
+    if n_pred_steps == 1:
+      predictions = self.forward(input1, self.model)
+      predictions = predictions.unsqueeze(1)
+      return inp, predictions
+    
+    predictions = []
+
+    for i in range(n_pred_steps):
+      output0 = self.forward(input1, self.model)
+      input1[:, :self.out_channels, ...] = input1[:, -self.out_channels:, ...]
+      input1[:, -self.out_channels:, ...] = output0
+      predictions.append(output0)
+
+    predictions = torch.stack(predictions, dim = 1)
     
     return inp, predictions
     
