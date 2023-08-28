@@ -31,6 +31,8 @@ ROOT_DIRECTORIES = {
 
 register_archive('ROOT_DIRECTORIES')(ROOT_DIRECTORIES)
 
+import edit_archive_NCI
+
 from edit_archive_NCI.ACCESS import ACCESS
 from edit_archive_NCI.AGCD import AGCD
 from edit_archive_NCI.BRAN import BRAN
@@ -40,3 +42,5 @@ from edit_archive_NCI.ERA5 import ERA5
 from edit_archive_NCI.MODIS import MODIS
 from edit_archive_NCI.OceanMaps import OceanMaps
 from edit_archive_NCI.Himiwari import Himiwari
+
+register_archive('NCI')(edit_archive_NCI)
