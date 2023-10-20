@@ -13,7 +13,7 @@ import xarray as xr
 
 from edit.data import transform
 from edit.data.exceptions import DataNotFoundError, InvalidIndexError
-from edit.data.warning import IndexWarning
+from edit.data.warnings import IndexWarning
 from edit.data.indexes import ArchiveIndex, ForecastIndex, DataIndex, decorators
 from edit.data.time import EDITDatetime, TimeDelta
 from edit.data.transform import Transform, TransformCollection

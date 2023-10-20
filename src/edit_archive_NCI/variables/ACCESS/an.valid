@@ -70,6 +70,7 @@ sfc/lnd_mask
 sfc/low_cld
 sfc/mid_cld
 sfc/mslp
+sfc/precwtr
 sfc/prob_vis_1km_ppt
 sfc/prob_vis_5km_ppt
 sfc/qsair_scrn

@@ -4,7 +4,6 @@ ECWMF ReAnalysis v5
 
 from __future__ import annotations
 
-import datetime
 from pathlib import Path
 from typing import Any, Literal
 
@@ -33,6 +32,7 @@ class ERA5(ArchiveIndex):
         return {
             "singleline": "ECWMF ReAnalysis v5",
             "range": "1970-current",
+            "Documentation": "https://confluence.ecmwf.int/display/CKB/ERA5%3A+data+documentation",
         }
 
     @decorators.alias_arguments(level_value=["pressure"], variables=["variable"])
