@@ -13,6 +13,7 @@ National Computing Infrastructure specific Indexes
 | [BARRA][edit_archive_NCI.BARRA]              | Bureau of meteorology Atmospheric high-resolution Regional Reanalysis for Australia       |
 """
 
+import edit.data
 from edit.data.archive import register_archive
 
 
@@ -28,6 +29,7 @@ ROOT_DIRECTORIES = {
     "BARRA": "/g/data/cj37/BARRA/BARRA_{region}/{version}/{datatype}",
     "BARPA": "/g/data/ia39/australian-climate-service/release",
 }
+
 
 register_archive('ROOT_DIRECTORIES')(ROOT_DIRECTORIES)
 

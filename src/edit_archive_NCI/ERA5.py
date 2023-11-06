@@ -17,11 +17,12 @@ from edit.data.archive import register_archive
 from edit_archive_NCI.utilities import check_project
 
 ERA5_LEVELS = ["single", "pressure"]
-ERA_RES = ["monthly-averaged", "monthly-averaged-by-hour", "reanalysis"]
+ERA_PROD = ["monthly-averaged", "monthly-averaged-by-hour", "reanalysis"]
 ERA_RES_RESOLUTION = [(1, "month"), (1, "month"), (1, "hour")]
 
 ERA5_RENAME = {"t2m": "2t", "u10": "10u", "v10": "10v"}
 
+#TODO allow level to be inferred from each var
 
 @register_archive('ERA5')
 class ERA5(ArchiveIndex):
@@ -35,18 +36,22 @@ class ERA5(ArchiveIndex):
             "Documentation": "https://confluence.ecmwf.int/display/CKB/ERA5%3A+data+documentation",
         }
 
-    @decorators.alias_arguments(level_value=["pressure"], variables=["variable"])
+    @decorators.alias_arguments(
+            level_value=["pressure"], 
+            variables=["variable"],
+            product=['resolution'],
+            )
     @decorators.check_arguments(
         level=ERA5_LEVELS,
-        resolution=ERA_RES,
-        variables="edit_archive_NCI.variables.ERA5.{level}.{resolution}.valid",
+        product=ERA_PROD,
+        variables="edit_archive_NCI.variables.ERA5.{level}.{product}.valid",
     )
     def __init__(
         self,
         variables: list[str] | str,
         *,
         level: Literal[ERA5_LEVELS],
-        resolution: Literal[ERA_RES] = "reanalysis",
+        product: Literal[ERA_PROD] = "reanalysis",
         level_value: Any = None,
         transforms: Transform | TransformCollection = TransformCollection(),
     ):
@@ -62,7 +67,8 @@ class ERA5(ArchiveIndex):
                 Resolution of data, must be one of 'monthly-averaged','monthly-averaged-by-hour', 'reanalysis'. Defaults to 'reanalysis'.
             level_value: (int, optional):
                 Level value to select if data contains levels. Defaults to None.
-            transforms (Transform | TransformCollection, optional): Base Transforms to apply.
+            transforms (Transform | TransformCollection, optional): 
+                Base Transforms to apply.
                 Defaults to TransformCollection().
         """
         self.make_catalog()
@@ -71,7 +77,7 @@ class ERA5(ArchiveIndex):
         variables = [variables] if isinstance(variables, str) else variables
 
         self.level = level
-        self.resolution = resolution
+        self.resolution = product
 
         if level_value and not level == "pressure":
             raise KeyError(f"Pressure level cannot be set if level != 'pressure'")
@@ -91,7 +97,7 @@ class ERA5(ArchiveIndex):
 
         super().__init__(
             transforms=base_transform + transforms,
-            data_interval=ERA_RES_RESOLUTION[ERA_RES.index(resolution)],
+            data_interval=ERA_RES_RESOLUTION[ERA_PROD.index(product)],
         )
 
     def filesystem(

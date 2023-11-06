@@ -1,4 +1,4 @@
-# `edit.archive`'s for National Computing Infrastructure
+# `edit.archive`'s for the National Computing Infrastructure
 
 This package contains the `edit.Index`'s for the NCI, which consists of
 
@@ -60,3 +60,5 @@ BRAN_data
 #                  VariableTrim                   {'variables': ['temp']}
 
 ```
+
+However, as this is a registered archive within `edit.data`, `edit_archive_NCI` doesn't need to be manually imported.
