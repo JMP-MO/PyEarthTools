@@ -5,15 +5,15 @@ from pathlib import Path
 
 JOIN_LINK = "https://my.nci.org.au/mancini/project/{code}/join"
 
-def check_project(project_code: str = None):
+def check_project(project_code: str, scratch: bool = False) -> bool:
     """
     Check project code data existance.
     """
 
     default_root_path = Path('/g/data/')
-
     project_code = str(project_code)
-    if '/scratch' in project_code:
+
+    if '/scratch' in project_code or scratch:
         default_root_path = Path('/scratch/')
 
     project_code = project_code.replace('/g/data/', '').replace('/scratch/', '').split('/')[0]
@@ -24,3 +24,4 @@ def check_project(project_code: str = None):
             "\nTherefore no data can be loaded from this index."
             f"\nJoin this project at {JOIN_LINK.format(code = project_code)}"
             )
+    return True
