@@ -86,7 +86,7 @@ class ERA5(ArchiveIndex):
         base_transform = TransformCollection()
 
         base_transform += transform.variables.rename_variables(ERA5_RENAME)
-        base_transform += transform.variables.variable_trim(variables)
+        # base_transform += transform.variables.variable_trim(variables)
 
         self.level_value = level_value
 
@@ -103,7 +103,7 @@ class ERA5(ArchiveIndex):
     def filesystem(
         self,
         querytime: str | EDITDatetime,
-    ) -> Path:
+    ) -> Path | dict[str, str | Path]:
         ERA5_HOME = self.ROOT_DIRECTORIES["ERA5"]
 
         paths = {}

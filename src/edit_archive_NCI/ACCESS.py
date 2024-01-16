@@ -8,6 +8,7 @@ import datetime
 from pathlib import Path
 from typing import Any, Literal
 import warnings
+import functools
 
 import xarray as xr
 
@@ -23,6 +24,7 @@ from edit.data.archive import register_archive
 from edit_archive_NCI.utilities import check_project
 
 ACCESS_REGIONS = ["g", "bn", "ad", "sy", "vt", "ph", "nq", "dn"]
+ACCESS_REGIONS = [*ACCESS_REGIONS, *(x.upper() for x in ACCESS_REGIONS)]
 FORECAST_INTERVAL = 6
 ACCESS_VARIABLE_TYPES = ["ml", "sfc", "pl"]
 ACCESS_DATATYPES = ["an", "fc", "fcmm"]
@@ -35,8 +37,28 @@ def rounder(time: EDITDatetime, interval: int) -> str:
     return "%02d00" % ((hour // interval) * interval,)
 
 
+
+class ACCESS_UI_MIXIN():
+    # -----------------------
+    # User friendly Methods
+    # -----------------------
+
+    @staticmethod
+    @functools.wraps('ACCESS')
+    def forecast(*args, **kwargs):
+        kwargs["datatype"] = kwargs.pop("datatype", "fc")
+        return ACCESS_Forecast(*args, **kwargs)
+
+    @staticmethod
+    @functools.wraps('ACCESS')
+    def analysis(*args, **kwargs):
+        # if 'datatype' in kwargs:
+        #     raise TypeError("ACCESS.analysis got an unexpected argument 'datatype'")
+        kwargs["datatype"] = "an"
+        return ACCESS_Analysis(*args, **kwargs)
+
 @register_archive('ACCESS')
-class ACCESS(DataIndex):
+class ACCESS(DataIndex, ACCESS_UI_MIXIN):
     """Index into Australian Community Climate and Earth-System Simulator"""
 
     @property
@@ -62,7 +84,7 @@ class ACCESS(DataIndex):
 
         return super().__new__(cls)
 
-    @decorators.alias_arguments(variables=["variable"])
+    @decorators.alias_arguments(variables=["variable"], level_value=['level'])
     @decorators.check_arguments(
         region=ACCESS_REGIONS,
         datatype=ACCESS_DATATYPES,
@@ -99,7 +121,7 @@ class ACCESS(DataIndex):
         region = region.lower()
 
         self.variables = variables
-        self.region = region
+        self.region = region.lower()
         self.datatype = datatype
 
         split_variables = [var.split("/")[-1] for var in variables]
@@ -148,7 +170,7 @@ class ACCESS(DataIndex):
     
     def filesystem(
         self,
-        basetime: str | datetime.datetime,
+        basetime: str | EDITDatetime,
     ):
         paths = {}
 
@@ -183,28 +205,12 @@ class ACCESS(DataIndex):
                     break
             else:
                 raise DataNotFoundError(
-                    f"Unable to find data for: basetime: {basetime}, region: {self.region}, "
-                    f"datatype: {self.datatype}, variable:{variable} at {basepath}"
+                    f"Unable to find data for: basetime: {basetime!r}, region: {self.region!r}, "
+                    f"datatype: {self.datatype!r}, variable:{variable!r} at {basepath!r}"
                 )
 
         return paths
-
-    # -----------------------
-    # Static Methods
-    # -----------------------
-
-    @staticmethod
-    def forecast(*args, **kwargs):
-        kwargs["datatype"] = kwargs.pop("datatype", "fc")
-        return ACCESS_Forecast(*args, **kwargs)
-
-    @staticmethod
-    def analysis(*args, **kwargs):
-        # if 'datatype' in kwargs:
-        #     raise TypeError("ACCESS.analysis got an unexpected argument 'datatype'")
-        kwargs["datatype"] = "an"
-        return ACCESS_Analysis(*args, **kwargs)
-
+    
 
 class ACCESS_Analysis(ACCESS, ArchiveIndex):
     @decorators.alias_arguments(variables=["variable"])
@@ -240,6 +246,7 @@ class ACCESS_Forecast(ACCESS, ForecastIndex):
             transforms (Transform | TransformCollection, optional):
                 Base Transforms to apply. Defaults to TransformCollection().
         """
+        kwargs["data_interval"] = (6, "h")
         super().__init__(variables, region, datatype=datatype, transforms=transforms, **kwargs)
         self.make_catalog()
 
