@@ -27,7 +27,7 @@ ROOT_DIRECTORIES = {
     "OceanMaps": "/g/data/rr6/OceanMAPS/",
     "MODIS": "/g/data/fj4/MODIS_LAI/{region}/nc/",
     "BARRA": "/g/data/cj37/BARRA/BARRA_{region}/{version}/{datatype}",
-    "BARPA": "/g/data/ia39/australian-climate-service/release",
+    "BARPA": "/g/data/py18/BARPA/",
 }
 
 

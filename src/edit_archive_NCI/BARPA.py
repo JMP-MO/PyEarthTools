@@ -4,6 +4,7 @@ Bureau of Meteorology Atmospheric Regional Projections for Australia (BARPA)
 
 from __future__ import annotations
 from pathlib import Path
+from typing import Type
 
 from edit.data import EDITDatetime, transform, DataNotFoundError
 from edit.data.indexes import ArchiveIndex, decorators, VariableDefault
@@ -30,7 +31,9 @@ order:
 
 """
 
-BARPA_DIR_STRUCTURE = "{activity}/{product}/{domain}/{institution}/{gcm_model_name}/{experiment_name}/{ensemble_member}/{rcm_model_name}/{version}/{frequency}/"
+BARPA_DIR_STRUCTURE = "{project}/{MIP}/{activity}/{domain}/{institution}/{driving_source}/{experiment}/{variant}/{source}/{version_realisation}/{frequency}/"
+
+VARIABLE_DEFAULT = Type[VariableDefault]
 
 @register_archive('BARPA')
 class BARPA(ArchiveIndex):
@@ -41,17 +44,19 @@ class BARPA(ArchiveIndex):
     def __init__(
         self,
         variables: list[str] | str,
-        gcm_model_name: str,
+        driving_source: str,
         frequency: str,
-        experiment_name: str = VariableDefault,
         *,
-        activity: str = VariableDefault,
-        product: str = VariableDefault,
-        domain: str = VariableDefault,
-        institution: str = VariableDefault,
-        ensemble_member: str = VariableDefault,
-        rcm_model_name: str = VariableDefault,
-        version: str = VariableDefault,
+        project: str | VARIABLE_DEFAULT = VariableDefault,
+        MIP: str | VARIABLE_DEFAULT = VariableDefault,
+        activity: str | VARIABLE_DEFAULT = VariableDefault,
+        domain: str | VARIABLE_DEFAULT = VariableDefault,
+        institution: str | VARIABLE_DEFAULT = VariableDefault,
+        experiment: str | VARIABLE_DEFAULT = VariableDefault,
+        variant: str | VARIABLE_DEFAULT = VariableDefault,
+        source: str | VARIABLE_DEFAULT = VariableDefault,
+        version_realisation: str | VARIABLE_DEFAULT = VariableDefault,
+        version: str | VARIABLE_DEFAULT = 'v20231001', # VariableDefault,
         transforms: Transform | TransformCollection = TransformCollection(),
     ):
         """
@@ -59,60 +64,70 @@ class BARPA(ArchiveIndex):
 
         High resolution Climate simulation in the Australia Region.
 
-        All arguments with VariableDefault as default might not have to be given,
-        if depending on the structure only one option is available, that will be picked.
+        All arguments with `VariableDefault` as default might not have to be given,
+        If based upon on the structure only one option is available, that will be picked.
         Otherwise an error will be raised.
 
         Args:
             variables (list[str] | str): 
-                Variables to retireve
-            gcm_model_name (str): 
-                Global Coupled Model
+                Variables to retireve.
+                Based upon https://docs.google.com/spreadsheets/d/1qUauozwXkq7r1g-L4ALMIkCNINIhhCPx/edit#gid=1672965248
+            driving_source (str): 
+                Global Coupled Model. The models selected are: 
+                    ERA5, ACCESS-CM2, ACCESS-ESM1-5, NorESM2-MM, EC-Earth3, CESM2, CMCC-ESM2, MPI-ESM1-2-HR
             frequency (str): 
-                Temporal Frequency
-            experiment_name (str, optional): 
-                Experiment Name. Defaults to VariableDefault.
-            activity (str, optional): 
-                Defaults to VariableDefault.
-            product (str, optional): 
-                Defaults to VariableDefault.
-            domain (str, optional): 
-                Defaults to VariableDefault.
-            institution (str, optional): 
-                Defaults to VariableDefault.
-            ensemble_member (str, optional): 
-                Defaults to VariableDefault.
-            rcm_model_name (str, optional): 
-                Defaults to VariableDefault.
-            version (str, optional): 
-                Defaults to VariableDefault.
+                Temporal Frequency. 1hr (1-hourly), 3hr, 6hr, day (daily), mon (monthly), fx
             transforms (Transform | TransformCollection, optional): 
                 Transforms to apply to the data. Defaults to TransformCollection().
+
+            project (str | VARIABLE_DEFAULT, optional):
+                nature of data or project_id is output or CORDEX for data for CORDEX-CMIP6.
+            MIP (str | VARIABLE_DEFAULT, optional):
+                MIP-era is the cycle of CMIP defines experiment and data specifications. BARPS uses CMIP6.
+            activity (str | VARIABLE_DEFAULT, optional):
+                DD for dynamical downscaling.
+            domain (str | VARIABLE_DEFAULT, optional):
+                Spatial domain and grid resolution of the data, namely AUS-15, AUS-04.
+            institution (str | VARIABLE_DEFAULT, optional):
+                RCM-institution is BOM
+            experiment (str | VARIABLE_DEFAULT, optional):
+                Evaluation (for ERA5), historical or ssp126, ssp370 for CMIP6 experiments.
+            variant (str | VARIABLE_DEFAULT, optional):
+                Labels the ensemble member of the CMIP6 simulation that produced forcing data.
+            source (str | VARIABLE_DEFAULT, optional):
+                Either BARPA-R or BARPA-C.
+            version_realisation (str | VARIABLE_DEFAULT, optional):
+                Identifies the modelling version (TBC on identifying data version)
+            version (str | VARIABLE_DEFAULT, optional):                    
+                Denotes the date of data generation or date of data release
         """        
+
         self.make_catalog()
-        check_project(project_code='ia39')
-        
+        check_project(project_code='py18')
+
         variables = [variables] if isinstance(variables, str) else variables
-        self.variables = variables
-
         self.dir = Path(BARPA_DIR_STRUCTURE.format(**locals()))
+        
+        self.variables = variables
+        self.version = str(version)
 
-        super().__init__(transforms)
+
+        super().__init__(transforms = transforms)
 
     def filesystem(
         self,
         querytime: str | EDITDatetime,
-    ) -> Path:
+    ) -> Path | dict[str, str]:
         BARPA_HOME = Path(self.ROOT_DIRECTORIES["BARPA"])
 
         discovered_paths = {}
 
-        querytime = EDITDatetime(querytime).at_resolution("year")
+        querytime_year = EDITDatetime(querytime).at_resolution("year")
 
         for variable in self.variables:
-            dir_path = BARPA_HOME / self.dir / variable
-            paths = list(dir_path.glob(f"*{querytime.year}01-{querytime.year}12*.nc"))
+            dir_path = BARPA_HOME / self.dir / variable / self.version
+            paths = list(dir_path.glob(f"*{querytime_year.year}01-{querytime_year.year}12*.nc"))
             if len(paths) == 0:
-                raise DataNotFoundError(f"Could not find data at {dir_path} at time {querytime}")
+                raise DataNotFoundError(f"Could not find data at {dir_path!r} at time {querytime!r}")
             discovered_paths[variable] = paths[0]
         return discovered_paths
