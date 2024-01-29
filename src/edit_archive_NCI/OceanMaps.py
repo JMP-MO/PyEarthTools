@@ -100,7 +100,6 @@ class OceanMaps(ArchiveIndex):
         paths = {}
 
         basetime = EDITDatetime(str(basetime))
-        basetime.set_components(["hour", "minute", "second"], False)
         basetime -= datetime.timedelta(days=1)
 
         for variable in self.variables:

@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any, Literal
 
 
-from edit.data import EDITDatetime, transform
+from edit.data import EDITDatetime, TimeResolution, transform
 from edit.data.exceptions import DataNotFoundError, InvalidIndexError
 from edit.data.indexes import ArchiveIndex, decorators
 from edit.data.transform import Transform, TransformCollection
@@ -97,7 +97,6 @@ class BRAN(ArchiveIndex):
         paths = {}
 
         basetime = EDITDatetime(str(basetime))
-        basetime.set_components(["minute", "second"], False)
 
         for variable in self.variables:
             if self.resolution == "static":
@@ -118,7 +117,7 @@ class BRAN(ArchiveIndex):
                     break
             else:
                 raise DataNotFoundError(
-                    f"Unable to find data for: basetime: {basetime}, variables: {variable} at {var_path}"
+                    f"Unable to find data for: basetime: {basetime!r}, variables: {variable!r} at {var_path!r}"
                 )
 
         return paths
