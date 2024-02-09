@@ -91,7 +91,7 @@ class BRAN(ArchiveIndex):
     def filesystem(
         self,
         basetime: str | datetime.datetime | EDITDatetime,
-    ) -> Path:
+    ) -> Path | dict[str, Path]:
         BRAN_HOME = self.ROOT_DIRECTORIES["BRAN"]
 
         paths = {}
