@@ -94,7 +94,7 @@ class OceanMaps(ArchiveIndex):
     def filesystem(
         self,
         basetime: str | datetime.datetime | EDITDatetime,
-    ) -> Path:
+    ) -> Path | dict[str, Path]:
         OceanMaps_HOME = self.ROOT_DIRECTORIES["OceanMaps"]
 
         paths = {}
