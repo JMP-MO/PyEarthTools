@@ -20,7 +20,7 @@ def check_project(project_code: str, scratch: bool = False) -> bool:
     
     if not(default_root_path / project_code).exists():
         raise FileNotFoundError(
-            f"Could not find data path for {project_code}."
+            f"Could not find data path for {project_code!r}."
             "\nTherefore no data can be loaded from this index."
             f"\nJoin this project at {JOIN_LINK.format(code = project_code)}"
             )
