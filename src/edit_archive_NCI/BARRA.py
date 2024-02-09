@@ -74,7 +74,7 @@ class BARRA(DataIndex):
         *,
         datatype: Literal[BARRA_TYPES],
         version: str = "v1",
-        pressure: float = None,
+        pressure: float | None = None,
         transforms: Transform | TransformCollection = TransformCollection(),
         **kwargs,
     ):
@@ -116,12 +116,19 @@ class BARRA(DataIndex):
         base_transform = TransformCollection()
         base_transform += transform.variables.variable_trim(variables)
 
+        preprocess = None
+
+        if datatype == 'analysis':
+            base_transform += transform.coordinates.drop(['forecast_reference_time', 'forecast_period'])
+            preprocess = transform.dimensions.expand('time', as_dataarray=True)
+
+
         self.pressure = pressure
         if pressure is not None:
             base_transform += transform.coordinates.select(
                 {coord: pressure for coord in ["pressure"]}, ignore_missing=True
             )
-        super().__init__(transforms=base_transform + transforms, **kwargs)
+        super().__init__(transforms=base_transform + transforms, preprocess_transforms=preprocess,**kwargs)
 
     # -------------------
     # Static Type Methods
@@ -179,11 +186,11 @@ class BARRA_Analysis(BARRA, ArchiveIndex):
         *,
         datatype: Literal[BARRA_TYPES] = "analysis",
         version: str = "v1",
-        pressure: float = None,
+        pressure: float | None = None,
         transforms: Transform | TransformCollection = TransformCollection(),
         **kwargs,
     ):
-        kwargs.update(data_interval=(6, "h") if region == "g" else (1, "h"))
+        kwargs.update(data_interval=(6, "h") if region == "R" else (1, "h"))
 
         super().__init__(
             variables,
@@ -206,7 +213,7 @@ class BARRA_Forecast(BARRA, ForecastIndex):
         *,
         datatype: Literal[BARRA_TYPES] = "forecast",
         version: str = "v1",
-        pressure: float = None,
+        pressure: float | None = None,
         transforms: Transform | TransformCollection = TransformCollection(),
         **kwargs,
     ):
@@ -250,7 +257,7 @@ class BARRA_Static(BARRA, StaticDataIndex):
         *,
         datatype: Literal[BARRA_TYPES] = "static",
         version: str = "v1",
-        pressure: float = None,
+        pressure: float | None = None,
         transforms: Transform | TransformCollection = TransformCollection(),
         **kwargs,
     ):
@@ -269,7 +276,7 @@ class BARRA_Static(BARRA, StaticDataIndex):
 
         self.make_catalog()
 
-    def filesystem(self) -> Path:
+    def filesystem(self) -> Path | dict[str, Path]:
         BARRA_HOME = self.ROOT_DIRECTORIES["BARRA"]
         basepath = Path(BARRA_HOME.format(region=self.region, version=self.version, datatype=self.datatype))
 
