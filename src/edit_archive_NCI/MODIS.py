@@ -28,7 +28,8 @@ MODIS_REGEX = {
     "monthly": "MOD15A2H.MONTHLY.nc",
 }
 
-@register_archive('MODIS')
+
+@register_archive("MODIS")
 class MODIS(ArchiveIndex):
     """MODerate resolution Imaging Spectroradiometer
 
@@ -73,7 +74,7 @@ class MODIS(ArchiveIndex):
                 Base Transforms to apply. Defaults to TransformCollection().
         """
         self.make_catalog()
-        check_project(project_code='fj4')
+        check_project(project_code="fj4")
 
         variables = [variables] if isinstance(variables, str) else variables
 

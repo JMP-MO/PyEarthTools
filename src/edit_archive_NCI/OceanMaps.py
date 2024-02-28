@@ -27,7 +27,8 @@ OceanMaps_SUBVAR = ["ocean_an00", "ocean_an01", "ocean_an02", "ocean_an_ensemble
 OceanMaps_REGEX = "{ROOT_DIR}/version_{version}/{datatype}/{variable}/"
 OceanMaps_SUBVAR_FORMAT = "{sub_var}_{date}12_{variable}*"
 
-@register_archive('OceanMaps')
+
+@register_archive("OceanMaps")
 class OceanMaps(ArchiveIndex):
     """Index into Ocean Modelling and Analysis Prediction System"""
 
@@ -72,7 +73,7 @@ class OceanMaps(ArchiveIndex):
                 Base Transforms to apply. Defaults to TransformCollection().
         """
         self.make_catalog()
-        check_project(project_code='rr6')
+        check_project(project_code="rr6")
 
         variables = [variables] if isinstance(variables, str) else variables
         self.variables = variables

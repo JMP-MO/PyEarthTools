@@ -22,9 +22,10 @@ ERA_RES_RESOLUTION = [(1, "month"), (1, "month"), (1, "hour")]
 
 ERA5_RENAME = {"t2m": "2t", "u10": "10u", "v10": "10v"}
 
-#TODO allow level to be inferred from each var
+# TODO allow level to be inferred from each var
 
-@register_archive('ERA5')
+
+@register_archive("ERA5")
 class ERA5(ArchiveIndex):
     """ECWMF ReAnalysis v5"""
 
@@ -37,10 +38,10 @@ class ERA5(ArchiveIndex):
         }
 
     @decorators.alias_arguments(
-            level_value=["pressure"], 
-            variables=["variable"],
-            product=['resolution'],
-            )
+        level_value=["pressure"],
+        variables=["variable"],
+        product=["resolution"],
+    )
     @decorators.check_arguments(
         level=ERA5_LEVELS,
         product=ERA_PROD,
@@ -67,12 +68,12 @@ class ERA5(ArchiveIndex):
                 Resolution of data, must be one of 'monthly-averaged','monthly-averaged-by-hour', 'reanalysis'. Defaults to 'reanalysis'.
             level_value: (int, optional):
                 Level value to select if data contains levels. Defaults to None.
-            transforms (Transform | TransformCollection, optional): 
+            transforms (Transform | TransformCollection, optional):
                 Base Transforms to apply.
                 Defaults to TransformCollection().
         """
         self.make_catalog()
-        check_project(project_code='rt52')
+        check_project(project_code="rt52")
 
         variables = [variables] if isinstance(variables, str) else variables
 

@@ -35,7 +35,8 @@ BARPA_DIR_STRUCTURE = "{project}/{MIP}/{activity}/{domain}/{institution}/{drivin
 
 VARIABLE_DEFAULT = Type[VariableDefault]
 
-@register_archive('BARPA')
+
+@register_archive("BARPA")
 class BARPA(ArchiveIndex):
     """Index into Bureau of Meteorology Atmospheric Regional Projections for Australia"""
 
@@ -56,7 +57,7 @@ class BARPA(ArchiveIndex):
         variant: str | VARIABLE_DEFAULT = VariableDefault,
         source: str | VARIABLE_DEFAULT = VariableDefault,
         version_realisation: str | VARIABLE_DEFAULT = VariableDefault,
-        version: str | VARIABLE_DEFAULT = 'v20231001', # VariableDefault,
+        version: str | VARIABLE_DEFAULT = "v20231001",  # VariableDefault,
         transforms: Transform | TransformCollection = TransformCollection(),
     ):
         """
@@ -69,16 +70,16 @@ class BARPA(ArchiveIndex):
         Otherwise an error will be raised.
 
         Args:
-            variables (list[str] | str): 
+            variables (list[str] | str):
                 Variables to retireve.
                 Based upon https://docs.google.com/spreadsheets/d/1qUauozwXkq7r1g-L4ALMIkCNINIhhCPx/edit#gid=1672965248
-            driving_source (str): 
-                Global Coupled Model. The models selected are: 
+            driving_source (str):
+                Global Coupled Model. The models selected are:
                     ERA5, ACCESS-CM2, ACCESS-ESM1-5, NorESM2-MM, EC-Earth3, CESM2, CMCC-ESM2, MPI-ESM1-2-HR
                 Must be only one.
-            frequency (str): 
+            frequency (str):
                 Temporal Frequency. 1hr (1-hourly), 3hr, 6hr, day (daily), mon (monthly), fx
-            transforms (Transform | TransformCollection, optional): 
+            transforms (Transform | TransformCollection, optional):
                 Transforms to apply to the data. Defaults to TransformCollection().
 
             project (str | VARIABLE_DEFAULT, optional):
@@ -99,21 +100,20 @@ class BARPA(ArchiveIndex):
                 Either BARPA-R or BARPA-C.
             version_realisation (str | VARIABLE_DEFAULT, optional):
                 Identifies the modelling version (TBC on identifying data version)
-            version (str | VARIABLE_DEFAULT, optional):                    
+            version (str | VARIABLE_DEFAULT, optional):
                 Denotes the date of data generation or date of data release
-        """        
+        """
 
         self.make_catalog()
-        check_project(project_code='py18')
+        check_project(project_code="py18")
 
         variables = [variables] if isinstance(variables, str) else variables
         self.dir = Path(BARPA_DIR_STRUCTURE.format(**locals()))
-        
+
         self.variables = variables
         self.version = str(version)
 
-
-        super().__init__(transforms = transforms)
+        super().__init__(transforms=transforms)
 
     def filesystem(
         self,
