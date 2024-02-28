@@ -8,7 +8,7 @@ before_script:
 
 stages:
     - lint
-    - test
+    # - test # Need to setup full package registry to allow
     - release
 
 variables:
