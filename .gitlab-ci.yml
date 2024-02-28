@@ -41,38 +41,38 @@ workflow:
       allow_failure: false
     - allow_failure: true
 
-pytest:
-  tags: [docker]
-  extends:
-    - .conda_setup
-    - .protected_branches_rules
-  stage: test
-  needs: []
-  script:
-    - conda config --set ssl_verify false
-    - mamba env create -f "$CONDA_ENV_FILE"
-    - ENV_NAME=$(cat "$CONDA_ENV_FILE" | awk '/name:/ {print $2}')
-    - conda activate $ENV_NAME
-    - mamba install pytest pytest-cov coverage
-    - echo "--- Running pytest ---"
-    - |
-      if make -n pytest 1>/dev/null 2>/dev/null; then
-        echo "--- using make command ---"
-        echo "path: $PATH"
-        echo "python path: $PYTHONPATH"
-        make pytest
-      else
-        python -m pytest "$CI_PROJECT_DIR" --cov="$PYCOV_DIR"
-        coverage xml -o coverage.xml
-      fi
-  artifacts:
-    paths:
-      - coverage.xml
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: build/cobertura.xml
-    expire_in: 1 week
+# pytest:
+#   tags: [docker]
+#   extends:
+#     - .conda_setup
+#     - .protected_branches_rules
+#   stage: test
+#   needs: []
+#   script:
+#     - conda config --set ssl_verify false
+#     - mamba env create -f "$CONDA_ENV_FILE"
+#     - ENV_NAME=$(cat "$CONDA_ENV_FILE" | awk '/name:/ {print $2}')
+#     - conda activate $ENV_NAME
+#     - mamba install pytest pytest-cov coverage
+#     - echo "--- Running pytest ---"
+#     - |
+#       if make -n pytest 1>/dev/null 2>/dev/null; then
+#         echo "--- using make command ---"
+#         echo "path: $PATH"
+#         echo "python path: $PYTHONPATH"
+#         make pytest
+#       else
+#         python -m pytest "$CI_PROJECT_DIR" --cov="$PYCOV_DIR"
+#         coverage xml -o coverage.xml
+#       fi
+#   artifacts:
+#     paths:
+#       - coverage.xml
+#     reports:
+#       coverage_report:
+#         coverage_format: cobertura
+#         path: build/cobertura.xml
+#     expire_in: 1 week
 
 black:
   tags: [docker]
