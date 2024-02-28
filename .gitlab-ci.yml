@@ -37,6 +37,8 @@ workflow:
     # pass
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_PROTECTED == "true"'
       allow_failure: false
+    - if: $CI_COMMIT_BRANCH == "main"
+      allow_failure: false
     - allow_failure: true
 
 pytest:
