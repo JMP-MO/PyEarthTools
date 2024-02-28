@@ -37,27 +37,27 @@ def rounder(time: EDITDatetime, interval: int) -> str:
     return "%02d00" % ((hour // interval) * interval,)
 
 
-
-class ACCESS_UI_MIXIN():
+class ACCESS_UI_MIXIN:
     # -----------------------
     # User friendly Methods
     # -----------------------
 
     @staticmethod
-    @functools.wraps('ACCESS')
+    @functools.wraps("ACCESS")
     def forecast(*args, **kwargs):
         kwargs["datatype"] = kwargs.pop("datatype", "fc")
         return ACCESS_Forecast(*args, **kwargs)
 
     @staticmethod
-    @functools.wraps('ACCESS')
+    @functools.wraps("ACCESS")
     def analysis(*args, **kwargs):
         # if 'datatype' in kwargs:
         #     raise TypeError("ACCESS.analysis got an unexpected argument 'datatype'")
         kwargs["datatype"] = "an"
         return ACCESS_Analysis(*args, **kwargs)
 
-@register_archive('ACCESS')
+
+@register_archive("ACCESS")
 class ACCESS(DataIndex, ACCESS_UI_MIXIN):
     """Index into Australian Community Climate and Earth-System Simulator"""
 
@@ -84,7 +84,7 @@ class ACCESS(DataIndex, ACCESS_UI_MIXIN):
 
         return super().__new__(cls)
 
-    @decorators.alias_arguments(variables=["variable"], level_value=['level'])
+    @decorators.alias_arguments(variables=["variable"], level_value=["level"])
     @decorators.check_arguments(
         region=ACCESS_REGIONS,
         datatype=ACCESS_DATATYPES,
@@ -115,7 +115,7 @@ class ACCESS(DataIndex, ACCESS_UI_MIXIN):
             transforms (Transform | TransformCollection, optional):
                 Base Transforms to apply. Defaults to TransformCollection().
         """
-        check_project(project_code='wr45')
+        check_project(project_code="wr45")
         variables = [variables] if isinstance(variables, str) else variables
 
         region = region.lower()
@@ -143,7 +143,7 @@ class ACCESS(DataIndex, ACCESS_UI_MIXIN):
         e = None
         try:
             new_kwargs = dict(kwargs)
-            new_kwargs['compat'] = 'override'
+            new_kwargs["compat"] = "override"
             # new_kwargs['coords'] = 'all'
             return super().load(*args, **new_kwargs)
         except Exception as excep:
@@ -152,14 +152,14 @@ class ACCESS(DataIndex, ACCESS_UI_MIXIN):
             except Exception:
                 e = excep
         raise e
-    
+
     def series(self, *args, **kwargs) -> Any:
         """Load access data, accounting for coord issues"""
         e = None
         try:
             new_kwargs = dict(kwargs)
-            new_kwargs['compat'] = 'override'
-            new_kwargs['coords'] = 'all'
+            new_kwargs["compat"] = "override"
+            new_kwargs["coords"] = "all"
             return super().series(*args, **new_kwargs)
         except Exception as excep:
             try:
@@ -167,7 +167,7 @@ class ACCESS(DataIndex, ACCESS_UI_MIXIN):
             except Exception:
                 e = excep
         raise e
-    
+
     def filesystem(
         self,
         basetime: str | EDITDatetime,
@@ -210,7 +210,7 @@ class ACCESS(DataIndex, ACCESS_UI_MIXIN):
                 )
 
         return paths
-    
+
 
 class ACCESS_Analysis(ACCESS, ArchiveIndex):
     @decorators.alias_arguments(variables=["variable"])

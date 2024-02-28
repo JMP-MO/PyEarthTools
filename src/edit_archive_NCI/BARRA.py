@@ -34,7 +34,8 @@ def rounder(time: datetime.datetime, interval: int) -> str:
     hour = time.hour
     return "%02d00" % ((hour // interval) * interval,)
 
-@register_archive('BARRA')
+
+@register_archive("BARRA")
 class BARRA(DataIndex):
     """Index into Bureau of meteorology Atmospheric high-resolution Regional Reanalysis for Australia"""
 
@@ -99,7 +100,7 @@ class BARRA(DataIndex):
             IndexError:
                 If datatype = 'analysis' and region is not 'R", as only R has an analysis product
         """
-        check_project(project_code='cj37')
+        check_project(project_code="cj37")
 
         variables = variables if isinstance(variables, (list, tuple)) else [variables]
         self.region = region
@@ -118,17 +119,16 @@ class BARRA(DataIndex):
 
         preprocess = None
 
-        if datatype == 'analysis':
-            base_transform += transform.coordinates.drop(['forecast_reference_time', 'forecast_period'])
-            preprocess = transform.dimensions.expand('time', as_dataarray=True)
-
+        if datatype == "analysis":
+            base_transform += transform.coordinates.drop(["forecast_reference_time", "forecast_period"])
+            preprocess = transform.dimensions.expand("time", as_dataarray=True)
 
         self.pressure = pressure
         if pressure is not None:
             base_transform += transform.coordinates.select(
                 {coord: pressure for coord in ["pressure"]}, ignore_missing=True
             )
-        super().__init__(transforms=base_transform + transforms, preprocess_transforms=preprocess,**kwargs)
+        super().__init__(transforms=base_transform + transforms, preprocess_transforms=preprocess, **kwargs)
 
     # -------------------
     # Static Type Methods

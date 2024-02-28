@@ -25,7 +25,7 @@ AGCD_var_path = "edit_archive_NCI.variables.AGCD.{variable}.valid"
 AGCD_RENAME = {"vapourpres": "vapourpres_09"}
 
 
-@register_archive('AGCD')
+@register_archive("AGCD")
 class AGCD(ArchiveIndex):
     """Index into Australian Gridded Climate Data (AGCD)"""
 
@@ -63,7 +63,7 @@ class AGCD(ArchiveIndex):
         """
 
         self.make_catalog()
-        check_project(project_code='zv2')
+        check_project(project_code="zv2")
 
         variables = [variables] if isinstance(variables, str) else variables
 

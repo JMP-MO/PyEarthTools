@@ -27,7 +27,8 @@ BRAN_REGEX = {
     "static": "{ROOT_DIR}/static/{variable}.nc",
 }
 
-@register_archive('BRAN')
+
+@register_archive("BRAN")
 class BRAN(ArchiveIndex):
     """Index into Bluelink ReANalysis"""
 
@@ -67,7 +68,7 @@ class BRAN(ArchiveIndex):
                 Base Transforms to apply. Defaults to TransformCollection().
         """
         self.make_catalog()
-        check_project(project_code='gb6')
+        check_project(project_code="gb6")
 
         variables = [variables] if isinstance(variables, str) else variables
         self.variables = variables

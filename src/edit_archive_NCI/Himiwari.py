@@ -20,7 +20,8 @@ from edit_archive_NCI.utilities import check_project
 SATELLITE_PATTERN = "{ROOT_DIR}/{FILE_DATE}/{FILE}"
 FILE_REGEX = "*{date_info}*{time_info}*.nc"
 
-@register_archive('Himiwari')
+
+@register_archive("Himiwari")
 class Himiwari(ArchiveIndex):
     """Index into Himiwari 8/9 satellite data"""
 
@@ -55,7 +56,7 @@ class Himiwari(ArchiveIndex):
                 Base Transforms to apply. Defaults to TransformCollection().
         """
         self.make_catalog()
-        check_project(project_code='rv74')
+        check_project(project_code="rv74")
 
         variables = [variables] if isinstance(variables, str) else variables
 
