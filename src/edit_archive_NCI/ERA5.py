@@ -15,17 +15,15 @@ from edit.data.transform import Transform, TransformCollection
 from edit.data.archive import register_archive
 
 from edit_archive_NCI.utilities import check_project
+from edit_archive_NCI.ancilliary.ERA5 import ERA5_SINGLE_VARIABLES, ERA5_PRESSURE_VARIABLES
 
-ERA5_LEVELS = ["single", "pressure"]
 ERA_PROD = ["monthly-averaged", "monthly-averaged-by-hour", "reanalysis"]
 ERA_RES_RESOLUTION = [(1, "month"), (1, "month"), (1, "hour")]
 
 ERA5_RENAME = {"t2m": "2t", "u10": "10u", "v10": "10v"}
 
-# TODO allow level to be inferred from each var
 
-
-@register_archive("ERA5")
+@register_archive("ERA5", sample_kwargs=dict(variable = '2t'))
 class ERA5(ArchiveIndex):
     """ECWMF ReAnalysis v5"""
 
@@ -39,21 +37,21 @@ class ERA5(ArchiveIndex):
 
     @decorators.alias_arguments(
         level_value=["pressure"],
-        variables=["variable"],
+        variable=["variables"],
         product=["resolution"],
     )
     @decorators.check_arguments(
-        level=ERA5_LEVELS,
-        product=ERA_PROD,
-        variables="edit_archive_NCI.variables.ERA5.{level}.{product}.valid",
+        struc="edit_archive_NCI.structure.ERA5.struc",
+    )
+    @decorators.deprecated_arguments(
+        level="`level` is deprecated in the ERA5 index. Simply provide the variables, `level` will be autofound."
     )
     def __init__(
         self,
-        variables: list[str] | str,
+        variable: list[str] | str,
         *,
-        level: Literal[ERA5_LEVELS],
-        product: Literal[ERA_PROD] = "reanalysis",
-        level_value: Any = None,
+        product: Literal["monthly-averaged", "monthly-averaged-by-hour", "reanalysis"] = "reanalysis",
+        level_value: int | float | list[int | float] | tuple[list | int, ...] | None = None,
         transforms: Transform | TransformCollection = TransformCollection(),
     ):
         """
@@ -62,10 +60,9 @@ class ERA5(ArchiveIndex):
         Args:
             variables (list[str] | str):
                 Data variables to retrieve
-            level (Literal[ERA5_LEVELS]):
-                Model level of data, must be either "single", "pressure"
             resolution (Literal[ERA_RES], optional):
-                Resolution of data, must be one of 'monthly-averaged','monthly-averaged-by-hour', 'reanalysis'. Defaults to 'reanalysis'.
+                Resolution of data, must be one of 'monthly-averaged','monthly-averaged-by-hour', 'reanalysis'.
+                Defaults to 'reanalysis'.
             level_value: (int, optional):
                 Level value to select if data contains levels. Defaults to None.
             transforms (Transform | TransformCollection, optional):
@@ -75,13 +72,9 @@ class ERA5(ArchiveIndex):
         self.make_catalog()
         check_project(project_code="rt52")
 
-        variables = [variables] if isinstance(variables, str) else variables
+        variables = [variable] if isinstance(variable, str) else variable
 
-        self.level = level
         self.resolution = product
-
-        if level_value and not level == "pressure":
-            raise KeyError(f"Pressure level cannot be set if level != 'pressure'")
 
         self.variables = variables
         base_transform = TransformCollection()
@@ -108,12 +101,17 @@ class ERA5(ArchiveIndex):
         ERA5_HOME = self.ROOT_DIRECTORIES["ERA5"]
 
         paths = {}
-
         querytime = EDITDatetime(querytime)
-        basepath = Path(ERA5_HOME.format(level=self.level, resolution=self.resolution))
 
         for variable in self.variables:
-            var_path = basepath / variable / str(querytime.year)
+            if variable in ERA5_SINGLE_VARIABLES:
+                level = "single"
+            elif variable in ERA5_PRESSURE_VARIABLES:
+                level = "pressure"
+            else:
+                raise ValueError(f"Cannot identify level type of variable: {variable!r}.")
+
+            var_path = Path(ERA5_HOME.format(level=level, resolution=self.resolution)) / variable / str(querytime.year)
 
             files_in_dir = var_path.iterdir()
             start_of_month_string = querytime.replace(day=1).strftime("%Y%m%d")
