@@ -45,6 +45,7 @@ ERA5_SINGLE_VARIABLES = [
     "cbh",
     "cdww",
     "cape",
+    "ci",
     "cin",
     "cp",
     "crr",

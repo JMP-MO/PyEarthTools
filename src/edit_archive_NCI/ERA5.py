@@ -28,7 +28,7 @@ from edit_archive_NCI.ancilliary.ERA5 import ERA5_SINGLE_VARIABLES, ERA5_PRESSUR
 ERA_PROD = ["monthly-averaged", "monthly-averaged-by-hour", "reanalysis"]
 ERA_RES_RESOLUTION = [(1, "month"), (1, "month"), (1, "hour")]
 
-ERA5_RENAME = {"t2m": "2t", "u10": "10u", "v10": "10v"}
+ERA5_RENAME = {"t2m": "2t", "u10": "10u", "v10": "10v", "siconc":"ci"}
 
 
 @register_archive("ERA5", sample_kwargs=dict(variable = '2t'))
