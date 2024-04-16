@@ -10,6 +10,7 @@
 
 from __future__ import annotations
 
+import functools
 from pathlib import Path
 
 JOIN_LINK = "https://my.nci.org.au/mancini/project/{code}/join"
@@ -35,3 +36,15 @@ def check_project(project_code: str, scratch: bool = False) -> bool:
             f"\nJoin this project at {JOIN_LINK.format(code = project_code)}"
         )
     return True
+
+
+
+@functools.lru_cache()
+def cached_iterdir(path: Path) -> list[Path]:
+    """Run iterdir but cached"""
+    return list(path.iterdir())
+
+@functools.lru_cache()
+def cached_exists(path: Path) -> bool:
+    """Run exits but cached"""
+    return path.exists()

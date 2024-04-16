@@ -23,7 +23,7 @@ import xarray as xr
 from edit.data import transform
 from edit.data.exceptions import DataNotFoundError
 from edit.data.warnings import IndexWarning
-from edit.data.indexes import ArchiveIndex, ForecastIndex, DataIndex, decorators
+from edit.data.indexes import ArchiveIndex, ForecastIndex, DataFileSystemIndex, decorators
 from edit.data.time import EDITDatetime, TimeDelta
 from edit.data.transform import Transform, TransformCollection
 
@@ -65,8 +65,8 @@ class ACCESS_UI_MIXIN:
         return ACCESS_Analysis(*args, **kwargs)
 
 
-@register_archive("ACCESS")
-class ACCESS(DataIndex, ACCESS_UI_MIXIN):
+@register_archive("ACCESS", sample_kwargs=dict(variable = 'sfc/temp_scrn', datatype = 'an', region = 'g'))
+class ACCESS(DataFileSystemIndex, ACCESS_UI_MIXIN):
     """Index into Australian Community Climate and Earth-System Simulator"""
 
     @property
@@ -161,21 +161,6 @@ class ACCESS(DataIndex, ACCESS_UI_MIXIN):
                 e = excep
         raise e
 
-    def series(self, *args, **kwargs) -> Any:
-        """Load access data, accounting for coord issues"""
-        e = None
-        try:
-            new_kwargs = dict(kwargs)
-            new_kwargs["compat"] = "override"
-            new_kwargs["coords"] = "all"
-            return super().series(*args, **new_kwargs)
-        except Exception as excep:
-            try:
-                return super().series(*args, **kwargs)
-            except Exception:
-                e = excep
-        raise e
-
     def filesystem(
         self,
         basetime: str | EDITDatetime,
@@ -226,6 +211,20 @@ class ACCESS_Analysis(ACCESS, ArchiveIndex):
         kwargs["data_interval"] = (6, "h") if region.lower() == "g" else (1, "h")
         super().__init__(variables, region, **kwargs)
 
+    def series(self, *args, **kwargs) -> Any:
+        """Load access data, accounting for coord issues"""
+        e = None
+        try:
+            new_kwargs = dict(kwargs)
+            new_kwargs["compat"] = "override"
+            new_kwargs["coords"] = "all"
+            return super().series(*args, **new_kwargs)
+        except Exception as excep:
+            try:
+                return super().series(*args, **kwargs)
+            except Exception:
+                e = excep
+        raise e
 
 class ACCESS_Forecast(ACCESS, ForecastIndex):
     @decorators.alias_arguments(variables=["variable"])
@@ -235,7 +234,7 @@ class ACCESS_Forecast(ACCESS, ForecastIndex):
         region: str,
         datatype: Literal["fc", "fcmm"] = "fc",
         *,
-        forecast_leadtime: datetime.timedelta | int | tuple = None,
+        forecast_leadtime: datetime.timedelta | int | tuple | None = None,
         transforms: Transform | TransformCollection = TransformCollection(),
         **kwargs,
     ):
@@ -260,7 +259,7 @@ class ACCESS_Forecast(ACCESS, ForecastIndex):
 
         self.forecast_leadtime = forecast_leadtime if forecast_leadtime is None else TimeDelta(forecast_leadtime)
 
-    def get(self, querytime: EDITDatetime, *, select_time: EDITDatetime = None, **kwargs) -> xr.Dataset:
+    def get(self, querytime: EDITDatetime, *, select_time: EDITDatetime | None = None, **kwargs) -> xr.Dataset:
         querytime = EDITDatetime(querytime)
         if self.forecast_leadtime:
             querytime = querytime - self.forecast_leadtime

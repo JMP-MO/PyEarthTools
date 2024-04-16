@@ -17,7 +17,7 @@ from glob import glob
 from pathlib import Path
 
 
-from edit.data import EDITDatetime, transform
+from edit.data import EDITDatetime, transform, TimeDelta
 from edit.data.exceptions import DataNotFoundError
 from edit.data.indexes import ArchiveIndex, decorators
 from edit.data.transform import Transform, TransformCollection
@@ -81,7 +81,7 @@ class Himiwari(ArchiveIndex):
         root_dir = self.ROOT_DIRECTORIES["HIMIWARI"]
         basetime = EDITDatetime(basetime)
 
-        offset = datetime.timedelta(days=1)
+        offset = TimeDelta(1, 'day')
         check_dates = [basetime - offset, basetime, basetime + offset]
 
         for dates in check_dates:

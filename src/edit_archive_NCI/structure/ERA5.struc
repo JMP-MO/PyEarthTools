@@ -1110,6 +1110,10 @@ z:
 - monthly-averaged
 - monthly-averaged-by-hour
 - reanalysis
+z_surface:
+- monthly-averaged
+- monthly-averaged-by-hour
+- reanalysis
 zust:
 - monthly-averaged
 - monthly-averaged-by-hour

@@ -12,6 +12,7 @@ ECWMF ReAnalysis v5
 
 from __future__ import annotations
 
+import functools
 from pathlib import Path
 from typing import Any, Literal
 
@@ -22,13 +23,14 @@ from edit.data.indexes import ArchiveIndex, decorators
 from edit.data.transform import Transform, TransformCollection
 from edit.data.archive import register_archive
 
-from edit_archive_NCI.utilities import check_project
+from edit_archive_NCI.utilities import check_project, cached_exists, cached_iterdir
 from edit_archive_NCI.ancilliary.ERA5 import ERA5_SINGLE_VARIABLES, ERA5_PRESSURE_VARIABLES
 
 ERA_PROD = ["monthly-averaged", "monthly-averaged-by-hour", "reanalysis"]
 ERA_RES_RESOLUTION = [(1, "month"), (1, "month"), (1, "hour")]
 
 ERA5_RENAME = {"t2m": "2t", "u10": "10u", "v10": "10v", "siconc":"ci"}
+VARIABLE_EXCEPTIONS = {'z_surface': ('single', 'z')}
 
 
 @register_archive("ERA5", sample_kwargs=dict(variable = '2t'))
@@ -112,7 +114,11 @@ class ERA5(ArchiveIndex):
         querytime = EDITDatetime(querytime)
 
         for variable in self.variables:
-            if variable in ERA5_SINGLE_VARIABLES:
+            if variable in VARIABLE_EXCEPTIONS:
+                level = VARIABLE_EXCEPTIONS[variable][0]
+                variable = VARIABLE_EXCEPTIONS[variable][1]
+                
+            elif variable in ERA5_SINGLE_VARIABLES:
                 level = "single"
             elif variable in ERA5_PRESSURE_VARIABLES:
                 level = "pressure"
@@ -121,18 +127,19 @@ class ERA5(ArchiveIndex):
 
             var_path = Path(ERA5_HOME.format(level=level, resolution=self.resolution)) / variable / str(querytime.year)
 
-            files_in_dir = var_path.iterdir()
+            files_in_dir = cached_iterdir(var_path)
             start_of_month_string = querytime.replace(day=1).strftime("%Y%m%d")
 
             relevant_path = None
             for filename in files_in_dir:
                 if start_of_month_string in str(filename):
                     relevant_path = filename
+                    break
 
             if relevant_path is not None:
                 relevant_path = var_path / relevant_path
 
-                if relevant_path.exists():
+                if cached_exists(relevant_path):
                     paths[variable] = relevant_path
                     continue
 
