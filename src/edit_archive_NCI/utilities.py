@@ -1,9 +1,9 @@
 # Copyright Commonwealth of Australia, Bureau of Meteorology 2024.
-# This software is provided under license 'as is', without warranty 
-# of any kind including, but not limited to, fitness for a particular 
-# purpose. The user assumes the entire risk as to the use and 
-# performance of the software. In no event shall the copyright holder 
-# be held liable for any claim, damages or other liability arising 
+# This software is provided under license 'as is', without warranty
+# of any kind including, but not limited to, fitness for a particular
+# purpose. The user assumes the entire risk as to the use and
+# performance of the software. In no event shall the copyright holder
+# be held liable for any claim, damages or other liability arising
 # from the use of the software.
 
 """Utilities for NCI indexes"""
@@ -38,11 +38,11 @@ def check_project(project_code: str, scratch: bool = False) -> bool:
     return True
 
 
-
 @functools.lru_cache()
 def cached_iterdir(path: Path) -> list[Path]:
     """Run iterdir but cached"""
     return list(path.iterdir())
+
 
 @functools.lru_cache()
 def cached_exists(path: Path) -> bool:

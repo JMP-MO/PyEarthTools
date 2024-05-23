@@ -1,9 +1,9 @@
 # Copyright Commonwealth of Australia, Bureau of Meteorology 2024.
-# This software is provided under license 'as is', without warranty 
-# of any kind including, but not limited to, fitness for a particular 
-# purpose. The user assumes the entire risk as to the use and 
-# performance of the software. In no event shall the copyright holder 
-# be held liable for any claim, damages or other liability arising 
+# This software is provided under license 'as is', without warranty
+# of any kind including, but not limited to, fitness for a particular
+# purpose. The user assumes the entire risk as to the use and
+# performance of the software. In no event shall the copyright holder
+# be held liable for any claim, damages or other liability arising
 # from the use of the software.
 
 """
@@ -29,11 +29,11 @@ from edit_archive_NCI.ancilliary.ERA5 import ERA5_SINGLE_VARIABLES, ERA5_PRESSUR
 ERA_PROD = ["monthly-averaged", "monthly-averaged-by-hour", "reanalysis"]
 ERA_RES_RESOLUTION = [(1, "month"), (1, "month"), (1, "hour")]
 
-ERA5_RENAME = {"t2m": "2t", "u10": "10u", "v10": "10v", "siconc":"ci"}
-VARIABLE_EXCEPTIONS = {'z_surface': ('single', 'z')}
+ERA5_RENAME = {"t2m": "2t", "u10": "10u", "v10": "10v", "siconc": "ci"}
+VARIABLE_EXCEPTIONS = {"z_surface": ("single", "z")}
 
 
-@register_archive("ERA5", sample_kwargs=dict(variable = '2t'))
+@register_archive("ERA5", sample_kwargs=dict(variable="2t"))
 class ERA5(ArchiveIndex):
     """ECWMF ReAnalysis v5"""
 
@@ -79,7 +79,6 @@ class ERA5(ArchiveIndex):
                 Base Transforms to apply.
                 Defaults to TransformCollection().
         """
-        self.make_catalog()
         check_project(project_code="rt52")
 
         variables = [variable] if isinstance(variable, str) else variable
@@ -103,6 +102,7 @@ class ERA5(ArchiveIndex):
             transforms=base_transform + transforms,
             data_interval=ERA_RES_RESOLUTION[ERA_PROD.index(product)],
         )
+        self.make_catalog()
 
     def filesystem(
         self,
@@ -117,7 +117,7 @@ class ERA5(ArchiveIndex):
             if variable in VARIABLE_EXCEPTIONS:
                 level = VARIABLE_EXCEPTIONS[variable][0]
                 variable = VARIABLE_EXCEPTIONS[variable][1]
-                
+
             elif variable in ERA5_SINGLE_VARIABLES:
                 level = "single"
             elif variable in ERA5_PRESSURE_VARIABLES:
