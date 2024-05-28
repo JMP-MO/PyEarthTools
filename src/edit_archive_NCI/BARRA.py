@@ -17,8 +17,9 @@ import functools
 from pathlib import Path
 from typing import Any, Literal
 
+import edit.data
 
-from edit.data import transform, DataNotFoundError
+from edit.data import DataNotFoundError
 
 from edit.data.indexes import (
     DataIndex,
@@ -28,7 +29,7 @@ from edit.data.indexes import (
     decorators,
 )
 from edit.data.time import EDITDatetime
-from edit.data.transform import Transform, TransformCollection
+from edit.data.transforms import Transform, TransformCollection
 from edit.data.archive import register_archive
 
 from edit_archive_NCI.utilities import check_project
@@ -71,6 +72,7 @@ class BARRA(DataIndex):
         return object().__new__(cls)
 
     @decorators.alias_arguments(variables=["variable"])
+    @decorators.variable_modifications(variable_keyword='variables')
     @decorators.check_arguments(
         region=BARRA_REGIONS,
         datatype=BARRA_TYPES,
@@ -123,17 +125,17 @@ class BARRA(DataIndex):
         variables = [var.split("/")[-1] for var in variables]
 
         base_transform = TransformCollection()
-        base_transform += transform.variables.variable_trim(variables)
+        base_transform += edit.data.transforms.variables.variable_trim(variables)
 
         preprocess = None
 
         if datatype == "analysis":
-            base_transform += transform.coordinates.drop(["forecast_reference_time", "forecast_period"])
-            preprocess = transform.dimensions.expand("time", as_dataarray=True)
+            base_transform += edit.data.transforms.coordinates.drop(["forecast_reference_time", "forecast_period"])
+            preprocess = edit.data.transforms.dimensions.expand("time", as_dataarray=True)
 
         self.pressure = pressure
         if pressure is not None:
-            base_transform += transform.coordinates.select(
+            base_transform += edit.data.transforms.coordinates.select(
                 {coord: pressure for coord in ["pressure"]}, ignore_missing=True
             )
         super().__init__(transforms=base_transform + transforms, preprocess_transforms=preprocess, **kwargs)

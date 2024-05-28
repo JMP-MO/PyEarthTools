@@ -11,13 +11,11 @@ Bureau of Meteorology Atmospheric Regional Projections for Australia (BARRA_V2)
 """
 
 from __future__ import annotations
-import datetime
 
 
 import edit.data
 from edit.data.indexes import Structured, VARIABLE_DEFAULT, VariableDefault, decorators
-from edit.data.time import EDITDatetime
-from edit.data.transform import Transform, TransformCollection
+from edit.data.transforms import Transform, TransformCollection
 from edit.data.archive import register_archive
 
 from edit_archive_NCI.utilities import check_project
@@ -49,6 +47,7 @@ class BARRA_V2(Structured):
     GLOB_TEMPLATE = "{variable}/{version}/{variable}_*%Y%m-%Y%m.nc"
 
     @decorators.alias_arguments(variables=["variable"])
+    @decorators.variable_modifications(variable_keyword='variables')
     @decorators.check_arguments(struc="edit_archive_NCI.structure.BARRA_V2.struc")
     def __init__(
         self,
@@ -115,7 +114,7 @@ class BARRA_V2(Structured):
 
         if frequency == "fx":
             self.GLOB_TEMPLATE = "{variable}/{version}/{variable}_*.nc"
-        transforms += edit.data.transform.variables.drop("time_bnds")
+        transforms += edit.data.transforms.variables.drop("time_bnds")
 
         variables = [variables] if isinstance(variables, str) else variables
         new_vars = []
@@ -127,8 +126,8 @@ class BARRA_V2(Structured):
                 new_vars.append(var)
         variables = new_vars
 
-        preprocess = edit.data.transform.dimensions.expand(["pressure", "depth"], missing="skip")
-        preprocess += edit.data.transform.variables.rename_variables(
+        preprocess = edit.data.transforms.dimensions.expand(["pressure", "depth"], missing="skip")
+        preprocess += edit.data.transforms.variables.rename_variables(
             {var: variable_rename[var] for var in variables if var in variable_rename}
         )
 

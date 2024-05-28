@@ -20,12 +20,12 @@ import functools
 
 import xarray as xr
 
-from edit.data import transform
+import edit.data
 from edit.data.exceptions import DataNotFoundError
 from edit.data.warnings import IndexWarning
 from edit.data.indexes import ArchiveIndex, ForecastIndex, DataFileSystemIndex, decorators
 from edit.data.time import EDITDatetime, TimeDelta
-from edit.data.transform import Transform, TransformCollection
+from edit.data.transforms import Transform, TransformCollection
 
 from edit.data.archive import register_archive
 
@@ -134,11 +134,11 @@ class ACCESS(DataFileSystemIndex, ACCESS_UI_MIXIN):
 
         split_variables = [var.split("/")[-1] for var in variables]
 
-        base_transform = transform.variables.variable_trim(split_variables)
+        base_transform = edit.data.transforms.variables.variable_trim(split_variables)
 
         self.level_value = level_value
         if level_value is not None:
-            base_transform += transform.coordinates.select(
+            base_transform += edit.data.transforms.coordinates.select(
                 {coord: level_value for coord in ["theta_lvl", "lvl", "rho_lvl"]},
                 ignore_missing=True,
             )
@@ -207,9 +207,10 @@ class ACCESS(DataFileSystemIndex, ACCESS_UI_MIXIN):
 
 class ACCESS_Analysis(ACCESS, ArchiveIndex):
     @decorators.alias_arguments(variables=["variable"])
+    @decorators.variable_modifications(variable_keyword='variables', remove_variables=False)
     def __init__(self, variables: list[str] | str, region: str, **kwargs):
         kwargs["data_interval"] = (6, "h") if region.lower() == "g" else (1, "h")
-        super().__init__(variables, region, **kwargs)
+        super().__init__(variables, region = region, **kwargs)
 
     def series(self, *args, **kwargs) -> Any:
         """Load access data, accounting for coord issues"""
@@ -255,7 +256,7 @@ class ACCESS_Forecast(ACCESS, ForecastIndex):
                 Base Transforms to apply. Defaults to TransformCollection().
         """
         kwargs["data_interval"] = (6, "h")
-        super().__init__(variables, region, datatype=datatype, transforms=transforms, **kwargs)
+        super().__init__(variables, region = region, datatype=datatype, transforms=transforms, **kwargs)
         self.make_catalog()
 
         self.forecast_leadtime = forecast_leadtime if forecast_leadtime is None else TimeDelta(forecast_leadtime)

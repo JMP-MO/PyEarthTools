@@ -17,10 +17,11 @@ from glob import glob
 from pathlib import Path
 
 
-from edit.data import EDITDatetime, transform, TimeDelta
+import edit.data
+from edit.data import EDITDatetime, TimeDelta
 from edit.data.exceptions import DataNotFoundError
 from edit.data.indexes import ArchiveIndex, decorators
-from edit.data.transform import Transform, TransformCollection
+from edit.data.transforms import Transform, TransformCollection
 from edit.data.archive import register_archive
 
 from edit_archive_NCI.utilities import check_project
@@ -42,6 +43,7 @@ class Himiwari(ArchiveIndex):
         }
 
     @decorators.alias_arguments(variables=["variable"])
+    @decorators.variable_modifications(variable_keyword='variables')
     def __init__(
         self,
         variables: list[str] | str | None = None,
@@ -71,7 +73,7 @@ class Himiwari(ArchiveIndex):
         self.variables = variables
         self.file_regex = file_regex
 
-        base_transform = transform.variables.variable_trim(variables) + transforms
+        base_transform = edit.data.transforms.variables.variable_trim(variables) + transforms
         super().__init__(transforms=base_transform, data_interval=data_interval or (10, "m"))
 
     def filesystem(

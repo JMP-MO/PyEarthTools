@@ -14,9 +14,9 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Type
 
-from edit.data import EDITDatetime, transform, DataNotFoundError
+from edit.data import EDITDatetime, DataNotFoundError
 from edit.data.indexes import ArchiveIndex, decorators, VariableDefault
-from edit.data.transform import Transform, TransformCollection
+from edit.data.transforms import Transform, TransformCollection
 from edit.data.archive import register_archive
 
 from edit_archive_NCI.utilities import check_project
@@ -49,6 +49,7 @@ class BARPA(ArchiveIndex):
     """Index into Bureau of Meteorology Atmospheric Regional Projections for Australia"""
 
     @decorators.alias_arguments(variables=["variable"])
+    @decorators.variable_modifications(variable_keyword='variables')
     @decorators.check_arguments(struc="edit_archive_NCI.structure.BARPA.struc")
     def __init__(
         self,

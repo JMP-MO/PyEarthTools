@@ -22,7 +22,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-  "edit.data",
+  "edit.data>=2024.06.1",
 ]
 dynamic = ["version", "readme"]
 

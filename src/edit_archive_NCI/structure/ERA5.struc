@@ -1,5 +1,5 @@
 order:
-- variable
+- variables
 - product
 100u:
 - monthly-averaged

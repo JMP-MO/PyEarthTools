@@ -17,10 +17,10 @@ from pathlib import Path
 from typing import Literal
 
 
-from edit.data import EDITDatetime, transform
+from edit.data import EDITDatetime
 from edit.data.exceptions import DataNotFoundError
 from edit.data.indexes import ArchiveIndex, decorators
-from edit.data.transform import Transform, TransformCollection
+from edit.data.transforms import Transform, TransformCollection
 from edit.data.archive import register_archive
 
 from edit_archive_NCI.utilities import check_project
@@ -55,6 +55,7 @@ class MODIS(ArchiveIndex):
         }
 
     @decorators.alias_arguments(resolution=["time", "type", "datatype"], variables="variable")
+    @decorators.variable_modifications(variable_keyword='variables')
     @decorators.check_arguments(
         region=MODIS_REGIONS,
         resolution=MODIS_RESOLUTION,
@@ -92,8 +93,8 @@ class MODIS(ArchiveIndex):
         self.variables = variables
         base_transform = TransformCollection()
 
-        base_transform += transform.variables.rename_variables(MODIS_RENAME)
-        base_transform += transform.variables.variable_trim(variables)
+        base_transform += edit.data.transforms.variables.rename_variables(MODIS_RENAME)
+        base_transform += edit.data.transforms.variables.variable_trim(variables)
 
         # 8 day timesteps... so strange
         super().__init__(
