@@ -51,7 +51,7 @@ class AGCD(ArchiveIndex):
         resolution: str,
         *,
         sub_var: str | dict = {"precip": "total", "default": "mean"},
-        transforms: Transform | TransformCollection = TransformCollection(),
+        transforms: Transform | TransformCollection | None = None,
     ):
         """Setup AGCD Indexer
 
@@ -71,7 +71,7 @@ class AGCD(ArchiveIndex):
                 If `sub_var` does not contain a default and a given variable
         """
 
-        self.make_catalog()
+        self.record_initialisation()
         check_project(project_code="zv2")
 
         variables = [variables] if isinstance(variables, str) else variables
@@ -83,7 +83,7 @@ class AGCD(ArchiveIndex):
             if var not in sub_var and "default" not in sub_var:
                 raise KeyError(f"If 'sub_var' is a dict, it most contain entries for all variables")
 
-            valid_args = spellcheck.open_file(AGCD_var_path.format(variable=var))
+            valid_args = spellcheck.open_static(AGCD_var_path.format(variable=var))
             spellcheck.check_prompt(
                 sub_var[var] if var in sub_var else sub_var["default"],
                 valid_args,
@@ -100,7 +100,7 @@ class AGCD(ArchiveIndex):
         base_transform += edit.data.transforms.variables.variable_trim(variables)
 
         super().__init__(
-            transforms=base_transform + transforms,
+            transforms=base_transform + (transforms or TransformCollection()),
             data_interval=(
                 1,
                 "month" if "month" in sub_var[list(sub_var.keys())[0]] else "day",

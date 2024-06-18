@@ -64,7 +64,7 @@ class BARRA_V2(Structured):
         source: str | VARIABLE_DEFAULT = VariableDefault,
         version_realisation: str | VARIABLE_DEFAULT = VariableDefault,
         version: str | VARIABLE_DEFAULT = "v20231001",
-        transforms: Transform | TransformCollection = TransformCollection(),
+        transforms: Transform | TransformCollection | None = None,
     ):
         """
         Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia (BARRA_V2)
@@ -114,7 +114,9 @@ class BARRA_V2(Structured):
 
         if frequency == "fx":
             self.GLOB_TEMPLATE = "{variable}/{version}/{variable}_*.nc"
-        transforms += edit.data.transforms.variables.drop("time_bnds")
+
+        transforms = transforms or TransformCollection()
+        transforms += edit.data.transforms.variables.Drop("time_bnds")
 
         variables = [variables] if isinstance(variables, str) else variables
         new_vars = []
@@ -126,8 +128,8 @@ class BARRA_V2(Structured):
                 new_vars.append(var)
         variables = new_vars
 
-        preprocess = edit.data.transforms.dimensions.expand(["pressure", "depth"], missing="skip")
-        preprocess += edit.data.transforms.variables.rename_variables(
+        preprocess = edit.data.transforms.dimensions.Expand(["pressure", "depth"], missing="skip")
+        preprocess += edit.data.transforms.attributes.Rename(
             {var: variable_rename[var] for var in variables if var in variable_rename}
         )
 

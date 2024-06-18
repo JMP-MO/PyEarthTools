@@ -63,7 +63,7 @@ class BRAN(ArchiveIndex):
         resolution: Literal[BRAN_RESOLUTION],
         *,
         depth_value: Any = None,
-        transforms: Transform | TransformCollection = TransformCollection(),
+        transforms: Transform | TransformCollection | None = None,
     ):
         """
         Setup BRAN Indexer
@@ -78,7 +78,7 @@ class BRAN(ArchiveIndex):
             transforms (Transform | TransformCollection, optional):
                 Base Transforms to apply. Defaults to TransformCollection().
         """
-        self.make_catalog()
+        self.record_initialisation()
         check_project(project_code="gb6")
 
         variables = [variables] if isinstance(variables, str) else variables
@@ -87,16 +87,16 @@ class BRAN(ArchiveIndex):
         self.resolution = resolution
 
         variables = [var.replace("ocean_", "") for var in variables]
-        base_transform = edit.data.transforms.variables.variable_trim(variables)
+        base_transform = edit.data.transforms.variables.Trim(variables)
 
         self.depth_value = depth_value
         if depth_value is not None:
-            base_transform += edit.data.transforms.coordinates.select(
+            base_transform += edit.data.transforms.coordinates.Select(
                 {coord: depth_value for coord in ["st_ocean"]}, ignore_missing=True
             )
 
         super().__init__(
-            transforms=base_transform + transforms,
+            transforms=base_transform + (transforms or TransformCollection()),
             data_interval=BRAN_TYPES_RESOLUTION[BRAN_RESOLUTION.index(resolution)],
         )
 

@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Literal
 
 
+import edit.data
 from edit.data import EDITDatetime
 from edit.data.exceptions import DataNotFoundError
 from edit.data.indexes import ArchiveIndex, decorators
@@ -67,7 +68,7 @@ class MODIS(ArchiveIndex):
         region: Literal[MODIS_REGIONS],
         resolution: Literal[MODIS_RESOLUTION],
         *,
-        transforms: Transform | TransformCollection = TransformCollection(),
+        transforms: Transform | TransformCollection | None = None,
     ):
         """
         Setup MODIS Indexer
@@ -82,7 +83,7 @@ class MODIS(ArchiveIndex):
             transforms (Transform | TransformCollection, optional):
                 Base Transforms to apply. Defaults to TransformCollection().
         """
-        self.make_catalog()
+        self.record_initialisation()
         check_project(project_code="fj4")
 
         variables = [variables] if isinstance(variables, str) else variables
@@ -93,12 +94,12 @@ class MODIS(ArchiveIndex):
         self.variables = variables
         base_transform = TransformCollection()
 
-        base_transform += edit.data.transforms.variables.rename_variables(MODIS_RENAME)
-        base_transform += edit.data.transforms.variables.variable_trim(variables)
+        base_transform += edit.data.transforms.attributes.Rename(MODIS_RENAME)
+        base_transform += edit.data.transforms.variables.Trim(variables)
 
         # 8 day timesteps... so strange
         super().__init__(
-            transforms=base_transform + transforms,
+            transforms=base_transform + (transforms or TransformCollection()),
             data_interval=MODIS_TYPES_RESOLUTION[MODIS_RESOLUTION.index(resolution)],
         )
 

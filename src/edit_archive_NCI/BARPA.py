@@ -67,7 +67,7 @@ class BARPA(ArchiveIndex):
         source: str | VARIABLE_DEFAULT = VariableDefault,
         version_realisation: str | VARIABLE_DEFAULT = VariableDefault,
         version: str | VARIABLE_DEFAULT = "v20231001",  # VariableDefault,
-        transforms: Transform | TransformCollection = TransformCollection(),
+        transforms: Transform | TransformCollection | None = None,
     ):
         """
         Bureau of Meteorology Atmospheric Regional Projections for Australia (BARPA)
@@ -113,7 +113,7 @@ class BARPA(ArchiveIndex):
                 Denotes the date of data generation or date of data release
         """
 
-        self.make_catalog()
+        self.record_initialisation()
         check_project(project_code="py18")
 
         variables = [variables] if isinstance(variables, str) else variables
@@ -122,7 +122,7 @@ class BARPA(ArchiveIndex):
         self.variables = variables
         self.version = str(version)
 
-        super().__init__(transforms=transforms)
+        super().__init__(transforms=(transforms or TransformCollection()))
 
     def filesystem(
         self,

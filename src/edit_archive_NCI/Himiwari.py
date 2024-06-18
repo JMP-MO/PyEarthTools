@@ -50,7 +50,7 @@ class Himiwari(ArchiveIndex):
         *,
         file_regex: str = FILE_REGEX,
         data_interval: tuple[int, str] = (10, "m"),
-        transforms: Transform | TransformCollection = TransformCollection(),
+        transforms: Transform | TransformCollection | None = None,
     ):
         """
         Setup Satellite Indexer
@@ -65,7 +65,7 @@ class Himiwari(ArchiveIndex):
             transforms (Transform | TransformCollection, optional):
                 Base Transforms to apply. Defaults to TransformCollection().
         """
-        self.make_catalog()
+        self.record_initialisation()
         check_project(project_code="rv74")
 
         variables = [variables] if isinstance(variables, str) else variables
@@ -73,7 +73,7 @@ class Himiwari(ArchiveIndex):
         self.variables = variables
         self.file_regex = file_regex
 
-        base_transform = edit.data.transforms.variables.variable_trim(variables) + transforms
+        base_transform = edit.data.transforms.variables.Trim(variables) + (transforms or TransformCollection())
         super().__init__(transforms=base_transform, data_interval=data_interval or (10, "m"))
 
     def filesystem(
