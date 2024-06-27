@@ -57,4 +57,4 @@ from edit_archive_NCI.Himiwari import Himiwari
 
 register_archive("NCI")(edit_archive_NCI)
 
-__version__ = "2024.05.01"
+__version__ = "2024.06.02"
