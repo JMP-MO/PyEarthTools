@@ -52,7 +52,7 @@ class BRAN(ArchiveIndex):
     @decorators.alias_arguments(
         resolution=["time", "type", "datatype"], depth_value=["depth", "st_ocean"], variables=["variable"]
     )
-    @decorators.variable_modifications(variable_keyword='variables')
+    @decorators.variable_modifications(variable_keyword="variables")
     @decorators.check_arguments(
         resolution=BRAN_RESOLUTION,
         variables="edit_archive_NCI.variables.BRAN.{resolution}.valid",

@@ -208,10 +208,10 @@ class ACCESS(DataFileSystemIndex, ACCESS_UI_MIXIN):
 class ACCESS_Analysis(ACCESS, ArchiveIndex):
     @functools.wraps(ACCESS.__init__)
     @decorators.alias_arguments(variables=["variable"])
-    @decorators.variable_modifications(variable_keyword='variables', remove_variables=False)
+    @decorators.variable_modifications(variable_keyword="variables", remove_variables=False)
     def __init__(self, variables: list[str] | str, region: str, **kwargs):
         kwargs["data_interval"] = (6, "h") if region.lower() == "g" else (1, "h")
-        super().__init__(variables, region = region, **kwargs)
+        super().__init__(variables, region=region, **kwargs)
 
     def series(self, *args, **kwargs) -> Any:
         """Load access data, accounting for coord issues"""
@@ -257,7 +257,7 @@ class ACCESS_Forecast(ACCESS, ForecastIndex):
                 Base Transforms to apply. Defaults to TransformCollection().
         """
         kwargs["data_interval"] = (6, "h")
-        super().__init__(variables, region = region, datatype=datatype, transforms=transforms, **kwargs)
+        super().__init__(variables, region=region, datatype=datatype, transforms=transforms, **kwargs)
         self.record_initialisation()
 
         self.forecast_leadtime = forecast_leadtime if forecast_leadtime is None else TimeDelta(forecast_leadtime)

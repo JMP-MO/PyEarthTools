@@ -51,7 +51,7 @@ class ERA5(ArchiveIndex):
         variables=["variable"],
         product=["resolution"],
     )
-    @decorators.variable_modifications(variable_keyword='variables', remove_variables=False)
+    @decorators.variable_modifications(variable_keyword="variables", remove_variables=False)
     @decorators.check_arguments(
         struc="edit_archive_NCI.structure.ERA5.struc",
     )

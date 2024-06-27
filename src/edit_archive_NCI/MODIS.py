@@ -56,7 +56,7 @@ class MODIS(ArchiveIndex):
         }
 
     @decorators.alias_arguments(resolution=["time", "type", "datatype"], variables="variable")
-    @decorators.variable_modifications(variable_keyword='variables')
+    @decorators.variable_modifications(variable_keyword="variables")
     @decorators.check_arguments(
         region=MODIS_REGIONS,
         resolution=MODIS_RESOLUTION,

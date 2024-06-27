@@ -43,7 +43,7 @@ class Himiwari(ArchiveIndex):
         }
 
     @decorators.alias_arguments(variables=["variable"])
-    @decorators.variable_modifications(variable_keyword='variables')
+    @decorators.variable_modifications(variable_keyword="variables")
     def __init__(
         self,
         variables: list[str] | str | None = None,

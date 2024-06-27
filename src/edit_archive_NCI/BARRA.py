@@ -72,7 +72,7 @@ class BARRA(DataIndex):
         return object().__new__(cls)
 
     @decorators.alias_arguments(variables=["variable"])
-    @decorators.variable_modifications(variable_keyword='variables')
+    @decorators.variable_modifications(variable_keyword="variables")
     @decorators.check_arguments(
         region=BARRA_REGIONS,
         datatype=BARRA_TYPES,
@@ -138,7 +138,11 @@ class BARRA(DataIndex):
             base_transform += edit.data.transforms.coordinates.Select(
                 {coord: pressure for coord in ["pressure"]}, ignore_missing=True
             )
-        super().__init__(transforms=base_transform + (transforms or TransformCollection()), preprocess_transforms=preprocess, **kwargs)
+        super().__init__(
+            transforms=base_transform + (transforms or TransformCollection()),
+            preprocess_transforms=preprocess,
+            **kwargs,
+        )
 
     # -------------------
     # Static Type Methods

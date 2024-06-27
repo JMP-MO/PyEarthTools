@@ -49,7 +49,7 @@ class OceanMaps(ArchiveIndex):
         }
 
     @decorators.alias_arguments(variables=["variable"])
-    @decorators.variable_modifications(variable_keyword='variables')
+    @decorators.variable_modifications(variable_keyword="variables")
     @decorators.check_arguments(
         datatype=OceanMaps_TYPES,
         sub_var=OceanMaps_SUBVAR,

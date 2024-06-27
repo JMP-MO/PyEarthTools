@@ -43,7 +43,7 @@ class AGCD(ArchiveIndex):
             "singleline": "Australian Gridded Climate Data (AGCD)",
         }
 
-    @decorators.variable_modifications(variable_keyword='variables')
+    @decorators.variable_modifications(variable_keyword="variables")
     @decorators.check_arguments(variables=AGCD_VARIABLES, resolution=["day", "month"])
     def __init__(
         self,

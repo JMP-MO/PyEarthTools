@@ -49,7 +49,7 @@ class BARPA(ArchiveIndex):
     """Index into Bureau of Meteorology Atmospheric Regional Projections for Australia"""
 
     @decorators.alias_arguments(variables=["variable"])
-    @decorators.variable_modifications(variable_keyword='variables')
+    @decorators.variable_modifications(variable_keyword="variables")
     @decorators.check_arguments(struc="edit_archive_NCI.structure.BARPA.struc")
     def __init__(
         self,

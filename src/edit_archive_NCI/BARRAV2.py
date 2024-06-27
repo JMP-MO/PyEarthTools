@@ -47,7 +47,7 @@ class BARRA_V2(Structured):
     GLOB_TEMPLATE = "{variable}/{version}/{variable}_*%Y%m-%Y%m.nc"
 
     @decorators.alias_arguments(variables=["variable"])
-    @decorators.variable_modifications(variable_keyword='variables')
+    @decorators.variable_modifications(variable_keyword="variables")
     @decorators.check_arguments(struc="edit_archive_NCI.structure.BARRA_V2.struc")
     def __init__(
         self,
