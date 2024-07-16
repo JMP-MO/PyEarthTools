@@ -21,7 +21,6 @@ from edit.data.archive import register_archive
 from edit_archive_NCI.utilities import check_project
 
 from edit_archive_NCI.ancilliary.BARRA_V2 import variable_rename, coarse_variables
-import xarray as xr
 
 temporal_resolution = {
     "fx": None,
@@ -63,7 +62,7 @@ class BARRA_V2(Structured):
         variant: str | VARIABLE_DEFAULT = VariableDefault,
         source: str | VARIABLE_DEFAULT = VariableDefault,
         version_realisation: str | VARIABLE_DEFAULT = VariableDefault,
-        version: str | VARIABLE_DEFAULT = "v20231001",
+        version: str | VARIABLE_DEFAULT = "latest",
         transforms: Transform | TransformCollection | None = None,
     ):
         """
@@ -83,7 +82,7 @@ class BARRA_V2(Structured):
                 Variables to retrieve.
                 Mostly based on https://docs.google.com/spreadsheets/d/1qUauozwXkq7r1g-L4ALMIkCNINIhhCPx/edit#gid=1672965248
             frequency (str):
-                Temporal Frequency. 1hr (1-hourly), 3hr, 6hr, day (daily), mon (monthly), fx
+                Temporal Frequency. '1hr' (1-hourly), '3hr', '6hr', 'day' (daily), 'mon' (monthly), 'fx'
             transforms (Transform | TransformCollection, optional):
                 Transforms to apply to the data. Defaults to TransformCollection().
 
@@ -92,7 +91,7 @@ class BARRA_V2(Structured):
             activity (str | VARIABLE_DEFAULT, optional):
                 'reanalysis'
             domain (str | VARIABLE_DEFAULT, optional):
-                Spatial domain and grid resolution of the data, namely AUS-11, AUS-22, AUS-04.
+                Spatial domain and grid resolution of the data, namely 'AUS-11', 'AUS-22', 'AUS-04'.
             institution (str | VARIABLE_DEFAULT, optional):
                 'BOM', RCM-institution
             driving_source (str| VARIABLE_DEFAULT, optional):
@@ -100,14 +99,14 @@ class BARRA_V2(Structured):
             experiment (str | VARIABLE_DEFAULT, optional):
                 'historical'
             variant (str | VARIABLE_DEFAULT, optional):
-                labels the nature of ERA5 data used, either hres or eda
+                labels the nature of ERA5 data used, either 'hres' or 'eda'
             source (str | VARIABLE_DEFAULT, optional):
                 BARRA-R2, BARRA-RE2, or BARRA-C2
             version_realisation (str | VARIABLE_DEFAULT, optional):
                 identifies the modelling version of BARRA2 (TBC on identifying data version)
             version (str | VARIABLE_DEFAULT, optional):
                 Denotes the date of data generation or date of data release.
-                Defaults to 'v20231001'
+                Defaults to 'latest'
         """
 
         check_project(project_code="ob53")
@@ -123,12 +122,12 @@ class BARRA_V2(Structured):
 
         for var in variables:
             if var in coarse_variables[frequency]:
-                tuple(new_vars.append(v) for v in coarse_variables[frequency][var])
+                new_vars.extend(coarse_variables[frequency][var])
             else:
                 new_vars.append(var)
         variables = new_vars
 
-        preprocess = edit.data.transforms.dimensions.Expand(["pressure", "depth"], missing="skip")
+        preprocess = edit.data.transforms.dimensions.Expand(["pressure", "depth", "height"], missing="skip")
         preprocess += edit.data.transforms.attributes.Rename(
             {var: variable_rename[var] for var in variables if var in variable_rename}
         )
