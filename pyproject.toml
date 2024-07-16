@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "fourcastnext"
+version = "2024.07.2"
+description = "FourCastNeXt"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {file = "LICENSE"}
+keywords = ["pangu"]
+authors = [
+  {email = "harrison.cook@bom.gov.au"},
+  {name = "Harrison Cook"}
+]
+maintainers = [
+  {name = "Harrison Cook", email = "harrison.cook@bom.gov.au"}
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+ 'edit.training[lightning]==1.0.0', 'edit.models==1.0.0', 'edit.pipeline==1.0.0'
+]
+
+
+[project.urls]
+homepage = "https://bom.gov.au"
+
+[project.entry-points."edit.models.model"]
+Global_fourcastnext = "fourcastnext.registered_model:FourCastNeXt"
+
+[tool.isort]
+
+profile = "black"
+
+[tool.black]
+line-length = 120
+
+[tool.mypy]
+warn_return_any = true
+warn_unused_configs = true
+
+[[tool.mypy.overrides]]
+ignore_missing_imports = true
+
