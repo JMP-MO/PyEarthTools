@@ -6,6 +6,8 @@
 # be held liable for any claim, damages or other liability arising
 # from the use of the software.
 
+# ruff: noqa: F401 E402
+
 """
 National Computing Infrastructure specific Indexes
 
@@ -42,7 +44,7 @@ ROOT_DIRECTORIES = {
 
 register_archive("ROOT_DIRECTORIES")(ROOT_DIRECTORIES)
 
-import edit_archive_NCI
+import edit_archive_NCI  
 
 from edit_archive_NCI.ACCESS import ACCESS
 from edit_archive_NCI.AGCD import AGCD
@@ -57,4 +59,4 @@ from edit_archive_NCI.Himiwari import Himiwari
 
 register_archive("NCI")(edit_archive_NCI)
 
-__version__ = "2024.06.02"
+__version__ = "1.0.0"
