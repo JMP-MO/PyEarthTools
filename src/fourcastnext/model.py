@@ -154,7 +154,7 @@ class FourCastNext(pl.LightningModule):
             total_loss = self.loss_obj(output1, target)
 
         self.log(
-            "train/loss",
+            "train_loss",
             total_loss,
             on_step=True,
             on_epoch=True,
@@ -216,7 +216,7 @@ class FourCastNext(pl.LightningModule):
         output1 = self.forward(input1, self.model)
         total_loss = self.loss_obj(output1, target)
         self.log(
-            "valid/loss",
+            "valid_loss",
             total_loss,
             on_step=True,
             on_epoch=True,
