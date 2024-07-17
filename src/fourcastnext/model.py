@@ -57,8 +57,8 @@ class FourCastNext(pl.LightningModule):
         super().__init__()
         self.save_hyperparameters()
 
-        self.spatial_size = model_params["img_size"]
-        self.out_channels = model_params["out_channels"]
+        self.spatial_size = model_params.get("img_size", (128, 128))
+        self.out_channels = model_params.get("out_channels", 10)
 
         grid = self.setup_grid()
         self.register_buffer("grid", grid, persistent=False)
@@ -229,7 +229,8 @@ class FourCastNext(pl.LightningModule):
     def predict_step(self, batch, batch_idx):
 
         try:
-            inp, tar = map(lambda x: x.to(dtype=self._dtype), batch)
+            inp = batch.to(dtype = self._dtype)
+            #inp, tar = map(lambda x: x.to(dtype=self._dtype), batch)
         except Exception:
             inp = batch.to(dtype = self._dtype)
 
@@ -240,7 +241,7 @@ class FourCastNext(pl.LightningModule):
         else:
             input1 = inp[:, 0]
 
-        n_pred_steps = tar.shape[1]
+        n_pred_steps = 1# tar.shape[1]
 
         if n_pred_steps == 1:
             predictions = self.forward(input1, self.model)

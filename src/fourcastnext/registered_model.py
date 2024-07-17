@@ -11,6 +11,7 @@ from __future__ import annotations
 from typing import Any
 from pathlib import Path
 import logging
+import math
 
 import edit.models
 
@@ -32,9 +33,10 @@ class FourCastNeXt(edit.models.BaseForecastModel):
         lead_time (int | str | edit.data.TimeDelta): 
             Lead time to predict to. If int will be given as hours.
             Separate delta notation by -.
-        model_path (str):
-            Model folder to load from. Expects both `weights.ckpt`, and `config.yaml`.
-            The yaml file is loaded and used to init the `FourCastNeXt` class.
+        interval (int):
+            Data interval in hours. Defaults to 6.
+        ckpt_path (str, optional):
+            Override for weights path
     """
 
     _name = 'Development/FourCastNeXt'
@@ -56,10 +58,9 @@ class FourCastNeXt(edit.models.BaseForecastModel):
             lead_time (int | str | edit.data.TimeDelta, optional):
                 Lead time of forecast (hours).
             interval (int):
-                Data interval defaults to 6.
-            model_path (str):
-                Model folder to load from. Expects both `weights.ckpt`
-                The yaml file is loaded and used to init the `FourCastNeXt` class.
+                Data interval in hours. Defaults to 6.
+            ckpt_path (str, optional):
+                Override for weights path
         """
         self.lead_time = edit.models.utils.delta_conversion(lead_time, 'hour')
         if ckpt_path:
@@ -80,15 +81,16 @@ class FourCastNeXt(edit.models.BaseForecastModel):
         
         model_kwargs = dict(
             data_interval = (self.interval, 'hours'), 
-            recurrent_config=dict(
-                time=self.lead_time,
+            prediction_function = 'recurrent',
+            prediction_config=dict(
+                steps=math.ceil(self.lead_time // self.interval),
                 verbose=True,
             ),
             **kwargs,
         )
         import edit.training
 
-        model = fourcastnext.FourCastNeXt({})
+        model = fourcastnext.FourCastNext({})
         model_wrapper = edit.training.wrapper.lightning.Predict(model, self.pipeline)
         model_wrapper.load(self.assets / "weights.ckpt")
         
