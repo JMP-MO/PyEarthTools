@@ -288,9 +288,9 @@ class Block(nn.Module):
 class AFNONet(nn.Module):
     def __init__(
         self,
-        img_size,
-        in_channels,
-        out_channels,
+        img_size = (128, 128),
+        in_channels = 10,
+        out_channels = 10,
         patch_size=(4, 4),
         embed_dim=768,
         depth=12,

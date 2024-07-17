@@ -25,10 +25,9 @@ __args: !!python/tuple
   - !!python/tuple
     - -6
     - 1
-  - !!python/tuple
-    - 6
-    - 2
-    - 6
+    # Note how target time retrieval has been dropped
+- !edit@edit.pipeline.operations.numpy.reshape.Rearrange
+  rearrange: 'c t h w -> t c h w'
 exceptions_to_ignore: null
 iterator: null
 sampler: null
