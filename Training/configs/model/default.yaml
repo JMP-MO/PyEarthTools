@@ -3,7 +3,7 @@ _target_: fourcastnext.model.FourCastNext
 _recursive_: true
 
 
-# Model 
+# Model parameters to init AFNONet
 model_params:
   img_size : ${data.img_size}
   in_channels : ${data.in_channels}

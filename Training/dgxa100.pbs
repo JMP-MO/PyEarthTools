@@ -16,6 +16,6 @@
 module use /scratch/ra02/modules
 module load EDIT
 
-python train.py
+python train.py data=example
 
 echo "Done."

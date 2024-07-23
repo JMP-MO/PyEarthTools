@@ -41,7 +41,7 @@ class FourCastNeXt(edit.models.BaseForecastModel):
 
     _name = 'Development/FourCastNeXt'
     _default_config_path = CONFIG_PATH
-    _times = [0]
+    _times = [-6]
     _download_paths = [
 
     ]
@@ -76,7 +76,7 @@ class FourCastNeXt(edit.models.BaseForecastModel):
 
         Returns:
             (tuple[Any, dict[str, Any]]):
-                Model, index kwargs
+                Predictor, index kwargs
         """
         
         model_kwargs = dict(
@@ -94,7 +94,7 @@ class FourCastNeXt(edit.models.BaseForecastModel):
         model_wrapper = edit.training.wrapper.lightning.Predict(model, self.pipeline)
         model_wrapper.load(self.assets / "weights.ckpt")
         
-        wrapper = edit.training.wrapper.predict.TimeSeriesAutoRecurrent(model_wrapper, interval= f'{self.interval} hours')
+        wrapper = edit.training.wrapper.predict.TimeSeriesAutoRecurrentPredictor(model_wrapper, interval= f'{self.interval} hours')
         
 
         return wrapper, model_kwargs

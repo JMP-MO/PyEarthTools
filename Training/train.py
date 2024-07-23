@@ -41,6 +41,7 @@ def train(cfg):
         pipelines = OmegaConf.to_object(cfg.data.pipelines)
     except ValueError:
         pipelines = cfg.data.pipelines
+        
     datamodule = edit.training.data.lightning.PipelineLightningDataModule(
         pipelines,  # type: ignore
         **splits,

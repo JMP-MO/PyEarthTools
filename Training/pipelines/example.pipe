@@ -30,11 +30,14 @@ __args: !!python/tuple
     - 2
     - 6
 - !edit@edit.pipeline.operations.numpy.reshape.Rearrange
-  rearrange: 'c t h w -> t c h w'
+  rearrange: c t h w -> t c h w
+  rearrange_kwargs: null
+  reverse_rearrange: null
+  skip: false
 exceptions_to_ignore: null
 iterator: null
-sampler: null
+sampler: !edit@edit.pipeline.samplers.Default {}
 
 --CONFIG--
-VERSION: 1.0.0
+VERSION: 1.0.1
 import: []
