@@ -44,7 +44,7 @@ BARPA_DIR_STRUCTURE = "{project}/{MIP}/{activity}/{domain}/{institution}/{drivin
 VARIABLE_DEFAULT = Type[VariableDefault]
 
 
-@register_archive("BARPA", sample_kwargs={'variables':'CAPE','driving_source':'ERA5','frequency':'1hr'})
+@register_archive("BARPA", sample_kwargs={"variables": "CAPE", "driving_source": "ERA5", "frequency": "1hr"})
 class BARPA(ArchiveIndex):
     """Index into Bureau of Meteorology Atmospheric Regional Projections for Australia"""
 
