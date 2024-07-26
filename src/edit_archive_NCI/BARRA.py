@@ -143,6 +143,7 @@ class BARRA(DataIndex):
             preprocess_transforms=preprocess,
             **kwargs,
         )
+        self.record_initialisation()
 
     # -------------------
     # Static Type Methods

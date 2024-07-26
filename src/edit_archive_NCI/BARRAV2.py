@@ -31,7 +31,7 @@ temporal_resolution = {
 }
 
 
-@register_archive("BARRA_V2")
+@register_archive("BARRA_V2", sample_kwargs={'variables':'CAPE', 'frequency':'1hr'})
 class BARRA_V2(Structured):
     """Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia, BARRA Version 2"""
 
@@ -152,3 +152,4 @@ class BARRA_V2(Structured):
                 version=version,
             ),
         )
+        self.record_initialisation()

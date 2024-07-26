@@ -78,7 +78,6 @@ class BRAN(ArchiveIndex):
             transforms (Transform | TransformCollection, optional):
                 Base Transforms to apply. Defaults to TransformCollection().
         """
-        self.record_initialisation()
         check_project(project_code="gb6")
 
         variables = [variables] if isinstance(variables, str) else variables
@@ -99,6 +98,7 @@ class BRAN(ArchiveIndex):
             transforms=base_transform + (transforms or TransformCollection()),
             data_interval=BRAN_TYPES_RESOLUTION[BRAN_RESOLUTION.index(resolution)],
         )
+        self.record_initialisation()
 
     def filesystem(
         self,

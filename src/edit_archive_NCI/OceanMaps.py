@@ -82,7 +82,6 @@ class OceanMaps(ArchiveIndex):
             transforms (Transform | TransformCollection, optional):
                 Base Transforms to apply. Defaults to TransformCollection().
         """
-        self.record_initialisation()
         check_project(project_code="rr6")
 
         variables = [variables] if isinstance(variables, str) else variables
@@ -101,6 +100,7 @@ class OceanMaps(ArchiveIndex):
                 {coord: depth_value for coord in ["st_ocean"]}, ignore_missing=True
             )
         super().__init__(transforms=base_transform + (transforms or TransformCollection()), data_interval=(1, "D"))
+        self.record_initialisation()
 
     def filesystem(
         self,

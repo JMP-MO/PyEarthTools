@@ -71,7 +71,6 @@ class AGCD(ArchiveIndex):
                 If `sub_var` does not contain a default and a given variable
         """
 
-        self.record_initialisation()
         check_project(project_code="zv2")
 
         variables = [variables] if isinstance(variables, str) else variables
@@ -106,6 +105,7 @@ class AGCD(ArchiveIndex):
                 "month" if "month" in sub_var[list(sub_var.keys())[0]] else "day",
             ),
         )
+        self.record_initialisation()
 
     def filesystem(
         self,

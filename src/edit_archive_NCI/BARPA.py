@@ -44,7 +44,7 @@ BARPA_DIR_STRUCTURE = "{project}/{MIP}/{activity}/{domain}/{institution}/{drivin
 VARIABLE_DEFAULT = Type[VariableDefault]
 
 
-@register_archive("BARPA")
+@register_archive("BARPA", sample_kwargs={'variables':'CAPE','driving_source':'ERA5','frequency':'1hr'})
 class BARPA(ArchiveIndex):
     """Index into Bureau of Meteorology Atmospheric Regional Projections for Australia"""
 
@@ -113,7 +113,6 @@ class BARPA(ArchiveIndex):
                 Denotes the date of data generation or date of data release
         """
 
-        self.record_initialisation()
         check_project(project_code="py18")
 
         variables = [variables] if isinstance(variables, str) else variables
@@ -123,6 +122,7 @@ class BARPA(ArchiveIndex):
         self.version = str(version)
 
         super().__init__(transforms=(transforms or TransformCollection()))
+        self.record_initialisation()
 
     def filesystem(
         self,

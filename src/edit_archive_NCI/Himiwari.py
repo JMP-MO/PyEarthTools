@@ -65,7 +65,6 @@ class Himiwari(ArchiveIndex):
             transforms (Transform | TransformCollection, optional):
                 Base Transforms to apply. Defaults to TransformCollection().
         """
-        self.record_initialisation()
         check_project(project_code="rv74")
 
         variables = [variables] if isinstance(variables, str) else variables
@@ -75,6 +74,7 @@ class Himiwari(ArchiveIndex):
 
         base_transform = edit.data.transforms.variables.Trim(variables) + (transforms or TransformCollection())
         super().__init__(transforms=base_transform, data_interval=data_interval or (10, "m"))
+        self.record_initialisation()
 
     def filesystem(
         self,
