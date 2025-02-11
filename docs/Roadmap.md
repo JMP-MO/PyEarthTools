@@ -2,6 +2,7 @@
 
 Broad Goals:
  - Be a multi-model, multi-site ML framework for geosciences with good on-ramps for new users and developers
+ - Provide a reproducible pipeline with provenance for model weights and experiments
  - Encourage the community to adopt reproducible, shareable and inter-mixable models
 
 Code health (may take some time):
