@@ -1,5 +1,9 @@
 # PyEarthTools Roadmap
 
+Broad Goals:
+ - Be a multi-model, multi-site ML framework for geosciences with good on-ramps for new users and developers
+ - Encourage the community to adopt reproducible, shareable and inter-mixable models
+
 Code health (may take some time):
  - Improve test coverage
  - Improve docstring coverage
