@@ -12,8 +12,6 @@ Welcome to the Documentation for `PyEarthTools` toolbox.
     Current target audience are PyEarthTools developers doing the documentation refactoring.
 
 
-A research project from the Data Science and Emerging Technologies team and Project 3.1.
-
 ## Purpose
 
 `PyEarthTools` seeks to provide a unified interface into any Earth System data source, and allow for easy transformation and modification into Machine Learning training / inference ready forms.
