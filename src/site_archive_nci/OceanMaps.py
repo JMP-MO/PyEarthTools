@@ -26,7 +26,7 @@ from pyearthtools.data.indexes import ArchiveIndex, decorators
 from pyearthtools.data.transforms import Transform, TransformCollection
 from pyearthtools.data.archive import register_archive
 
-from pyearthtools_archive_NCI.utilities import check_project
+from site_archive_nci.utilities import check_project
 
 
 OceanMaps_TYPES = ["analysis", "forecast"]
@@ -53,7 +53,7 @@ class OceanMaps(ArchiveIndex):
     @decorators.check_arguments(
         datatype=OceanMaps_TYPES,
         sub_var=OceanMaps_SUBVAR,
-        variables="pyearthtools_archive_NCI.variables.OceanMaps.{datatype}.valid",
+        variables="site_archive_nci.variables.OceanMaps.{datatype}.valid",
     )
     def __init__(
         self,

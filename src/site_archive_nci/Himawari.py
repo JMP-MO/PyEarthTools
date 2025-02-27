@@ -7,7 +7,7 @@
 # from the use of the software.
 
 """
-Himiwari 8/9 satellite data
+Himawari 8/9 satellite data
 """
 
 from __future__ import annotations
@@ -24,20 +24,20 @@ from pyearthtools.data.indexes import ArchiveIndex, decorators
 from pyearthtools.data.transforms import Transform, TransformCollection
 from pyearthtools.data.archive import register_archive
 
-from pyearthtools_archive_NCI.utilities import check_project
+from site_archive_nci.utilities import check_project
 
 SATELLITE_PATTERN = "{ROOT_DIR}/{FILE_DATE}/{FILE}"
 FILE_REGEX = "*{date_info}*{time_info}*.nc"
 
 
-@register_archive("Himiwari")
-class Himiwari(ArchiveIndex):
-    """Index into Himiwari 8/9 satellite data"""
+@register_archive("Himawari")
+class Himawari(ArchiveIndex):
+    """Index into Himawari 8/9 satellite data"""
 
     @property
     def _desc_(self):
         return {
-            "singleline": "Himiwari 8/9 satellite data",
+            "singleline": "Himawari 8/9 satellite data",
             "Range": "2019-current",
             "Resolution": "10 minutes",
         }
@@ -80,7 +80,7 @@ class Himiwari(ArchiveIndex):
         self,
         basetime: str | datetime.datetime | pyearthtoolsDatetime,
     ):
-        root_dir = self.ROOT_DIRECTORIES["HIMIWARI"]
+        root_dir = self.ROOT_DIRECTORIES["Himawari"]
         basetime = pyearthtoolsDatetime(basetime)
 
         offset = TimeDelta(1, "day")

@@ -32,7 +32,7 @@ from pyearthtools.data.time import pyearthtoolsDatetime
 from pyearthtools.data.transforms import Transform, TransformCollection
 from pyearthtools.data.archive import register_archive
 
-from pyearthtools_archive_NCI.utilities import check_project
+from site_archive_nci.utilities import check_project
 
 
 BARRA_REGIONS = ["R", "AD", "PH", "SY", "TA"]
@@ -76,7 +76,7 @@ class BARRA(DataIndex):
     @decorators.check_arguments(
         region=BARRA_REGIONS,
         datatype=BARRA_TYPES,
-        variables="pyearthtools_archive_NCI.variables.BARRA.{datatype}.valid",
+        variables="site_archive_nci.variables.BARRA.{datatype}.valid",
     )
     def __init__(
         self,

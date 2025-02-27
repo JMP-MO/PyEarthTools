@@ -19,7 +19,7 @@ from pyearthtools.data.indexes import ArchiveIndex, decorators, VariableDefault
 from pyearthtools.data.transforms import Transform, TransformCollection
 from pyearthtools.data.archive import register_archive
 
-from pyearthtools_archive_NCI.utilities import check_project
+from site_archive_nci.utilities import check_project
 
 """
 Structure order
@@ -50,7 +50,7 @@ class BARPA(ArchiveIndex):
 
     @decorators.alias_arguments(variables=["variable"])
     @decorators.variable_modifications(variable_keyword="variables")
-    @decorators.check_arguments(struc="pyearthtools_archive_NCI.structure.BARPA.struc")
+    @decorators.check_arguments(struc="site_archive_nci.structure.BARPA.struc")
     def __init__(
         self,
         variables: list[str] | str,

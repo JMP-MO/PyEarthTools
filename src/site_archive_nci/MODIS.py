@@ -24,7 +24,7 @@ from pyearthtools.data.indexes import ArchiveIndex, decorators
 from pyearthtools.data.transforms import Transform, TransformCollection
 from pyearthtools.data.archive import register_archive
 
-from pyearthtools_archive_NCI.utilities import check_project
+from site_archive_nci.utilities import check_project
 
 
 MODIS_REGIONS = ["AU"]
@@ -60,7 +60,7 @@ class MODIS(ArchiveIndex):
     @decorators.check_arguments(
         region=MODIS_REGIONS,
         resolution=MODIS_RESOLUTION,
-        variables="pyearthtools_archive_NCI.variables.MODIS.surface.valid",
+        variables="site_archive_nci.variables.MODIS.surface.valid",
     )
     def __init__(
         self,

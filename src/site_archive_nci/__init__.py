@@ -13,16 +13,16 @@ National Computing Infrastructure specific Indexes
 
 | Name        | Description |
 | :---        |       ----: |
-| [ERA5][pyearthtools_archive_NCI.ERA5]                | ECWMF ReAnalysis v5       |
-| [ACCESS][pyearthtools_archive_NCI.ACCESS]            | Australian Community Climate and Earth-System Simulator       |
-| [AGCD][pyearthtools_archive_NCI.AGCD]                | Australian Gridded Climate Data        |
-| [BRAN][pyearthtools_archive_NCI.BRAN]                | Bluelink ReANalysis        |
-| [OceanMaps][pyearthtools_archive_NCI.OceanMaps]      | Ocean Modelling and Analysis Prediction System        |
-| [MODIS][pyearthtools_archive_NCI.MODIS]              | MODerate resolution Imaging Spectroradiometer       |
-| [Himiwari][pyearthtools_archive_NCI.Himiwari]        | Himiwari 8/9 satellite data       |
-| [BARRA][pyearthtools_archive_NCI.BARRA]              | Bureau of meteorology Atmospheric high-resolution Regional Reanalysis for Australia       |
-| [BARPA][pyearthtools_archive_NCI.BARPA]              | Bureau of Meteorology Atmospheric Regional Projections for Australia       |
-| [BARRA_V2][pyearthtools_archive_NCI.BARRA_V2]        | Bureau of meteorology Atmospheric high-resolution Regional Reanalysis for Australia v2    |
+| [ERA5][site_archive_nci.ERA5]                | ECWMF ReAnalysis v5       |
+| [ACCESS][site_archive_nci.ACCESS]            | Australian Community Climate and Earth-System Simulator       |
+| [AGCD][site_archive_nci.AGCD]                | Australian Gridded Climate Data        |
+| [BRAN][site_archive_nci.BRAN]                | Bluelink ReANalysis        |
+| [OceanMaps][site_archive_nci.OceanMaps]      | Ocean Modelling and Analysis Prediction System        |
+| [MODIS][site_archive_nci.MODIS]              | MODerate resolution Imaging Spectroradiometer       |
+| [Himawari][site_archive_nci.Himawari]        | Himawari 8/9 satellite data       |
+| [BARRA][site_archive_nci.BARRA]              | Bureau of meteorology Atmospheric high-resolution Regional Reanalysis for Australia       |
+| [BARPA][site_archive_nci.BARPA]              | Bureau of Meteorology Atmospheric Regional Projections for Australia       |
+| [BARRA_V2][site_archive_nci.BARRA_V2]        | Bureau of meteorology Atmospheric high-resolution Regional Reanalysis for Australia v2    |
 """
 
 import pyearthtools.data
@@ -34,7 +34,7 @@ ROOT_DIRECTORIES = {
     "ACCESS_S": "/g/data/ux62/access-s2/{type}/",
     "AGCD": "/g/data/zv2/agcd/v1",
     "ERA5": "/g/data/rt52/era5/{level}-levels/{resolution}/",
-    "HIMIWARI": "/g/data/rv74/satellite-products/arc/der/himawari-ahi/solar/p1s/latest/",
+    "Himawari": "/g/data/rv74/satellite-products/arc/der/himawari-ahi/solar/p1s/latest/",
     "BRAN": "/g/data/gb6/BRAN/BRAN2020/",
     "OceanMaps": "/g/data/rr6/OceanMAPS/",
     "MODIS": "/g/data/fj4/MODIS_LAI/{region}/nc/",
@@ -46,20 +46,20 @@ ROOT_DIRECTORIES = {
 
 register_archive("ROOT_DIRECTORIES")(ROOT_DIRECTORIES)
 
-import pyearthtools_archive_NCI
+import site_archive_nci
 
-from pyearthtools_archive_NCI.ACCESS import ACCESS
-from pyearthtools_archive_NCI.AGCD import AGCD
-from pyearthtools_archive_NCI.BRAN import BRAN
-from pyearthtools_archive_NCI.BARRA import BARRA
-from pyearthtools_archive_NCI.BARRAV2 import BARRA_V2
-from pyearthtools_archive_NCI.BARPA import BARPA
-from pyearthtools_archive_NCI.ERA5 import ERA5
-from pyearthtools_archive_NCI.MODIS import MODIS
-from pyearthtools_archive_NCI.OceanMaps import OceanMaps
-from pyearthtools_archive_NCI.Himiwari import Himiwari
+from site_archive_nci.ACCESS import ACCESS
+from site_archive_nci.AGCD import AGCD
+from site_archive_nci.BRAN import BRAN
+from site_archive_nci.BARRA import BARRA
+from site_archive_nci.BARRAV2 import BARRA_V2
+from site_archive_nci.BARPA import BARPA
+from site_archive_nci.ERA5 import ERA5
+from site_archive_nci.MODIS import MODIS
+from site_archive_nci.OceanMaps import OceanMaps
+from site_archive_nci.Himawari import Himawari
 
-register_archive("NCI")(pyearthtools_archive_NCI)
+register_archive("NCI")(site_archive_nci)
 
 try:
     # NOTE: the `_version.py` file must not be present in the git repository

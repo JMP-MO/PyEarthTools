@@ -26,7 +26,7 @@ from pyearthtools.data.indexes import ArchiveIndex, decorators
 from pyearthtools.data.transforms import Transform, TransformCollection
 from pyearthtools.data.archive import register_archive
 
-from pyearthtools_archive_NCI.utilities import check_project
+from site_archive_nci.utilities import check_project
 
 BRAN_RESOLUTION = ["annual", "daily", "month", "static"]
 BRAN_TYPES_RESOLUTION = [(365, "D"), (1, "D"), (31, "D"), None]
@@ -55,7 +55,7 @@ class BRAN(ArchiveIndex):
     @decorators.variable_modifications(variable_keyword="variables")
     @decorators.check_arguments(
         resolution=BRAN_RESOLUTION,
-        variables="pyearthtools_archive_NCI.variables.BRAN.{resolution}.valid",
+        variables="site_archive_nci.variables.BRAN.{resolution}.valid",
     )
     def __init__(
         self,

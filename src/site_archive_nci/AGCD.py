@@ -25,11 +25,11 @@ from pyearthtools.data.indexes.utilities import spellcheck
 from pyearthtools.data.transforms import Transform, TransformCollection
 from pyearthtools.data.archive import register_archive
 
-from pyearthtools_archive_NCI.utilities import check_project
+from site_archive_nci.utilities import check_project
 
 AGCD_VARIABLES = ["tmax", "tmin", "precip", "vapourpres_h09"]  # vapourpres_h15
 
-AGCD_var_path = "pyearthtools_archive_NCI.variables.AGCD.{variable}.valid"
+AGCD_var_path = "site_archive_nci.variables.AGCD.{variable}.valid"
 AGCD_RENAME = {"vapourpres": "vapourpres_09"}
 
 

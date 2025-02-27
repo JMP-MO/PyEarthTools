@@ -24,8 +24,8 @@ from pyearthtools.data.indexes import ArchiveIndex, decorators
 from pyearthtools.data.transforms import Transform, TransformCollection
 from pyearthtools.data.archive import register_archive
 
-from pyearthtools_archive_NCI.utilities import check_project, cached_exists, cached_iterdir
-from pyearthtools_archive_NCI.ancilliary.ERA5 import ERA5_SINGLE_VARIABLES, ERA5_PRESSURE_VARIABLES
+from site_archive_nci.utilities import check_project, cached_exists, cached_iterdir
+from site_archive_nci.ancilliary.ERA5 import ERA5_SINGLE_VARIABLES, ERA5_PRESSURE_VARIABLES
 
 ERA_PROD = ["monthly-averaged", "monthly-averaged-by-hour", "reanalysis"]
 ERA_RES_RESOLUTION = [(1, "month"), (1, "month"), (1, "hour")]
@@ -53,7 +53,7 @@ class ERA5(ArchiveIndex):
     )
     @decorators.variable_modifications(variable_keyword="variables", remove_variables=False)
     @decorators.check_arguments(
-        struc="pyearthtools_archive_NCI.structure.ERA5.struc",
+        struc="site_archive_nci.structure.ERA5.struc",
     )
     @decorators.deprecated_arguments(
         level="`level` is deprecated in the ERA5 index. Simply provide the variables, `level` will be autofound."

@@ -18,9 +18,9 @@ from pyearthtools.data.indexes import Structured, VARIABLE_DEFAULT, VariableDefa
 from pyearthtools.data.transforms import Transform, TransformCollection
 from pyearthtools.data.archive import register_archive
 
-from pyearthtools_archive_NCI.utilities import check_project
+from site_archive_nci.utilities import check_project
 
-from pyearthtools_archive_NCI.ancilliary.BARRA_V2 import variable_rename, coarse_variables
+from site_archive_nci.ancilliary.BARRA_V2 import variable_rename, coarse_variables
 
 temporal_resolution = {
     "fx": None,
@@ -47,7 +47,7 @@ class BARRA_V2(Structured):
 
     @decorators.alias_arguments(variables=["variable"])
     @decorators.variable_modifications(variable_keyword="variables")
-    @decorators.check_arguments(struc="pyearthtools_archive_NCI.structure.BARRA_V2.struc")
+    @decorators.check_arguments(struc="site_archive_nci.structure.BARRA_V2.struc")
     def __init__(
         self,
         variables: list[str] | str,

@@ -29,7 +29,7 @@ from pyearthtools.data.transforms import Transform, TransformCollection
 
 from pyearthtools.data.archive import register_archive
 
-from pyearthtools_archive_NCI.utilities import check_project
+from site_archive_nci.utilities import check_project
 
 ACCESS_REGIONS = ["g", "bn", "ad", "sy", "vt", "ph", "nq", "dn"]
 ACCESS_REGIONS = [*ACCESS_REGIONS, *(x.upper() for x in ACCESS_REGIONS)]
@@ -96,7 +96,7 @@ class ACCESS(DataFileSystemIndex, ACCESS_UI_MIXIN):
     @decorators.check_arguments(
         region=ACCESS_REGIONS,
         datatype=ACCESS_DATATYPES,
-        variables="pyearthtools_archive_NCI.variables.ACCESS.{datatype}.valid",
+        variables="site_archive_nci.variables.ACCESS.{datatype}.valid",
     )
     def __init__(
         self,

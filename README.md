@@ -10,7 +10,7 @@ This package contains the `edit.Index`'s for the NCI, which consists of
 | BRAN                | Bluelink ReANalysis        |
 | OceanMaps           | Ocean Modelling and Analysis Prediction System        |
 | MODIS               | MODerate resolution Imaging Spectroradiometer       |
-| Himiwari            | Himiwari 8/9 satellite data       |
+| Himawari            | Himawari 8/9 satellite data       |
 | BARRA               | Bureau of meteorology Atmospheric high-resolution Regional Reanalysis for Australia       |
 
 ## Installation
