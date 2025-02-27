@@ -30,7 +30,7 @@ pip install nci/
 
 ## Usage
 
-If installed, this package will automatically be imported when `edit.data` is if the user is on NCI.
+If installed, this package will automatically be imported when `pyearthtools.data` is if the user is on NCI.
 
 It can also be explicitly imported if installed by,
 

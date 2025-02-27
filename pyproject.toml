@@ -47,4 +47,4 @@ warn_unused_configs = true
 where = ["src"] 
 
 [tool.setuptools_scm]
-version_file = "src/edit_archive_NCI/_version.py"
+version_file = "src/edit_archive_nci/_version.py"
