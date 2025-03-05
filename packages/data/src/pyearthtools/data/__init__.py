@@ -144,9 +144,3 @@ auto_import()
 
 """Config Root Directories"""
 archive.config_root()
-
-if pyearthtools.utils.config.get("data.future_warning"):
-    __python_warnings.warn(
-        "`pyearthtools` is under heavy development and may not continue to be supported.",
-        FutureWarning,
-    )
