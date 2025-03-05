@@ -1,0 +1,87 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyearthtools"
+description = "Reproducible science pipelines for machine learning"
+readme = "README.md"
+requires-python = ">=3.9"
+keywords = ["pyearthtools"]
+authors = [
+  {email = "harrison.cook@bom.gov.au"},
+  {name = "Harrison Cook"}
+]
+maintainers = [
+  {name = "Harrison Cook", email = "harrison.cook@bom.gov.au"}
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+version = "0.1.0"
+
+# FIXME replace with minimum versions once PyEarthTools is on PyPI
+# FIXME remove redundant dependencies once PyEarthTools is on PyPI
+[project.optional-dependencies]
+utils = [
+  "pyearthtools-utils @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/utils"
+]
+data = [
+  "pyearthtools-data @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/data",
+]
+pipeline = [
+  "pyearthtools-utils @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/utils",
+  "pyearthtools-data @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/data",
+  "pyearthtools-pipeline @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/pipeline"
+]
+training = [
+  "pyearthtools-utils @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/utils",
+  "pyearthtools-data @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/data",
+  "pyearthtools-pipeline @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/pipeline",
+  "pyearthtools-training @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/training"
+]
+all = [
+  "pyearthtools-utils @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/utils",
+  "pyearthtools-data[all] @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/data",
+  "pyearthtools-pipeline[all] @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/pipeline",
+  "pyearthtools-training[all] @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/training"
+]
+test = ["pytest"]
+docs = [
+  "sphinx",
+  "myst-parser",
+  "sphinx-book-theme",
+  "scores",
+  "xarray",
+  "pandas",
+  "scipy",
+  "bottleneck",
+  "nbsphinx",
+  "sphinx_gallery"
+]
+
+[project.urls]
+homepage = "https://pyearthtools.readthedocs.io/"
+documentation = "https://pyearthtools.readthedocs.io/"
+repository = "https://github.com/ACCESS-Community-Hub/PyEarthTools"
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 120
+
+[tool.mypy]
+warn_return_any = true
+warn_unused_configs = true
+
+# FIXME remove once PyEarthTools is published on PyPI
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+bypass-selection = true
+
+[tool.hatch.build.targets.sdist]
+only-include = ["pyproject.toml", "README.md", "LICENSE"]

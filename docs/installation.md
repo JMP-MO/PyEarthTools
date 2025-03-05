@@ -41,18 +41,18 @@ This is a so-called monorepo. PyEarthTools comprises multiple, modular packages 
 ### User installation
 
 Each of PyEarthTools package can be installed separately using `pip`, directly from GitHub.
-For example, to install the `pyearthtools-utils` package, use:
+For example, to install the `utils` sub-package, use:
 
 ```
-pip install git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/utils
+pip install "pyearthtools[utils] @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git"
 ```
 
-Other available packages are `pyearthtools-data`, `pyearthtools-pipeline` and `pyearthtools-training`, that can be installed as follows:
+Other available packages are `data`, `pipeline` and `training`.
+
+To install all PyEarthTools packages, including all their optional dependencies, use:
 
 ```
-pip install git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/data
-pip install git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/pipeline
-pip install git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/training
+pip install "pyearthtools[all] @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git"
 ```
 
 ## Developer installation
@@ -63,13 +63,19 @@ First clone this repository:
 
 ```
 git clone https://github.com/ACCESS-Community-Hub/PyEarthTools.git
+cd PyEarthTools
 ```
 
 and install all packages in "editable" mode with
 
 ```
-cd PyEarthTools/packages/<package-name>
-pip install -e ".[dev]"
+pip install -r requirements-dev.txt
+```
+
+or install a specific package `<package-name>` in editable mode using
+
+```
+pip install -e packages/<package-name>
 ```
 
 ### Jupyter Notebook - Advanced Installation Option
