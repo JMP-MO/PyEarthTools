@@ -51,7 +51,7 @@ Most of these kinds of code change can also be handled as a PR by the reviewer o
 
 In short - once you have made a PR, the maintainers may then take it, modify it, or include it as-is. However, every effort will be made to communicate about that process and make sure that the originator of the PR is happy with any modifications made.
 
-### Scope of a Code Review
+## Scope of a Code Review
 
 A code review is responsible for checking the following:
 

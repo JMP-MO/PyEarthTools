@@ -1,11 +1,16 @@
 # Data Catalogues
 
+```{Caution}
+    This page is a work in progress and is currently highly incomplete
+```
+
 Table of Contents
 
-- What, why and how of data cataloguing
+- Introduction (What, why and how of data cataloguing)
+- The role of data in science and machine learning
 - Connecting directly to cloud data storage
-- Creating a project-based data catalogue
 - Creating an on-disk catalogue
+- Creating a project-based data catalogue
 - Using the "Intake" package to facilitate catalogue management
 - Separating project data from general open data
 - Creating new datasets for sharing and cataloguing
@@ -28,7 +33,7 @@ Secondly, machine learning systems which are only trained on closed data sources
 
 Thirdly, publishing research (or even operational/official) data from a new model allows others to evaluate, compare and assess the efficacy of models. 
 
-## Connecting directly to cloud storage
+## Connecting directly to cloud data storage
 
 It is technically possible to access all data via a network, without involving a local on-disk cache. For model inference, this is reasonably efficient. For model training which required repeated access of the relevant data, using cloud storage directly is very inefficient. 
 
@@ -37,3 +42,10 @@ It is technically possible to access all data via a network, without involving a
 1. Manually creating an on-disk catalogue through dataset replication, and connecting to it with PyEarthTools
 2. Connecting to a cloud-based or remote data store, and using PyEarthTools to create an on-disk cache
 
+## Creating a project-based data catalogue
+
+## Using the "Intake" package to facilitate catalogue management
+
+## Separating project data from general open data
+
+## Creating new datasets for sharing and cataloguing

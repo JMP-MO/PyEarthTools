@@ -72,6 +72,8 @@ PyEarthTools utilises:
  - Each function must be added explicitly to api.md. The autogeneration tools are not sophisticated enough to process
    the import structure used to define the public API neatly.
 
+## This section covers checking the documentation renders properly in readthedocs
+
 ### Common rendering issues in readthedocs
 
 Frequent issues include:
