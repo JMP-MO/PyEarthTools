@@ -17,3 +17,13 @@ def test_cut_center_rectangle():
     x = np.zeros((10, 10))
     result = cut_center(x, (6, 4))
     assert result.shape == (6, 4)
+
+def test_cut_center_large_size():
+    x = np.zeros((10, 10))
+    with pytest.raises(TesselatorException):
+        cut_center(x, (11, 5))
+
+def test_cut_center_invalid_size():
+    x = np.zeros((10, 10))
+    with pytest.raises(TesselatorException):
+        cut_center(x, (6, 4, 2))
