@@ -67,7 +67,7 @@ def cut_center(data: np.ndarray, size: Union[int, tuple[int, int]]) -> np.ndarra
         size = (size, size)
 
     if size[0] > data.shape[-2] or size[1] > data.shape[-1]:
-        raise TesselatorException(f"Unable to trim data to large then its size." f"{size} > {data.shape[-2:]}")
+        raise TesselatorException(f"Unable to trim data to large than its size." f"{size} > {data.shape[-2:]}")
 
     if isinstance(size, Iterable) and len(size) == 2:
         trim_offset = (int(size[0]) / 2, int(size[1]) / 2)
