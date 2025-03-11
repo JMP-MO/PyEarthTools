@@ -145,7 +145,6 @@ def test_center():
     Then it takes the center of the last two dimensions.
     Then it reorders the center to the original format "THWC".
     """
-    x = np.zeros((10, 10, 10, 1)) #THWC
-    result = center(x, (6, 4), "THWC") #Take 
+    x = np.zeros((10, 10, 10, 1)) # Original format "THWC"
+    result = center(x, (6, 4), "THWC")
     assert result.shape == (10, 6, 4, 1)
-    
