@@ -392,7 +392,8 @@ class SingleTimeIndex(Index):
 
             if interval.resolution > self.data_resolution:  # Higher Resolution
                 warnings.warn(
-                    f"Data requested at a higher resolution than available. {interval.resolution} > {self.data_resolution}",
+                    f"Data requested at a higher resolution than available. {interval.resolution} > {self.data_resolution}"
+                    "You may have over-specified a date-time string",
                     IndexWarning,
                 )
 
@@ -976,8 +977,10 @@ class ArchiveIndex(AdvancedTimeDataIndex, FileSystemIndex):
                     return super().search(*args)
 
                 if date.resolution > self.data_resolution:  # Higher Resolution
+
                     warnings.warn(
-                        f"Data requested at a higher resolution than available. {date.resolution} > {self.data_resolution}",
+                        f"Data requested at a higher resolution than available. {date.resolution} > {self.data_resolution}"
+                        "You may have over-specified a date time string.",
                         IndexWarning,
                     )
                     args[0] = date.at_resolution(self.data_resolution)

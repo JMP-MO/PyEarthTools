@@ -149,6 +149,7 @@ class TimeResolution:
         Raises:
             TypeError: If unable to parse value
         """
+
         resolution: VALID_RESOLUTIONS | None = None
 
         if isinstance(value, dict):
