@@ -34,5 +34,18 @@ jobs:
         # package rather than the local files creating a coverage report of 0%
         pip install -r requirements-dev.txt
         pytest --cov=packages/data --cov=packages/utils --cov=packages/pipeline --cov=packages/training
+    - name: Coveralls GitHub Action
+      uses: coverallsapp/github-action@v2.3.0
+      with:
+        flag-name: run-${{ join(matrix.*, '-') }}
+        parallel: true
+  finish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Indicate Coveralls Parallel Finished
+      uses: coverallsapp/github-action@v2.3.0
+      with: 
+        parallel-finished: true                
 
   
