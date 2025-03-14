@@ -42,6 +42,12 @@ def test_branch_with_split():
     assert pipe[1] == (1, 1)
 
 
+def test_split_join():
+
+    s = Split()
+    s.join(None)
+
+
 class SpliterUnImplemented(branching.Spliter):
     ...
 
