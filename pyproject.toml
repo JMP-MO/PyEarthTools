@@ -85,3 +85,12 @@ bypass-selection = true
 
 [tool.hatch.build.targets.sdist]
 only-include = ["pyproject.toml", "README.md", "LICENSE"]
+
+[tool.pytest.ini_options]
+addopts = [
+    '--cov-fail-under=99',
+    '--cov-branch',
+    '--cov-report=html',
+    '--cov-report=term-missing',
+    '--junitxml=report.xml',
+]
