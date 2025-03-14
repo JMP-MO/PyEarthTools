@@ -46,6 +46,19 @@ class AllowsOnlyTuples(Operation):
         return sample
 
 
+def test_untested_lines():
+    '''
+    Test the parts of the test classes which aren't hit by the tests below...
+    '''
+    o = EmptyOperation()
+    s = o.undo_func("sample")
+    assert s == "sample"
+
+    o = AllowsOnlyTuples(True, int)  # The constructor values are unimportant
+    s = o.undo_func("sample")
+    assert s == "sample"
+
+
 @pytest.mark.parametrize(
     "split, type",
     [
