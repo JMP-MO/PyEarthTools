@@ -31,6 +31,7 @@ def test_iterators():
         (iterators.Predefined([1, 2, 3]), 3),
         (iterators.DateRange("2020-01-01T00", "2020-01-02T00", (1, "hour")), 24),
         (iterators.DateRangeLimit("2020-01-01T00", (1, "hour"), 3), 3),
+        (iterators.Predefined([]), None),
     ],
 )
 def test_iterators_many(iterator, length):
