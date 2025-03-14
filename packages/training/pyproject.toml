@@ -85,3 +85,10 @@ path = "src/pyearthtools/training/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/pyearthtools/"]
+
+# pyproject.toml
+[tool.pytest.ini_options]
+testpaths = [
+    "packages/pipeline/tests",
+    "packages/utils/tests",
+]
