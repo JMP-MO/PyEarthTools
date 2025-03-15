@@ -32,8 +32,14 @@ jobs:
       run: |
         # editable is necessary as pytest will run against the installed
         # package rather than the local files creating a coverage report of 0%
-        pip install -r requirements-dev.txt
-        pytest --cov=packages/data --cov=packages/utils --cov=packages/pipeline --cov=packages/training
+       pip install -e packages/utils
+       pip install -e packages/data[all]
+       pip install -e packages/training[all]
+       pip install -e packages/pipeline[all]
+       pip install -e packages/tutorial
+       pip install -e .[test,docs]
+
+        pytest --cov=packages/data --cov=packages/utils --cov=packages/pipeline --cov=packages/training 
     - name: Coveralls GitHub Action
       uses: coverallsapp/github-action@v2.3.0
       with:
