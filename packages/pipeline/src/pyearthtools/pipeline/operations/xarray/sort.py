@@ -32,7 +32,7 @@ class Sort(Operation):
 
     _override_interface = "Serial"
 
-    def __init__(self, order: Optional[list[str]], safe: bool = False):
+    def __init__(self, order: Optional[list[str]]=None, safe: bool = False):
         """
 
         Sort `xarray` variables
@@ -60,7 +60,7 @@ class Sort(Operation):
         )
         self.record_initialisation()
 
-    def apply_func(self, data: T) -> T:
+    def apply_func(self, data: xr.Dataset) -> xr.Dataset:
         """Sort an `xarray` object data variables into the given order
 
         Args:
