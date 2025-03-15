@@ -1,4 +1,4 @@
-# Copyright Commonwealth of Australia, Bureau of Meteorology 2024.
+# Copyright Commonwealth of Australia, Bureau of Meteorology 2025.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,9 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from pyearthtools.utils.initialisation import init_parsing
 
-"""
-Utilities for parsing
-"""
+def test_InitialisationRecord():
 
-from pyearthtools.utils.parsing.names import function_name
+	ir = init_parsing.InitialisationRecord([1,2,3,4], kwargs = {"a": "foo"})
+
+	assert ir.args == [1,2,3,4]
