@@ -51,6 +51,7 @@ from typing import Any, Callable, Optional
 import types
 import warnings
 from functools import lru_cache
+import io
 
 from pyearthtools.utils.parsing import function_name
 from pyearthtools.utils.initialisation.imports import dynamic_import
@@ -521,7 +522,7 @@ class Catalog:
         return {key: value.to_dict() for key, value in self._catalog.items()}
 
     def save(self, 
-        output_file: str | Path | None = None, 
+        output_file: str | Path | io.IOBase | None = None, 
         direct_load: bool = False) -> None | dict:
         """
         Save Catalog to specified file
@@ -536,14 +537,6 @@ class Catalog:
                 the index is returned instead.
                 Defaults to False
         """
-        if output_file:
-            output_file = Path(output_file)
-            output_file.parent.mkdir(parents=True, exist_ok=True)
-
-            # if output_file.suffix:
-            #     output_file = Path(str(output_file).replace(output_file.suffix, FILE_EXTENSION))
-            if not output_file.suffix:
-                output_file = Path(str(output_file) + FILE_EXTENSION)
 
         save_catalog = self.to_dict()
 
@@ -553,16 +546,31 @@ class Catalog:
         save_catalog["direct_load"] = direct_load
         save_catalog["VERSION"] = pyearthtools.data.__version__
 
-        if output_file:
-            try:
-                with open(output_file, "w") as file:
-                    yaml.dump(save_catalog, file, sort_keys=False)
-            except PermissionError as e:
-                warnings.warn(
-                    f"Could not save to {output_file!s}, due to a PermissionError",
-                    UserWarning,
-                )
-            return
+        if not output_file:
+            return save_catalog
+
+
+        if isinstance(output_file, io.IOBase):
+            fileIO = output_file
+        else:
+            output_file = Path(output_file)
+            output_file.parent.mkdir(parents=True, exist_ok=True)
+
+            if not output_file.suffix:
+                output_file = Path(str(output_file) + FILE_EXTENSION)    
+
+            fileIO = open(output_file, "w")
+
+        try:            
+            yaml.dump(save_catalog, fileIO, sort_keys=False)
+        except PermissionError as e:
+            warnings.warn(
+                f"Could not save to {output_file!s}, due to a PermissionError",
+                UserWarning,
+            )
+
+        fileIO.close()
+
         return save_catalog
 
     @staticmethod
