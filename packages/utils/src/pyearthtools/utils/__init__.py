@@ -30,8 +30,6 @@ from pyearthtools.utils.initialisation import load, save, dynamic_import
 import pyearthtools
 import importlib.util
 
-xarray_imported = importlib.util.find_spec("xarray") is not None
-if xarray_imported:
-    from pyearthtools.utils import data
+from pyearthtools.utils import data
 
 setattr(pyearthtools, "config", config)
