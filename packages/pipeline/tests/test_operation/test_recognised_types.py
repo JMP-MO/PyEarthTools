@@ -47,9 +47,9 @@ class AllowsOnlyTuples(Operation):
 
 
 def test_untested_lines():
-    '''
+    """
     Test the parts of the test classes which aren't hit by the tests below...
-    '''
+    """
     o = EmptyOperation()
     s = o.undo_func("sample")
     assert s == "sample"

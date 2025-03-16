@@ -34,21 +34,17 @@ SIMPLE_DA1 = xr.DataArray(
     dims=["height", "lat", "lon"],
 )
 SIMPLE_DS1 = xr.Dataset({"Temperature": SIMPLE_DA1})
-SIMPLE_DS2 = xr.Dataset({
-	"Humidity": SIMPLE_DA1,
-	"Temperature": SIMPLE_DA1,
-	"WombatsPerKm2": SIMPLE_DA1
-	}
-)
+SIMPLE_DS2 = xr.Dataset({"Humidity": SIMPLE_DA1, "Temperature": SIMPLE_DA1, "WombatsPerKm2": SIMPLE_DA1})
+
 
 def test_Sort():
 
-	s = sort.Sort()
-	s.apply_func(SIMPLE_DS1)
+    s = sort.Sort()
+    s.apply_func(SIMPLE_DS1)
 
-	s = sort.Sort(order=["Temperature", "Humidity"], safe=False)
-	s.apply_func(SIMPLE_DS2)	
+    s = sort.Sort(order=["Temperature", "Humidity"], safe=False)
+    s.apply_func(SIMPLE_DS2)
 
-	with pytest.raises(RuntimeError):
-		s = sort.Sort(order=["Temperature", "Humidity"], safe=True)
-		s.apply_func(SIMPLE_DS2)	
+    with pytest.raises(RuntimeError):
+        s = sort.Sort(order=["Temperature", "Humidity"], safe=True)
+        s.apply_func(SIMPLE_DS2)

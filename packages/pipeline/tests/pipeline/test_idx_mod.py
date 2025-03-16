@@ -23,6 +23,7 @@ from pyearthtools.pipeline import Pipeline, modifications
 from pyearthtools.pipeline import Operation
 from pyearthtools.data import Index
 
+
 class FakeIndex(Index):
     """Simply returns the `idx` or `override`."""
 
@@ -44,6 +45,7 @@ class MultiplicationOperation(Operation):
 
     def undo_func(self, sample):
         return sample // self.factor
+
 
 pyearthtools.utils.config.set({"pipeline.run_parallel": False})
 

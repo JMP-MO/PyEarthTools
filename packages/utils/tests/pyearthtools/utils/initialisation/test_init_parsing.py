@@ -14,20 +14,21 @@
 
 from pyearthtools.utils.initialisation import init_parsing
 
+
 def test_InitialisationRecord():
-	'''
-	This test is providing coverage only, not checking correctness
-	'''
+    """
+    This test is providing coverage only, not checking correctness
+    """
 
-	ir = init_parsing.InitialisationRecord([1,2,3,4], kwargs = {"a": "foo"})
+    ir = init_parsing.InitialisationRecord([1, 2, 3, 4], kwargs={"a": "foo"})
 
-	assert ir.args == [1,2,3,4]
+    assert ir.args == [1, 2, 3, 4]
 
 
 def test_parse_class_init_keys():
-	'''
-	This test is providing coverage only, not checking correctness
-	'''
+    """
+    This test is providing coverage only, not checking correctness
+    """
 
-	result = init_parsing.parse_class_init_keys(str)
-	(r_self, r_args, r_kwargs) = result
+    result = init_parsing.parse_class_init_keys(str)
+    (r_self, r_args, r_kwargs) = result

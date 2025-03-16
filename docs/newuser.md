@@ -61,6 +61,3 @@ BRAN[doi] # Get BRAN data at doi
 
 > [!NOTE]
 > This section of the documentation is currently under development
-
-
-

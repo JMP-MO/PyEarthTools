@@ -521,9 +521,7 @@ class Catalog:
         """Get catalog as dictionary"""
         return {key: value.to_dict() for key, value in self._catalog.items()}
 
-    def save(self, 
-        output_file: str | Path | io.IOBase | None = None, 
-        direct_load: bool = False) -> None | dict:
+    def save(self, output_file: str | Path | io.IOBase | None = None, direct_load: bool = False) -> None | dict:
         """
         Save Catalog to specified file
 
@@ -549,7 +547,6 @@ class Catalog:
         if not output_file:
             return save_catalog
 
-
         if isinstance(output_file, io.IOBase):
             fileIO = output_file
         else:
@@ -557,11 +554,11 @@ class Catalog:
             output_file.parent.mkdir(parents=True, exist_ok=True)
 
             if not output_file.suffix:
-                output_file = Path(str(output_file) + FILE_EXTENSION)    
+                output_file = Path(str(output_file) + FILE_EXTENSION)
 
             fileIO = open(output_file, "w")
 
-        try:            
+        try:
             yaml.dump(save_catalog, fileIO, sort_keys=False)
         except PermissionError as e:
             warnings.warn(

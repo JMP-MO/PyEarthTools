@@ -25,7 +25,6 @@ from tests.fake_pipeline_steps import FakeIndex
 pyearthtools.utils.config.set({"pipeline.run_parallel": False})
 
 
-
 def test_branch_with_join_invalid():
     pipe = Pipeline((FakeIndex(1), FakeIndex(2)), branching.unify.Equality())
     assert pipe[1] == (1, 2)

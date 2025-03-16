@@ -44,6 +44,7 @@ class Merge(Joiner):
     def unjoin(self, sample: Any) -> tuple:
         return super().unjoin(sample)
 
+
 class InterpLike(Joiner):
     """
     Merge a tuple of xarray object's.

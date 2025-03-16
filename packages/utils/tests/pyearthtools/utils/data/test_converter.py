@@ -17,37 +17,37 @@ from pyearthtools.utils.data import converter
 import xarray as xr
 import pytest
 
-SIMPLE_DATA_ARRAY = xr.DataArray([1,2,3,4,5])
+SIMPLE_DATA_ARRAY = xr.DataArray([1, 2, 3, 4, 5])
 SIMPLE_DATA_SET = xr.Dataset({"Entry": SIMPLE_DATA_ARRAY})
 
 
 def test_NumpyConverter():
-	'''
-	This test provides coverage, but does not test for 
-	correctness
-	'''
+    """
+    This test provides coverage, but does not test for
+    correctness
+    """
 
-	# This round-trips convert and unconvert
-	nc = converter.NumpyConverter()
-	np_array1 = nc.convert_from_xarray(SIMPLE_DATA_ARRAY)
+    # This round-trips convert and unconvert
+    nc = converter.NumpyConverter()
+    np_array1 = nc.convert_from_xarray(SIMPLE_DATA_ARRAY)
 
-	# FIXME
-	#xr_da1 = nc.convert_to_xarray(np_array1)	
+    # FIXME
+    # xr_da1 = nc.convert_to_xarray(np_array1)
 
-	# Test conversion from xarray works
-	nc = converter.NumpyConverter()
-	np_array2 = nc.convert_from_xarray(SIMPLE_DATA_SET)		
+    # Test conversion from xarray works
+    nc = converter.NumpyConverter()
+    np_array2 = nc.convert_from_xarray(SIMPLE_DATA_SET)
 
 
 def test_DaskConverter():
-	'''
-	This test provides coverage, but does not test for 
-	correctness
-	'''
+    """
+    This test provides coverage, but does not test for
+    correctness
+    """
 
-	dc = converter.DaskConverter()
+    dc = converter.DaskConverter()
 
-	da_array1 = dc.convert_from_xarray(SIMPLE_DATA_ARRAY)
+    da_array1 = dc.convert_from_xarray(SIMPLE_DATA_ARRAY)
 
-	# FIXME
-	# xr_da1 = dc.convert_to_xarray(da_array1)	
+    # FIXME
+    # xr_da1 = dc.convert_to_xarray(da_array1)

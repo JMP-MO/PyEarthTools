@@ -32,7 +32,7 @@ class Sort(Operation):
 
     _override_interface = "Serial"
 
-    def __init__(self, order: Optional[list[str]]=None, safe: bool = False):
+    def __init__(self, order: Optional[list[str]] = None, safe: bool = False):
         """
 
         Sort `xarray` variables

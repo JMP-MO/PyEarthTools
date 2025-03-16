@@ -18,95 +18,81 @@ from collections import namedtuple
 import pytest
 import io
 
+
 def test_get_name():
 
-	result = catalog.get_name("testname")
-	assert result == 'testname'
+    result = catalog.get_name("testname")
+    assert result == "testname"
 
-	result = catalog.get_name(pyearthtools.data)
-	assert '''pyearthtools.data' from ''' in result
+    result = catalog.get_name(pyearthtools.data)
+    assert """pyearthtools.data' from """ in result
 
-	result = catalog.get_name(type(pyearthtools.data))
-	assert result == 'type'
+    result = catalog.get_name(type(pyearthtools.data))
+    assert result == "type"
 
-	mockObj = namedtuple("Mock", ['name'])("mockName")
-	result = catalog.get_name(mockObj)
-	assert result == "Mock(name='mockName')"
+    mockObj = namedtuple("Mock", ["name"])("mockName")
+    result = catalog.get_name(mockObj)
+    assert result == "Mock(name='mockName')"
 
-	mockObj = namedtuple("Mock2", ['noname'])("mockName2")
-	result = catalog.get_name(mockObj)
-	assert result == "Mock2(noname='mockName2')"
+    mockObj = namedtuple("Mock2", ["noname"])("mockName2")
+    result = catalog.get_name(mockObj)
+    assert result == "Mock2(noname='mockName2')"
+
 
 def test_CatalogEntry():
+    def mockEntry():
+        return "foo"
 
-	def mockEntry():
-		return "foo"	
+    ce = catalog.CatalogEntry(mockEntry, args=[], name="MockEntry")
 
-	ce = catalog.CatalogEntry(
-			mockEntry,
-			args=[],
-			name="MockEntry"
-		)
+    with pytest.raises(NotImplementedError):
+        ce()
 
-	with pytest.raises(NotImplementedError):
-		ce()
+    with pytest.raises(AttributeError):
 
-	with pytest.raises(AttributeError):
+        error = ce.__getattr__("item_class")
 
-		error = ce.__getattr__('item_class')
+    with pytest.raises(AttributeError):
+        ce.nonexisting
 
+    assert ce.name == "MockEntry"
 
-	with pytest.raises(AttributeError):
-		ce.nonexisting
+    as_dict = ce.to_dict()
+    assert as_dict["args"] == []
+    assert as_dict["item_class"] == "test_catalog.mockEntry"
 
-	assert ce.name == "MockEntry"
+    therepr = repr(ce)
+    assert "MockEntry - test_catalog.mockEntry" in therepr
 
-	as_dict = ce.to_dict()
-	assert as_dict['args'] == []
-	assert as_dict['item_class'] == 'test_catalog.mockEntry'
-
-	therepr = repr(ce)
-	assert "MockEntry - test_catalog.mockEntry" in therepr
 
 def test_Catalog():
+    def mockEntry():
+        return "foo"
 
-	def mockEntry():
-		return "foo"	
+    ce = catalog.CatalogEntry(mockEntry, args=[], name="MockEntry")
 
-	ce = catalog.CatalogEntry(
-			mockEntry,
-			args=[],
-			name="MockEntry"
-		)
+    cat = catalog.Catalog(catalog_name="Test Catalog", entries={"TestEntryKey": ce})
 
-	cat = catalog.Catalog(catalog_name="Test Catalog", entries={"TestEntryKey": ce})	
+    # Dictionary conversion
+    as_dict = cat.to_dict()
+    entrykey = as_dict["TestEntryKey"]
+    assert entrykey["name"] == "TestEntryKey"
 
-	# Dictionary conversion
-	as_dict = cat.to_dict()
-	entrykey = as_dict["TestEntryKey"] 
-	assert entrykey['name'] == 'TestEntryKey'
+    # Saving to file
+    output_io = io.StringIO()
+    save_dict = cat.save(output_io)  # Smoke test a save operation
 
-	# Saving to file
-	output_io = io.StringIO()
-	save_dict = cat.save(output_io)  # Smoke test a save operation
+    # Create and pop
+    cat = catalog.Catalog(catalog_name="Test Catalog", entries={"TestEntryKey": ce})
+    popped = cat.pop("TestEntryKey")
+    assert popped == ce
 
-	# Create and pop
-	cat = catalog.Catalog(catalog_name="Test Catalog", entries={"TestEntryKey": ce})	
-	popped = cat.pop("TestEntryKey")
-	assert popped == ce
+    # Confirm can't pop the same thing twice
+    with pytest.raises(KeyError):
+        popped = cat.pop("TestEntryKey")
 
-	# Confirm can't pop the same thing twice
-	with pytest.raises(KeyError):
-		popped = cat.pop("TestEntryKey")
-
-	# Create and remove
-	cat = catalog.Catalog(catalog_name="Test Catalog", entries={"TestEntryKey": ce})	
-	cat.remove("TestEntryKey")
-	with pytest.raises(KeyError):
-		popped = cat.remove("TestEntryKey")
-
-
-
-
-
-
+    # Create and remove
+    cat = catalog.Catalog(catalog_name="Test Catalog", entries={"TestEntryKey": ce})
+    cat.remove("TestEntryKey")
+    with pytest.raises(KeyError):
+        popped = cat.remove("TestEntryKey")

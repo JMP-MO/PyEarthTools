@@ -33,6 +33,7 @@ class FakeIndex(Index):
     def get(self, idx):
         return self._overrideValue or idx
 
+
 class ReplaceOnKey(Operation):
     def __init__(self, **replaces):
         super().__init__(operation="apply")

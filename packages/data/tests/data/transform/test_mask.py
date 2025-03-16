@@ -33,14 +33,10 @@ SIMPLE_DA1 = xr.DataArray(
     dims=["height", "lat", "lon"],
 )
 SIMPLE_DS1 = xr.Dataset({"Temperature": SIMPLE_DA1})
-SIMPLE_DS2 = xr.Dataset({
-	"Humidity": SIMPLE_DA1,
-	"Temperature": SIMPLE_DA1,
-	"WombatsPerKm2": SIMPLE_DA1
-	}
-)
+SIMPLE_DS2 = xr.Dataset({"Humidity": SIMPLE_DA1, "Temperature": SIMPLE_DA1, "WombatsPerKm2": SIMPLE_DA1})
+
 
 def test_check_operations():
 
-	masker = mask.Replace(0.0, '==', np.nan)
-	result = masker.apply(SIMPLE_DA1)
+    masker = mask.Replace(0.0, "==", np.nan)
+    result = masker.apply(SIMPLE_DA1)

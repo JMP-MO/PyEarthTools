@@ -14,19 +14,21 @@
 
 from pyearthtools.utils.repr_utils import standard
 
-def test_clean_repr():
-	'''
-	Currently this test just fills in uncovered lines for regression testing
-	'''
 
-	test_object = ['a'] * 20
-	cleaned = standard.clean_repr(test_object)
-	assert isinstance(cleaned, str)
+def test_clean_repr():
+    """
+    Currently this test just fills in uncovered lines for regression testing
+    """
+
+    test_object = ["a"] * 20
+    cleaned = standard.clean_repr(test_object)
+    assert isinstance(cleaned, str)
+
 
 def test_summarise_kwargs():
-	'''
-	Currently this test just fills in uncovered lines for regression testing
-	'''	
+    """
+    Currently this test just fills in uncovered lines for regression testing
+    """
 
-	result = standard.summarise_kwargs(None, 5)
-	assert result == []
+    result = standard.summarise_kwargs(None, 5)
+    assert result == []

@@ -31,4 +31,3 @@
 #        stream_logger_level: "INFO"
 #    pipeline:
 #        stream_logger_level: "WARNING"
-

@@ -18,22 +18,24 @@ from pyearthtools.data.indexes.utilities.mixins import index_repr
 
 from pyearthtools.data.catalog import Catalog
 
+
 def fake_append(self, other, name):
 
-	pass
+    pass
+
 
 class MixableTestClass(index_repr.reprMixin):
+    def __init__(self):
 
-	def __init__(self):
+        self.values = {}
+        self.catalog = Catalog(catalog_name="Test catalog", entries={})
+        self.base_transforms = {}
+        self.preprocess_transforms = {}
 
-		self.values = {}
-		self.catalog = Catalog(catalog_name="Test catalog", entries={})
-		self.base_transforms = {}
-		self.preprocess_transforms = {}
 
 def test_repr_mixin():
 
-	subject = MixableTestClass()
+    subject = MixableTestClass()
 
-	r = repr(subject)
-	h = subject._repr_html_()  # Used by Jupyter
+    r = repr(subject)
+    h = subject._repr_html_()  # Used by Jupyter

@@ -34,23 +34,19 @@ SIMPLE_DA1 = xr.DataArray(
     dims=["height", "lat", "lon"],
 )
 SIMPLE_DS1 = xr.Dataset({"Temperature": SIMPLE_DA1})
-SIMPLE_DS2 = xr.Dataset({
-	"Humidity": SIMPLE_DA1,
-	"Temperature": SIMPLE_DA1,
-	"WombatsPerKm2": SIMPLE_DA1
-	}
-)
+SIMPLE_DS2 = xr.Dataset({"Humidity": SIMPLE_DA1, "Temperature": SIMPLE_DA1, "WombatsPerKm2": SIMPLE_DA1})
+
 
 def test_Aggregate():
-	'''
-	This test just provides coverage, it does not test for correctness
-	'''
+    """
+    This test just provides coverage, it does not test for correctness
+    """
 
-	a = aggregation.Aggregate('mean')
-	a.apply(SIMPLE_DS2)
+    a = aggregation.Aggregate("mean")
+    a.apply(SIMPLE_DS2)
 
-	a2 = aggregation.over(dimension="height", method="mean")
-	a2.apply(SIMPLE_DS2)
+    a2 = aggregation.over(dimension="height", method="mean")
+    a2.apply(SIMPLE_DS2)
 
-	a3 = aggregation.leaving(dimension="height", method="mean")
-	a3.apply(SIMPLE_DS2)
+    a3 = aggregation.leaving(dimension="height", method="mean")
+    a3.apply(SIMPLE_DS2)

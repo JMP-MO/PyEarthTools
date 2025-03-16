@@ -52,8 +52,7 @@ SIMPLE_DA2 = xr.DataArray(
 )
 SIMPLE_DS2 = xr.Dataset({"Entry2": SIMPLE_DA2})
 
+
 def test_SpatialInterpolation():
 
-	si = interpolation.SpatialInterpolation(
-		SIMPLE_DS1, SIMPLE_DS2
-		)
+    si = interpolation.SpatialInterpolation(SIMPLE_DS1, SIMPLE_DS2)
