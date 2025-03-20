@@ -155,7 +155,8 @@ class FileSystemIndex(Index, metaclass=ABCMeta):
                 Path to data defined by arguments
         """
         try:
-            return getattr(self, pyearthtools.utils.config.get("data.search_function"))(*args, **kwargs)
+            search_function = getattr(self, pyearthtools.utils.config.get("data.search_function"))
+            return search_function(*args, **kwargs)
         except TypeError as e:
             raise TypeError(
                 "An error arose when searching for data, likely the required arguments were not given"
