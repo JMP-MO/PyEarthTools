@@ -464,17 +464,12 @@ class Flatten(Transform):
         return new_ds
 
 
-@BackwardsCompatibility(Flatten)
-def flatten(*args, **kwargs) -> Transform:
-    ...
-
-
 class Expand(Transform):
     """Inverse operation to `Flatten`"""
 
     def __init__(self, coordinate: Hashable | list[Hashable] | tuple[Hashable], *extra_coordinates):
         """
-        Inverse operation to [flatten][pyearthtools.data.transforms.coordinate.flatten]
+        Inverse operation to [flatten][pyearthtools.data.transforms.coordinate.Flatten]
 
         Will find flattened variables and regroup them upon the extra coordinate
 
@@ -554,15 +549,10 @@ def SelectFlatten(
         coordinates = {}
     coordinates.update(extra_coordinates)
 
-    select_trans = select(coordinates, ignore_missing=True, tolerance=tolerance)
-    flatten_trans = flatten(list(coordinates.keys()))
+    select_trans = Select(coordinates, ignore_missing=True, tolerance=tolerance)
+    flatten_trans = Flatten(list(coordinates.keys()))
 
     return select_trans + flatten_trans
-
-
-@BackwardsCompatibility(SelectFlatten)
-def select_flatten(*args, **kwargs) -> TransformCollection:
-    ...
 
 
 class Assign(Transform):

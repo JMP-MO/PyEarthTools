@@ -15,6 +15,13 @@ da360 = xr.DataArray(coords={"longitude": lon360}, dims=["longitude"])
 da_wrongname = xr.DataArray(coords={"longname": lon180}, dims=["longname"])
 da_unclear = xr.DataArray(coords={"longitude": lon_unclear}, dims=["longitude"])
 
+ds_vertical = xr.Dataset(
+	coords = {"longitude": list(range(0, 4)),
+			  "vertical": list(range(0, 3))},
+	data_vars = {"temperature": (["longitude", "vertical"], 
+		np.random.rand(4,3))}
+	)
+
 def test_get_longitude():
 
     longitude_type = coordinates.get_longitude(da180, transform=False)
@@ -66,33 +73,38 @@ def test_Select():
 
 def test_Drop():
 
-	data = np.random.rand(4,3)
-	da = xr.DataArray(
-		coords = {"longitude": list(range(0, 4)),
-				  "vertical": list(range(0, 3))},
-		dims = ["longitude", "vertical"],
-		data = data
-		)
-
 	tf_drop = coordinates.Drop("vertical")
-	result = tf_drop.apply(da)
+	result = tf_drop.apply(ds_vertical)
 
 	# TODO: Assert that the dimension has been dropped
 
 def test_Flatten():
 
-	data = np.random.rand(4,3)
-	da = xr.DataArray(
-		coords = {"longitude": list(range(0, 4)),
-				  "vertical": list(range(0, 3))},
-		dims = ["longitude", "vertical"],
-		data = data
-		)
 
 	tf_flatten = coordinates.Flatten("vertical")
-	# result = tf_flatten.apply(da)
+	result = tf_flatten.apply(ds_vertical)
 
-	# TODO: Assert the flattened array looks correct
+	# TODO: Assert the flattened data looks correct
+
+def test_Expand():
+
+	tf_expand = coordinates.Expand("vertical")
+	result = tf_expand.apply(ds_vertical)
+
+	# TODO: Assert the expanded dataset has a vertical dimension
+
+
+def test_SelectFlatten():
+
+	tf_selectflatten = coordinates.SelectFlatten(
+		{"longitude": slice(10, 120)}
+		)
+
+	with pytest.raises(NotImplementedError):
+		result = tf_selectflatten.apply(ds_vertical)
+		# TODO fix the code or avoid the issue
+
+	# TODO: Check the values of the resulting dataset
 
 	
 
