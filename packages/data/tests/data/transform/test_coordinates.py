@@ -50,3 +50,58 @@ def test_StandardLongitude():
 	# TODO - shouldn't this be true?
 	# assert xr.testing.assert_equal(fixed, da180)	
 
+def test_ReIndex():
+
+	tf_reindex = coordinates.ReIndex({"longitude": "reversed"})
+	tf_reindex.apply(da180)
+	# TODO: Assert the range of the reversed coordinate is 180 to -180
+
+def test_Select():
+
+	tf_select = coordinates.Select({"longitude": slice(10, 120)})
+	result = tf_select.apply(da180)
+	assert result is not None
+	# TODO: Check the result against the requested slice
+
+
+def test_Drop():
+
+	data = np.random.rand(4,3)
+	da = xr.DataArray(
+		coords = {"longitude": list(range(0, 4)),
+				  "vertical": list(range(0, 3))},
+		dims = ["longitude", "vertical"],
+		data = data
+		)
+
+	tf_drop = coordinates.Drop("vertical")
+	result = tf_drop.apply(da)
+
+	# TODO: Assert that the dimension has been dropped
+
+def test_Flatten():
+
+	data = np.random.rand(4,3)
+	da = xr.DataArray(
+		coords = {"longitude": list(range(0, 4)),
+				  "vertical": list(range(0, 3))},
+		dims = ["longitude", "vertical"],
+		data = data
+		)
+
+	tf_flatten = coordinates.Flatten("vertical")
+	# result = tf_flatten.apply(da)
+
+	# TODO: Assert the flattened array looks correct
+
+	
+
+def test_weak_cast_to_int():
+
+	wcti = coordinates.weak_cast_to_int
+
+	assert wcti(5.0) == 5
+	assert type(wcti(5.0)) == int
+
+	assert wcti("hello") == "hello"
+

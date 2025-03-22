@@ -151,7 +151,9 @@ class ReIndex(Transform):
     """Reindex Coordinates"""
 
     def __init__(
-        self, coordinates: dict[str, Literal["reversed", "sorted"] | Iterable] | xr.Coordinates | None = None, **coords
+        self, 
+        coordinates: dict[str, Literal["reversed", "sorted"] | Iterable] | xr.Coordinates | None = None, 
+        **coords
     ):
         """
         Reindex coordinates
@@ -367,12 +369,11 @@ class Drop(Transform):
         return dataset
 
 
-@BackwardsCompatibility(Drop)
-def drop(*args, **kwargs) -> Transform:
-    ...
-
-
-def cast_to_int(value):
+def weak_cast_to_int(value):
+    '''
+    Basically, turns integer floats to int types, otherwise
+    does nothing.
+    '''
     try:
         if int(value) == value:
             value = int(value)
@@ -448,12 +449,12 @@ class Flatten(Transform):
             coord_size = coord_size if isinstance(coord_size, np.ndarray) else np.array(coord_size)
 
             if coord_size.size == 1 and False:
-                coord_val = cast_to_int(dataset[var][discovered_coord].values)
+                coord_val = weak_cast_to_int(dataset[var][discovered_coord].values)
                 new_ds[f"{var}{coord_val}"] = Drop(discovered_coord, ignore_missing=True)(dataset[var])
 
             else:
                 for coord_val in dataset[discovered_coord]:
-                    coord_val = cast_to_int(coord_val.values.item())
+                    coord_val = weak_cast_to_int(coord_val.values.item())
 
                     selected = dataset[var].sel(**{discovered_coord: coord_val})  # type: ignore
                     selected = selected.drop(discovered_coord)  # type: ignore

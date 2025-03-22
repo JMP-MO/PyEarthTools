@@ -170,7 +170,7 @@ class OpenData(DownloadIndex):
             **RENAME_DICT  # type: ignore
         ) + pyearthtools.data.transforms.variables.variable_trim(
             *variables
-        )  # + pyearthtools.data.transforms.coordinates.drop("meanSea", "valid_time", "heightAboveGround", "entireAtmosphere", ignore_missing=True)
+        )  # + pyearthtools.data.transforms.coordinates.Drop("meanSea", "valid_time", "heightAboveGround", "entireAtmosphere", ignore_missing=True)
 
         if levels:
             transforms += pyearthtools.data.transforms.coordinates.Select(level=levels, ignore_missing=True)
