@@ -321,10 +321,6 @@ class Select(Transform):
         return dataset
 
 
-@BackwardsCompatibility(Select)
-def select(*args, **kwargs) -> Transform:
-    ...
-
 
 class Drop(Transform):
     """Drop items from Dataset"""

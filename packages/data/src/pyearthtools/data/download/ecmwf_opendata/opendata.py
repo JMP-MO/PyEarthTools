@@ -173,7 +173,7 @@ class OpenData(DownloadIndex):
         )  # + pyearthtools.data.transforms.coordinates.drop("meanSea", "valid_time", "heightAboveGround", "entireAtmosphere", ignore_missing=True)
 
         if levels:
-            transforms += pyearthtools.data.transforms.coordinates.select(level=levels, ignore_missing=True)
+            transforms += pyearthtools.data.transforms.coordinates.Select(level=levels, ignore_missing=True)
 
         pattern_kwargs = kwargs.pop("pattern_kwargs", {})
         pattern_kwargs.update(variables=self._variables)
