@@ -248,11 +248,6 @@ class StandardCoordinateNames(Transform):
         return dataset
 
 
-@BackwardsCompatibility(StandardCoordinateNames)
-def force_standard_coordinate_names(*args, **kwargs) -> Transform:
-    ...
-
-
 class Select(Transform):
     """Select on Coordinates"""
 
