@@ -45,6 +45,7 @@ def check_if_exists(path: VALID_PATH_TYPES) -> bool:
     """
     if isinstance(path, list):
         return all(map(check_if_exists, path))
+
     return os.path.exists(path)
 
 
@@ -108,7 +109,10 @@ class keep_clear:
 
     def __init__(self, path: VALID_PATH_TYPES, enter: bool = True, exit: bool = True):
         """
-        Delete paths upon entrance and/or exit
+        Delete paths upon entrance and/or exit (this is a fully-qualified path/filename)
+        Basically useful for temporary files with known names that can be deleted
+        if they're already there
+
 
         Args:
             path (VALID_PATH_TYPES):
@@ -248,7 +252,6 @@ class ManageTemp:
 
 
 SLEEP_INTERVAL = 0.1
-
 
 class ManageFiles:
     """

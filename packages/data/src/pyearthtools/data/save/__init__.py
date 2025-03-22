@@ -20,6 +20,6 @@ Automatically infers how to save the data based on the type
 """
 
 from pyearthtools.data.save.dispatcher import save
-from pyearthtools.data.save.utils import ManageFiles, ManageTemp
+from pyearthtools.data.save.save_utils import ManageFiles, ManageTemp
 
 __all__ = ["save", "ManageFiles", "ManageTemp"]

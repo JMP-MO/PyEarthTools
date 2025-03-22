@@ -21,7 +21,7 @@ from typing import Any
 import numpy as np
 
 from pyearthtools.data.indexes import FileSystemIndex
-from pyearthtools.data.save.utils import ManageFiles
+from pyearthtools.data.save.save_utils import ManageFiles
 
 VALID_EXTENSIONS = [".npy", ".numpy"]
 ARRAY_TIMEOUT = 10

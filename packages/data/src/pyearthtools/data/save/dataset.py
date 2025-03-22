@@ -23,7 +23,7 @@ import xarray as xr
 
 import pyearthtools.utils
 from pyearthtools.data.indexes import FileSystemIndex
-from pyearthtools.data.save.utils import ManageFiles
+from pyearthtools.data.save.save_utils import ManageFiles
 
 VALID_EXTENSIONS = [".nc", ".netcdf"]
 DATASET_TIMEOUT = 60
