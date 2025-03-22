@@ -74,7 +74,7 @@ def get_longitude(data: xr.Dataset | xr.DataArray, transform: bool = True) -> VA
     ) -> VALID_COORDINATE_DEFINITIONS | Transform:
         if not transform:
             return coord_orientation
-        return standard_longitude(coord_orientation)
+        return StandardLongitude(coord_orientation)
 
     if any(data.longitude.values > 180):
         return _return("0-360")
@@ -145,11 +145,6 @@ class StandardLongitude(Transform):
             dataset = _standardise(dataset)
 
         return dataset
-
-
-@BackwardsCompatibility(StandardLongitude)
-def standard_longitude(type: VALID_COORDINATE_DEFINITIONS = "-180-180") -> Transform:
-    ...
 
 
 class ReIndex(Transform):

@@ -42,7 +42,7 @@ def get_default_transforms(
 
     if intelligence_level > 0:
         transforms.append(pyearthtools.data.transforms.coordinates.StandardCoordinateNames(**REPLACEMENT_NAMES))  # type: ignore
-        # transforms.append(pyearthtools.data.transforms.coordinates.standard_longitude())
+        # transforms.append(pyearthtools.data.transforms.coordinates.StandardLongitude())
     # if intelligence_level > 1:
     #     transforms.append(pyearthtools.data.transforms.coordinates.set_type("float"))
 
