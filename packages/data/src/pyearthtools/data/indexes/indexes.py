@@ -164,9 +164,9 @@ class FileSystemIndex(Index, metaclass=ABCMeta):
 
     def exists(self, *args, **kwargs) -> bool:
         """
-        Check if data exists, by checking if the file from `search()` exists
 
-        Passes all args to `search()`
+        First, use `search(*args, **kwargs)` to find all matching files, Paths or identifiers
+        Then use `check_existence` to confirm the found data object
 
         Returns:
             (bool):

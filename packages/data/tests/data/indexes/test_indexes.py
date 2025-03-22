@@ -1,0 +1,54 @@
+
+from pyearthtools.data import indexes
+import pyearthtools.data.archive
+import pytest
+import pathlib
+
+def test_Index(monkeypatch):
+
+	monkeypatch.setattr("pyearthtools.data.indexes.Index.__abstractmethods__", set())
+
+	idx = indexes.Index()
+
+	with pytest.raises(NotImplementedError):
+		idx.get()
+
+	with pytest.raises(NotImplementedError):
+		idx()
+
+def test_FileSystemIndex(monkeypatch):
+
+	monkeypatch.setattr("pyearthtools.data.indexes.Index.__abstractmethods__", set())
+	fsi = indexes.FileSystemIndex()
+	with pytest.raises(NotImplementedError):
+		fsi.filesystem("anything")
+
+	# Confirm the test begins without a root directory set
+	monkeypatch.delattr(pyearthtools.data.archive, "ROOT_DIRECTORIES", raising=False)
+	fsi = indexes.FileSystemIndex()
+	with pytest.raises(KeyError):
+		fsi.ROOT_DIRECTORIES
+
+	# Confirm the FSI responds to the root directory variable correctly
+	monkeypatch.setattr(pyearthtools.data.archive, "ROOT_DIRECTORIES", "Hello", raising=False)
+	fsi = indexes.FileSystemIndex()
+	assert fsi.ROOT_DIRECTORIES == "Hello"
+
+
+	monkeypatch.setattr(fsi, 'filesystem', lambda x: __file__, raising=False)
+	assert fsi.search("needle") == __file__
+
+	# Check the current Python file exists
+	assert fsi.exists(__file__)
+	assert fsi.exists(pathlib.Path(__file__))
+	assert fsi.exists({"a": __file__})
+	assert fsi.exists((__file__, __file__))
+
+	with pytest.raises(KeyError):
+		assert fsi.load(__file__) is not None
+		# TODO test actual netcdf file loading
+
+	with pytest.raises(KeyError):
+		assert fsi.get(__file__) is not None
+		# TODO test actual netcdf file getting
+
