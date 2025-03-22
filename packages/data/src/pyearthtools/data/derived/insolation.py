@@ -52,8 +52,8 @@ class Insolation(AdvancedTimeDerivedValue):
 
     def __init__(
         self,
-        latitude,
-        longitude,
+        latitude: Iterable,
+        longitude: Iterable,
         interval: tuple[int, str] | int | str | None = None,
         *,
         S: float = 1.0,
@@ -107,7 +107,7 @@ class Insolation(AdvancedTimeDerivedValue):
         # self._enforce_2d = enforce_2d
         self._clip_zero = clip_zero
 
-    def derive(self, time) -> xr.Dataset:
+    def derive(self, time: pd.Timestamp) -> xr.Dataset:
         n_dim = len(self._latitude.shape)
 
         time = np.atleast_1d(time)
@@ -122,7 +122,7 @@ class Insolation(AdvancedTimeDerivedValue):
         beta = ar.sqrt(1 - ecc**2.0)
 
         # Get the day of year as a float.
-        start_years = np.array([pd.Timestamp(pd.Timestamp(d).year, 1, 1) for d in time], dtype="datetime64")
+        start_years = np.array([pd.Timestamp(pd.Timestamp(d.item()).year, 1, 1) for d in time], dtype="datetime64")
         days_arr = (np.array(time, dtype="datetime64") - start_years) / np.timedelta64(1, "D")
 
         for d in range(n_dim):
@@ -162,6 +162,8 @@ class Insolation(AdvancedTimeDerivedValue):
             data_vars={"insolation": (["time", "latitude", "longitude"], array(sol))},
             coords={"time": time, "latitude": self._latitude[:, 0], "longitude": self._longitude[0, :]},
         )
+
+
         insolation.time.encoding.update(
             {"dtype": "int32", "units": "hours since 1900-01-01 00:00:00.0", "calendar": "gregorian"}
         )
