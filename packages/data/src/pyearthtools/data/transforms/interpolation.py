@@ -258,21 +258,21 @@ class InterpolateNan(Transform):
 
     def apply(self, dataset: xr.Dataset) -> xr.Dataset:
         if self._keep_encoding:
-            encod = pyearthtools.data.transforms.attributes.set_encoding(reference=dataset)
+            encode = pyearthtools.data.transforms.attributes.set_encoding(reference=dataset)
         else:
 
-            def encod(x):
+            def encode(x):
                 return x
 
-        revert_reindex = pyearthtools.data.transforms.coordinates.reindex(dataset.coords)  # type: ignore
-        reindex = pyearthtools.data.transforms.coordinates.reindex(
+        tr_revert_reindex = pyearthtools.data.transforms.coordinates.ReIndex(dataset.coords)  # type: ignore
+        tf_reindex = pyearthtools.data.transforms.coordinates.ReIndex(
             {key: "sorted" for key in dataset.coords if len(np.atleast_1d(dataset.coords[key].values)) > 1}
         )  # type: ignore
 
         if self._fill_value is not None:
             self._kwargs["fill_value"] = self._fill_value
-        return revert_reindex(
-            encod(reindex(dataset).interpolate_na(dim=self._dim, method=self._method, **self._kwargs))
+        return tf_revert_reindex(
+            encode(tf_reindex(dataset).interpolate_na(dim=self._dim, method=self._method, **self._kwargs))
         )  # type: ignore
 
 

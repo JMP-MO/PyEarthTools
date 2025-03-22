@@ -207,11 +207,6 @@ class ReIndex(Transform):
         return dataset
 
 
-@BackwardsCompatibility(ReIndex)
-def reindex(*args, **kwargs) -> Transform:
-    ...
-
-
 class StandardCoordinateNames(Transform):
     """Convert xr.Dataset Coordinate Names into Standard Naming Scheme"""
 
