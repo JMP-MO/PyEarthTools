@@ -553,6 +553,7 @@ class Pipeline(_Pipeline, Index):
                 try:
                     return pipeline_self[idx]
                 except pipeline_self._exceptions_to_ignore:  # type: ignore
+                    # TODO: add a "log" mode to the exception-ignoring capability
                     return None
 
         return catch()
@@ -688,7 +689,6 @@ class Pipeline(_Pipeline, Index):
 
         raise ValueError(f"Cannot find step for {id!r}.")
 
-    @property
     def as_steps(pipeline_self):
         """
         Get an indexable object to recreate pipeline with a subset of steps.
@@ -706,7 +706,8 @@ class Pipeline(_Pipeline, Index):
                     return Pipeline(*steps[: pipeline_self.index(idx)])
                 return Pipeline(*steps[idx])
 
-        return StepIndexer()
+        si = StepIndexer()
+        return si
 
     def index(self, id: Union[str, Type]) -> int:
         """
@@ -747,12 +748,12 @@ class Pipeline(_Pipeline, Index):
 
             return Pipeline(*args, **new_init)
 
-        elif isinstance(other, (PipelineIndex, PipelineStep)):
-            init = dict(self.initialisation)
-            args = (*init.pop("__args", []), other)
-            return Pipeline(*args, **init)
+        assert isinstance(other, (PipelineIndex, PipelineStep))
+        init = dict(self.initialisation)
+        args = (*init.pop("__args", []), other)
+        return Pipeline(*args, **init)
 
-        return NotImplemented
+
 
     def save(self, path: Optional[Union[str, Path]] = None, only_steps: bool = False) -> Union[str, None]:
         """
