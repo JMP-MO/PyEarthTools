@@ -41,7 +41,11 @@ def test_get_name():
 
 def test_CatalogEntry():
     def mockEntry():
+        '''
+        Dummy function for catalog entry
+        '''
         return "foo"
+    mockEntry() 
 
     ce = catalog.CatalogEntry(mockEntry, args=[], name="MockEntry")
 
@@ -68,6 +72,7 @@ def test_CatalogEntry():
 def test_Catalog():
     def mockEntry():
         return "foo"
+    mockEntry()
 
     ce = catalog.CatalogEntry(mockEntry, args=[], name="MockEntry")
 
