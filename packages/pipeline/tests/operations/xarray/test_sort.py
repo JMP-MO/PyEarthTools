@@ -43,16 +43,20 @@ def test_Sort():
     s.apply_func(SIMPLE_DS1)
 
     s = sort.Sort(order=["Temperature", "Humidity"], strict=False)
-    s.apply_func(SIMPLE_DS2)
+    r = s.apply_func(SIMPLE_DS2)
+    assert list(r.data_vars) == ["Temperature", "Humidity", "WombatsPerKm2"]
 
     s = sort.Sort(order=["Humidity", "Temperature"], strict=False)
-    s.apply_func(SIMPLE_DS2)    
+    r = s.apply_func(SIMPLE_DS2)    
+    assert list(r.data_vars) == ["Humidity", "Temperature", "WombatsPerKm2"]
 
     s = sort.Sort(order=["Temperature", "Humidity", "KangaroosPerCmSq"], strict=False)
-    s.apply_func(SIMPLE_DS2)    
+    r = s.apply_func(SIMPLE_DS2)    
+    assert list(r.data_vars) == ["Temperature", "Humidity", "WombatsPerKm2"]
 
     s = sort.Sort(order=["Temperature", "Humidity", None], strict=False)
-    s.apply_func(SIMPLE_DS2)        
+    r = s.apply_func(SIMPLE_DS2)        
+    assert list(r.data_vars) == ["Temperature", "Humidity", "WombatsPerKm2"]
 
     s = sort.Sort(order=["Temperature", "Humidity", "WombatsPerKm2"], strict=True)
     s.apply_func(SIMPLE_DS2)    
