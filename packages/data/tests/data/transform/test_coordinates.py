@@ -35,7 +35,6 @@ def test_get_longitude():
 
     with pytest.raises(ValueError):
         longitude_type = coordinates.get_longitude(da_wrongname, transform=False)
-        assert longitude_type == "-180-180"
 
     with pytest.raises(ValueError):
         result = coordinates.get_longitude(da_unclear, transform=False)
