@@ -32,18 +32,18 @@ class Sort(Operation):
 
     _override_interface = "Serial"
 
-    def __init__(self, order: Optional[list[str]] = None, safe: bool = False):
+    def __init__(self, order: Optional[list[str]] = None, strict: bool = False):
         """
 
         Sort `xarray` variables
 
         Args:
-            order (list[str], optional):
+            order:
                 Order to set vars to, if not given sort alphabetically,
                 or add others to the end.
-                Cannot be None if `safe` is `True`.
+                Cannot be None if `strict` is `True`.
                 Defaults to None.
-            safe (bool, optional):
+            strict:
                 Forces all variables to be listed in `order`, and no extras given.
                 Defaults to False.
         """
@@ -51,7 +51,7 @@ class Sort(Operation):
             order = []
 
         self.order = list(order)
-        self.safe = safe
+        self.strict = strict
 
         super().__init__(
             split_tuples=True,
@@ -74,8 +74,9 @@ class Sort(Operation):
         current_data_vars = list(data.data_vars)
         order = self.order
 
-        if self.safe:
-            diff = set(current_data_vars).difference(set(order)).union(set(order).difference(set(current_data_vars)))
+        if self.strict:
+
+            diff = set(current_data_vars).symmetric_difference(set(order))
             extra_vars = set(current_data_vars) - set(order)
             missing_vars = set(order) - set(current_data_vars)
             if not len(diff) == 0:
@@ -83,6 +84,7 @@ class Sort(Operation):
                     f"When sorting, the data passed {('contained extra: '+ str(extra_vars)) if extra_vars else ''}{' and/or' if extra_vars and missing_vars else ''}{(' missed: '+ str(missing_vars)) if missing_vars else ''}"
                 )
 
+        # The default (empty) ordering should be a default-sort-ordering sort
         if order is None or len(order) == 0:
             order = [str(index) for index in current_data_vars]
             order.sort()
@@ -93,14 +95,12 @@ class Sort(Operation):
             for var in order:
                 if var in add_to:
                     add_to.remove(var)
-            # add_to.sort()
             order.extend(add_to)
             self.order = list(order)
 
         order = list(order)
         filtered_order: list = [ord for ord in order if ord in current_data_vars]
-        while None in filtered_order:
-            filtered_order.remove(None)
+        filtered_order = [n for n in filtered_order if n is not None]
 
         new_data = data[[filtered_order.pop(0)]]
 

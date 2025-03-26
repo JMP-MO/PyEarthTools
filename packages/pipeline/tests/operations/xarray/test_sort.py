@@ -42,9 +42,21 @@ def test_Sort():
     s = sort.Sort()
     s.apply_func(SIMPLE_DS1)
 
-    s = sort.Sort(order=["Temperature", "Humidity"], safe=False)
+    s = sort.Sort(order=["Temperature", "Humidity"], strict=False)
     s.apply_func(SIMPLE_DS2)
 
+    s = sort.Sort(order=["Humidity", "Temperature"], strict=False)
+    s.apply_func(SIMPLE_DS2)    
+
+    s = sort.Sort(order=["Temperature", "Humidity", "KangaroosPerCmSq"], strict=False)
+    s.apply_func(SIMPLE_DS2)    
+
+    s = sort.Sort(order=["Temperature", "Humidity", None], strict=False)
+    s.apply_func(SIMPLE_DS2)        
+
+    s = sort.Sort(order=["Temperature", "Humidity", "WombatsPerKm2"], strict=True)
+    s.apply_func(SIMPLE_DS2)    
+
     with pytest.raises(RuntimeError):
-        s = sort.Sort(order=["Temperature", "Humidity"], safe=True)
+        s = sort.Sort(order=["Temperature", "Humidity"], strict=True)
         s.apply_func(SIMPLE_DS2)
