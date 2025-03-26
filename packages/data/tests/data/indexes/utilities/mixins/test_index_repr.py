@@ -19,11 +19,6 @@ from pyearthtools.data.indexes.utilities.mixins import index_repr
 from pyearthtools.data.catalog import Catalog
 
 
-def fake_append(self, other, name):
-
-    pass
-
-
 class MixableTestClass(index_repr.reprMixin):
     def __init__(self):
 
