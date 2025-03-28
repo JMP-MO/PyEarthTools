@@ -26,7 +26,7 @@ import tqdm.auto as tqdm
 import logging
 
 
-from pyearthtools.data.time import TimeDelta, Petdt, TimeRange 
+from pyearthtools.data.time import TimeDelta, Petdt, TimeRange
 
 from pyearthtools.pipeline.controller import Pipeline
 from pyearthtools.training.wrapper.wrapper import ModelWrapper
@@ -151,8 +151,7 @@ class TimeSeriesPredictor(Predictor):
         return self.fix_time_dim(idx, reversed_data)
 
     @abstractmethod
-    def recurrent(self, idx, steps: int, **kwargs):
-        ...
+    def recurrent(self, idx, steps: int, **kwargs): ...
 
     def prepare_output(self, output):
         """Hook to prepare output for inputs"""
