@@ -26,7 +26,7 @@ import tqdm.auto as tqdm
 import logging
 
 
-from pyearthtools.data import TimeDelta, Petdt, TimeRange
+from pyearthtools.data.time import TimeDelta, Petdt, TimeRange 
 
 from pyearthtools.pipeline.controller import Pipeline
 from pyearthtools.training.wrapper.wrapper import ModelWrapper
