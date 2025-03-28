@@ -773,7 +773,7 @@ class Pipeline(_Pipeline, Index):
 
     def _ipython_display_(self):
         """Override for repr of `Pipeline`, shows initialisation arguments and graph"""
-        from IPython.core.display import display, HTML
+        from IPython.display import display, HTML
 
         display(HTML(self._repr_html_()))
 
