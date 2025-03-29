@@ -39,7 +39,7 @@ def filter_files(
     files: list[str | Path] | tuple[str | Path],
 ) -> list[str | Path] | tuple[str | Path]:
     """
-    Filter blacklisted files out
+    Filter disallowed files out
     """
     new_files = []
     for file in files:

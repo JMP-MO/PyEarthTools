@@ -22,20 +22,20 @@ from typing import Any
 import tqdm.auto as tqdm
 
 
-def filter_blacklisted(names: list[str], blacklisted: list[str]) -> list[str]:
+def filter_disallowed(names: list[str], disallowed: list[str]) -> list[str]:
     """
-    Remove `blacklisted` elements from `names`
+    Remove `disallowed` elements from `names`
     """
     filtered: list[str] = []
     for name in names:
-        if name not in blacklisted:
+        if name not in disallowed:
             filtered.append(name)
     return filtered
 
 
-def get_structure(top: str | Path, blacklisted: list[str], verbose: bool = False) -> dict[str, Any]:
+def get_structure(top: str | Path, disallowed: list[str], verbose: bool = False) -> dict[str, Any]:
     """
-    Get path structure, removing `blacklisted` entries
+    Get path structure, removing `disallowed` entries
     """
     top = Path(top)
     walker = os.walk(top)
@@ -45,10 +45,10 @@ def get_structure(top: str | Path, blacklisted: list[str], verbose: bool = False
     for dirpath, dirnames, _ in tqdm.tqdm(walker, disable=not verbose):
         sub_dict = structure
         for component in Path(dirpath).relative_to(top).parts:
-            if component in blacklisted:
+            if component in disallowed:
                 continue
             if not component in sub_dict:
-                sub_dict[component] = {} if filter_blacklisted(dirnames, blacklisted) else None
+                sub_dict[component] = {} if filter_disallowed(dirnames, disallowed) else None
             sub_dict = sub_dict[component]
     return structure
 
@@ -71,10 +71,10 @@ def clean_structure(dictionary: dict) -> dict | list:
     return dictionary
 
 
-def structure(top: str | Path, blacklisted: list[str] = [], verbose: bool = False) -> dict[str, dict | list | str]:
+def structure(top: str | Path, disallowed: list[str] = [], verbose: bool = False) -> dict[str, dict | list | str]:
     """Construct a file structure as a descending dictionary.
 
-    Any `blacklisted` folders will be ignored
+    Any `disallowed` folders will be ignored
 
     If a folder's subfolders have no subfolders beneath it, that entry is
     a list representative of the subfolders of the first folder.
@@ -99,7 +99,7 @@ def structure(top: str | Path, blacklisted: list[str] = [], verbose: bool = Fals
     Args:
         top (str | Path):
             Root path to begin structure at
-        blacklisted (list[str], optional):
+        disallowed (list[str], optional):
             Blacklisted folder names to exclude. Defaults to [].
         verbose (bool, optional):
             Print while creating. Defaults to False.
@@ -110,4 +110,4 @@ def structure(top: str | Path, blacklisted: list[str] = [], verbose: bool = Fals
 
 
     """
-    return clean_structure(get_structure(top, blacklisted, verbose=verbose))
+    return clean_structure(get_structure(top, disallowed, verbose=verbose))

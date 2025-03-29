@@ -73,7 +73,7 @@ def split_dictionary(dictionary: dict[str, dict] = {}, **kwargs) -> list[list[st
 @entry_point.command(name="structure")
 @click.argument("top", type=click.Path())
 @click.option(
-    "--blacklisted",
+    "--disallowed",
     "-b",
     type=str,
     multiple=True,
@@ -87,7 +87,7 @@ def split_dictionary(dictionary: dict[str, dict] = {}, **kwargs) -> list[list[st
     help="Save location, if not given print out.",
 )
 @click.option("--verbose/--quiet", type=bool, default=False)
-def create_structure(top, blacklisted, save, verbose):
+def create_structure(top, disallowed, save, verbose):
     """
     Generate a structure file for use in argument checking
 
@@ -102,7 +102,7 @@ def create_structure(top, blacklisted, save, verbose):
     import yaml
 
     structure_dict: dict[str, dict | list] = {}
-    structure_d: dict[str, dict[str, Any] | list[str]] = structure(top, blacklisted=blacklisted, verbose=verbose)  # type: ignore
+    structure_d: dict[str, dict[str, Any] | list[str]] = structure(top, disallowed=disallowed, verbose=verbose)  # type: ignore
 
     response = input(f"Would you like to specify the order? (Yes/No): ")
     order = []
