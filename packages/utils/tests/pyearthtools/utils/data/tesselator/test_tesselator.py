@@ -14,6 +14,7 @@
 
 
 import numpy as np
+import xarray as xr
 
 import pytest
 
@@ -113,3 +114,24 @@ def test_tesselator_grid(imgsize, kernel_size, stride_size):
 
     assert fake_data.shape == t_rebuild.shape  # Shapes are the same
     assert (fake_data == t_rebuild).all()  # Values agree
+
+
+def test_tesselator_set_coords():
+    # Sketching out some testing for the _set_coords methdo
+
+    t = Tesselator(10)
+    da = xr.DataArray(coords = {"lat": list(range(0,100)),
+                                  "lon": list(range(0,100))  },
+                        data=np.ones((100,100)))
+    t._set_coords(da)
+
+def test_stitch():
+
+    t = Tesselator(10)
+    da = xr.DataArray(coords = {"lat": list(range(0,100)),
+                                  "lon": list(range(0,100))  },
+                        data=np.ones((100,100)))
+
+    patches = t.patch(da)
+    t.stitch(patches)
+
