@@ -21,6 +21,8 @@ CLASS_NAME_TO_TRIM = "pyearthtools.data"
 def format_class_name(class_to_find: object) -> list[str]:
     """
     Format class name for use in normalisation caching
+    Strip out 'pyearthtools.data' from class names and use the rest
+    as the identifiers
 
     Args:
         class_to_find (str): Class to find name for
@@ -28,10 +30,12 @@ def format_class_name(class_to_find: object) -> list[str]:
     Returns:
         list[str]: Components of class name
     """
+
+    # e.g. "<class 'pyearthtools.data.time.Petdt'>"
     class_str = str(class_to_find.__class__).split("'")[1]
     class_str = class_str.replace(CLASS_NAME_TO_TRIM, "")
     class_str_list = class_str.strip().split(".")
 
-    if "" in class_str_list:
-        class_str_list.remove("")
-    return []
+    class_str_list = [e for e in class_str_list if e != ""]
+
+    return class_str_list
