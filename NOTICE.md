@@ -10,4 +10,4 @@ The file packages/utils/src/pyearthtools/utils/parsing/init_parsing.py contains 
 
 The file packages/data/src/pyearthtools/data/indexes/utilities/folder_size.py contains code from https://stackoverflow.com/questions/1392413/calculating-a-directorys-size-using-python, released under Creative Commons BY-SA 4.0 (International).
 
-The file packages/data/src/edit/data/indexes/extensions.py extends and is largely sourced from https://github.com/pydata/xarray/blob/main/xarray/core/extensions.py, released under the Apache 2.0 license.
+The file packages/data/src/pyearthtools/data/indexes/extensions.py extends and is largely sourced from https://github.com/pydata/xarray/blob/main/xarray/core/extensions.py, released under the Apache 2.0 license.
