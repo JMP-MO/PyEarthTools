@@ -1,4 +1,4 @@
-# PyEarthTools Data Indexing
+# PyEarthTools Data
 
 This is the data sub-package which forms a part of the [PyEarthTools package](https://github.com/ACCESS-Community-Hub/PyEarthTools).
 
