@@ -60,7 +60,7 @@ def aggregation(
 
     if reduce_dims:
         aggregation_func = aggr_trans.over(aggregation, reduce_dims)  # type: ignore
-    elif preserve_dims:
+    else:
         aggregation_func = aggr_trans.leaving(aggregation, preserve_dims)  # type: ignore
 
     return aggregation_func(dataset)
