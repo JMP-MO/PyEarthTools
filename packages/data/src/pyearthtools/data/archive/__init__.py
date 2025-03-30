@@ -36,15 +36,8 @@ More archives can be added by wrapping a class with [register_archive][pyearthto
 """
 
 from pyearthtools.data.archive.extensions import register_archive
-
 from pyearthtools.data.archive.root import set_root, reset_root, config_root
-
-
-ZARR_IMPORTED = True
-try:
-    from pyearthtools.data.archive.zarr import ZarrIndex, ZarrTimeIndex  # noqa: F401
-except (ImportError, ModuleNotFoundError):
-    ZARR_IMPORTED = False
+from pyearthtools.data.archive.zarr import ZarrIndex, ZarrTimeIndex  
 
 
 __all__ = [
@@ -52,7 +45,6 @@ __all__ = [
     "reset_root",
     "config_root",
     "register_archive",
+    "ZarrIndex",
+    "ZarrTimeIndex"
 ]
-
-if ZARR_IMPORTED:
-    __all__.extend(["ZarrIndex", "ZarrTimeIndex"])

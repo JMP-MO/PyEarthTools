@@ -86,10 +86,4 @@ from pyearthtools.data.patterns.expanded_date import (
 )
 from pyearthtools.data.patterns.static import Static
 from pyearthtools.data.patterns.parser import ParsingPattern
-
-
-ZARR_IMPORTED = True
-try:
-    from pyearthtools.data.patterns.zarr import ZarrIndex, ZarrTimeIndex  # noqa: F401
-except (ImportError, ModuleNotFoundError):
-    ZARR_IMPORTED = False
+from pyearthtools.data.patterns.zarr import ZarrIndex, ZarrTimeIndex  
