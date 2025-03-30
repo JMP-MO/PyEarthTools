@@ -22,7 +22,7 @@ from __future__ import annotations
 import xarray as xr
 from typing import Literal
 
-from pyearthtools.data import TimeDelta
+from pyearthtools.data.time import TimeDelta
 
 
 BINNING_SETUP = {  # Base Binning setup
@@ -99,8 +99,6 @@ def binning(
     bins = BINNING_SETUP[setup]
 
     if expand:
-        if setup not in DELTA and bins[-1] < delta:
-            raise ValueError(f"As {setup!r} does not have a defined `DELTA` cannot expand bins.")
 
         while bins[-1] < delta:
             bins.append(bins[-1] + DELTA[setup])
