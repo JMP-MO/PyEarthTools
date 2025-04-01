@@ -29,6 +29,11 @@
             "orcid": "https://orcid.org/0000-0003-3430-2456",
             "affiliation": "Met Office, United Kingdom",
             "name": "Haddad, Stephen"
+        },
+        {
+            "orcid": "https://orcid.org/0009-0001-6250-3987",
+            "affiliation": "Met Office, United Kingdom",
+            "name": "Pill, John"
         }
     ],
     "license": "Apache-2.0"
