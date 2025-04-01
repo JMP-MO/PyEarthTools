@@ -14,9 +14,8 @@
 
 
 import numpy as np
-import xarray as xr
-
 import pytest
+import xarray as xr
 
 from pyearthtools.utils.data import Tesselator
 
