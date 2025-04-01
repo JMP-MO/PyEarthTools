@@ -1,6 +1,7 @@
 import xarray as xr
 
 from pyearthtools.data.indexes import cacheIndex
+import tempfile
 
 
 def test_get_size():
@@ -13,5 +14,20 @@ def test_get_size():
 
 def test_MemCache():
 
-    mc = cacheIndex.FunctionalMemCacheIndex("pattern", {"a": "b"}, function=str)
+    mc = cacheIndex.FunctionalMemCacheIndex("PatternIndex", 
+                                            {"transforms": None}, 
+                                            function=str)
+    assert mc.size != 0
+
+    assert mc.pattern is not None
+    # assert mc.get_hash() is not None
+
     mc.cleanup()
+
+def test_FileSystemCacheIndex():
+
+    with tempfile.TemporaryDirectory() as tempdir:
+
+        fsci = cacheIndex.FunctionalCacheIndex(tempdir,
+                                               function=str)
+        assert fsci.cache is not None
