@@ -1,8 +1,9 @@
 # This workflow will install and run the interrogate package to check for missing docstrings
 
-
 name: Run interrogate
 
+# Interrogate is currently triggered by pushes to the repository which is helpful for testing. 
+# Consider when we want to run interrogate, such as on pull-request.
 on: push
 
 permissions:
