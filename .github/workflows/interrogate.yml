@@ -23,7 +23,7 @@ jobs:
                 pip install .[dev]
             - name: interrogate checks
               run: |
-                python -m install interrogate
+                python -m pip install interrogate
                 interrogate --fail-under 40 --ignore "*/__init__.py" --ignore "*/__main__.py" --output docstring-coverage.txt
                 ls -l
             - name: Upload docstring-coverage
