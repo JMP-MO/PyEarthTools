@@ -266,12 +266,14 @@ class Variables:
         return {key: data[val] for key, val in self.np_slices(order=order).items()}
 
     @overload
-    def add(self, data: D, incoming: tuple[D], category: tuple[str], order: Optional[str] = None) -> D:
-        ...  # type: ignore[reportInvalidTypeForm]
+    def add(
+        self, data: D, incoming: tuple[D], category: tuple[str], order: Optional[str] = None
+    ) -> D: ...  # type: ignore[reportInvalidTypeForm]
 
     @overload
-    def add(self, data: D, incoming: D, category: str, order: Optional[str] = None) -> D:
-        ...  # type: ignore[reportInvalidTypeForm]
+    def add(
+        self, data: D, incoming: D, category: str, order: Optional[str] = None
+    ) -> D: ...  # type: ignore[reportInvalidTypeForm]
 
     def add(self, data: D, incoming: tuple[D] | D, category: tuple[str] | str, order: Optional[str] = None) -> D:  # type: ignore[reportInvalidTypeForm]
         """
@@ -383,12 +385,14 @@ class Variables:
         return COMBINE_FUNCTIONS[type(data)](tuple(data_dict[na] for na in removed_order))
 
     @overload
-    def extract(self, data: D, category: tuple[str, ...], order: Optional[str] = None) -> tuple[D, ...]:
-        ...  # type: ignore[reportInvalidTypeForm]
+    def extract(
+        self, data: D, category: tuple[str, ...], order: Optional[str] = None
+    ) -> tuple[D, ...]: ...  # type: ignore[reportInvalidTypeForm]
 
     @overload
-    def extract(self, data: D, category: str, order: Optional[str] = None) -> D:
-        ...  # type: ignore[reportInvalidTypeForm]
+    def extract(
+        self, data: D, category: str, order: Optional[str] = None
+    ) -> D: ...  # type: ignore[reportInvalidTypeForm]
 
     def extract(self, data: D, category: tuple[str, ...] | str, order: Optional[str] = None) -> D | tuple[D, ...]:  # type: ignore[reportInvalidTypeForm]
         """

@@ -28,7 +28,7 @@ def test_InvalidIndexError():
         (e.DataNotFoundError, FileNotFoundError),
     ]
 
-    for (etype, ptype) in samples:
+    for etype, ptype in samples:
 
         try:
             raise etype("testmessage")

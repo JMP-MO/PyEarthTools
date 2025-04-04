@@ -61,8 +61,7 @@ class StandardDimensionNames(Transform):
 
 
 @BackwardsCompatibility(StandardDimensionNames)
-def force_standard_dimension_names(*args, **kwargs: str) -> Transform:
-    ...
+def force_standard_dimension_names(*args, **kwargs: str) -> Transform: ...
 
 
 class Expand(Transform):
@@ -142,5 +141,4 @@ class Expand(Transform):
 
 
 @BackwardsCompatibility(Expand)
-def expand(*args, **kwargs) -> Transform:
-    ...
+def expand(*args, **kwargs) -> Transform: ...

@@ -710,20 +710,16 @@ class TimeDataIndex(SingleTimeDataIndex):
         return wrapped
 
     @_data_wrapper
-    def series(self, *args, **kwargs) -> xr.Dataset:
-        ...  # type: ignore
+    def series(self, *args, **kwargs) -> xr.Dataset: ...  # type: ignore
 
     @_data_wrapper
-    def safe_series(self, *args, **kwargs) -> xr.Dataset:
-        ...  # type: ignore
+    def safe_series(self, *args, **kwargs) -> xr.Dataset: ...  # type: ignore
 
     @_data_wrapper
-    def range(self, *args, **kwargs):
-        ...  # type: ignore
+    def range(self, *args, **kwargs): ...  # type: ignore
 
     @_data_wrapper
-    def aggregation(self, *args, **kwargs) -> xr.Dataset:
-        ...  # type: ignore
+    def aggregation(self, *args, **kwargs) -> xr.Dataset: ...  # type: ignore
 
 
 class AdvancedTimeIndex(TimeIndex):

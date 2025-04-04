@@ -503,12 +503,10 @@ class Petdt:
         return self.__add__(other)
 
     @overload
-    def __sub__(self, other: TimeDelta | int | datetime.timedelta) -> Petdt:
-        ...
+    def __sub__(self, other: TimeDelta | int | datetime.timedelta) -> Petdt: ...
 
     @overload
-    def __sub__(self, other: Petdt) -> TimeDelta:
-        ...
+    def __sub__(self, other: Petdt) -> TimeDelta: ...
 
     def __sub__(self, other: Petdt | TimeDelta | int | datetime.timedelta) -> Petdt | TimeDelta:
         """

@@ -59,13 +59,11 @@ class Trim(Transform):
 
 
 @BackwardsCompatibility(Trim)
-def trim(*args) -> Transform:
-    ...
+def trim(*args) -> Transform: ...
 
 
 @BackwardsCompatibility(Trim)
-def variable_trim(*args) -> Transform:
-    ...
+def variable_trim(*args) -> Transform: ...
 
 
 class Drop(Transform):
@@ -97,5 +95,4 @@ class Drop(Transform):
 
 
 @BackwardsCompatibility(Drop)
-def drop(*args) -> Transform:
-    ...
+def drop(*args) -> Transform: ...

@@ -224,14 +224,12 @@ class xarrayConverter(metaclass=ABCMeta):
         self,
         data: tuple[XR_OBJECT, ...] | list[XR_OBJECT] | XR_OBJECT,
         replace: bool = False,
-    ):
-        ...
+    ): ...
 
     @abstractmethod
     def convert_to_xarray(
         self, data: np.ndarray | tuple[np.ndarray, ...], pop: bool = True
-    ) -> xr.Dataset | tuple[xr.Dataset]:
-        ...
+    ) -> xr.Dataset | tuple[xr.Dataset]: ...
 
     def __call__(self, data: xr.Dataset | np.ndarray | tuple) -> xr.Dataset | np.ndarray | tuple:
         """

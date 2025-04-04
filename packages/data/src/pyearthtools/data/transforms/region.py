@@ -138,8 +138,7 @@ class Select(Transform):
 
 
 @BackwardsCompatibility(Select)
-def sel(*args, **kwargs):
-    ...
+def sel(*args, **kwargs): ...
 
 
 class ISelect(Transform):
@@ -162,8 +161,7 @@ class ISelect(Transform):
 
 
 @BackwardsCompatibility(ISelect)
-def isel(*args, **kwargs):
-    ...
+def isel(*args, **kwargs): ...
 
 
 def PointBox(point: tuple[float], size: float) -> Transform:
@@ -190,8 +188,7 @@ def PointBox(point: tuple[float], size: float) -> Transform:
 
 
 @BackwardsCompatibility(PointBox)
-def point_box(*args, **kwargs):
-    ...
+def point_box(*args, **kwargs): ...
 
 
 def Lookup(key: str, regionfile: str | Path = RegionLookupFILE) -> Transform:
@@ -226,8 +223,7 @@ def Lookup(key: str, regionfile: str | Path = RegionLookupFILE) -> Transform:
 
 
 @BackwardsCompatibility(Lookup)
-def lookup(*args, **kwargs):
-    ...
+def lookup(*args, **kwargs): ...
 
 
 class ShapeFile(Transform):
@@ -289,8 +285,7 @@ class ShapeFile(Transform):
 
 
 @BackwardsCompatibility(ShapeFile)
-def from_shapefile(*args, **kwargs):
-    ...
+def from_shapefile(*args, **kwargs): ...
 
 
 def Geosearch(
@@ -337,5 +332,4 @@ def Geosearch(
 
 
 @BackwardsCompatibility(Geosearch)
-def from_geosearch(*args, **kwargs):
-    ...
+def from_geosearch(*args, **kwargs): ...

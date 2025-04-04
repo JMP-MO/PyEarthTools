@@ -107,7 +107,12 @@ def to_netcdf(
         if len(callback_paths) != len(dataset):
             raise ValueError(f"Lengths differ between paths and data. {len(callback_paths)} != {len(dataset)}.")
 
-        with ManageFiles(callback_paths, timeout=DATASET_TIMEOUT, lock=try_thread_safe, uuid=not try_thread_safe,) as (
+        with ManageFiles(
+            callback_paths,
+            timeout=DATASET_TIMEOUT,
+            lock=try_thread_safe,
+            uuid=not try_thread_safe,
+        ) as (
             temp_files,
             exist,
         ):
@@ -134,7 +139,12 @@ def to_netcdf(
             subpath = (path / f"{i}").with_suffix(path.suffix)
             subpath.parent.mkdir(parents=True, exist_ok=True)
 
-            with ManageFiles(subpath, timeout=DATASET_TIMEOUT, lock=try_thread_safe, uuid=not try_thread_safe,) as (
+            with ManageFiles(
+                subpath,
+                timeout=DATASET_TIMEOUT,
+                lock=try_thread_safe,
+                uuid=not try_thread_safe,
+            ) as (
                 temp_file,
                 exist,
             ):
@@ -145,7 +155,12 @@ def to_netcdf(
         if isinstance(dataset, xr.DataArray):
             dataset = dataset.to_dataset(name="data")
 
-        with ManageFiles(path, timeout=DATASET_TIMEOUT, lock=try_thread_safe, uuid=not try_thread_safe,) as (
+        with ManageFiles(
+            path,
+            timeout=DATASET_TIMEOUT,
+            lock=try_thread_safe,
+            uuid=not try_thread_safe,
+        ) as (
             temp_file,
             exist,
         ):

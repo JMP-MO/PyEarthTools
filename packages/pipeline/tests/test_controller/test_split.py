@@ -48,8 +48,7 @@ def test_split_join():
     s.join(None)
 
 
-class SpliterUnImplemented(branching.Spliter):
-    ...
+class SpliterUnImplemented(branching.Spliter): ...
 
 
 @pytest.mark.parametrize(

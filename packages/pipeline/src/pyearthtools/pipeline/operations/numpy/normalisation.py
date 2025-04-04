@@ -131,8 +131,7 @@ class Division(numpyNormalisation):
 
 
 @BackwardsCompatibility(Division)
-def TemporalDifference(*a, **k):
-    ...
+def TemporalDifference(*a, **k): ...
 
 
 class Evaluated(numpyNormalisation):
