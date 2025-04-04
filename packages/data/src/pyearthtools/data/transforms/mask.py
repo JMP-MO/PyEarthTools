@@ -50,8 +50,7 @@ class UnderlyingMaskTransform(Transform):
         replacement_value: xr.Dataset | np.ndarray | float,
         operation: OPERATIONS_TYPE | dict[str, OPERATIONS_TYPE] = "==",
         search_data: xr.Dataset | xr.DataArray | np.ndarray | None = None,
-    ) -> xr.Dataset:
-        ...
+    ) -> xr.Dataset: ...
 
     @overload
     def __filter(
@@ -61,8 +60,7 @@ class UnderlyingMaskTransform(Transform):
         replacement_value: xr.Dataset | np.ndarray | float,
         operation: OPERATIONS_TYPE | dict[str, OPERATIONS_TYPE] = "==",
         search_data: xr.Dataset | xr.DataArray | np.ndarray | None = None,
-    ) -> xr.DataArray:
-        ...
+    ) -> xr.DataArray: ...
 
     @overload
     def __filter(
@@ -72,8 +70,7 @@ class UnderlyingMaskTransform(Transform):
         replacement_value: xr.Dataset | np.ndarray | float,
         operation: OPERATIONS_TYPE | dict[str, OPERATIONS_TYPE] = "==",
         search_data: xr.Dataset | xr.DataArray | np.ndarray | None = None,
-    ) -> np.ndarray:
-        ...
+    ) -> np.ndarray: ...
 
     def __filter(
         self,
@@ -309,8 +306,7 @@ class Dataset(UnderlyingMaskTransform):
 
 
 @BackwardsCompatibility(Dataset)
-def dataset(*a, **k):
-    ...
+def dataset(*a, **k): ...
 
 
 class Replace(UnderlyingMaskTransform):
@@ -356,8 +352,7 @@ class Replace(UnderlyingMaskTransform):
 
 
 @BackwardsCompatibility(Replace)
-def replace_value(*a, **k):
-    ...
+def replace_value(*a, **k): ...
 
 
 __all__ = ["Dataset", "Replace"]

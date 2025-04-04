@@ -510,8 +510,7 @@ class Derive(Transform):
 
 
 @BackwardsCompatibility(Derive)
-def derive(*args, **kwargs) -> Transform:
-    ...
+def derive(*args, **kwargs) -> Transform: ...
 
 
 # def equations(equation: str):

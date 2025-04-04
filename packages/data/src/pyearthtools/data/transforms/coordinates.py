@@ -518,8 +518,7 @@ class Expand(Transform):
 
 
 @BackwardsCompatibility(Expand)
-def expand(*args, **kwargs) -> Transform:
-    ...
+def expand(*args, **kwargs) -> Transform: ...
 
 
 def SelectFlatten(
@@ -646,5 +645,4 @@ class Pad(Transform):
 
 
 @BackwardsCompatibility(Pad)
-def pad(*args, **kwargs) -> Transform:
-    ...
+def pad(*args, **kwargs) -> Transform: ...

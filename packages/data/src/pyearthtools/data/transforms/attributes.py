@@ -109,8 +109,7 @@ class SetAttributes(Transform):
 
 
 @BackwardsCompatibility(SetAttributes)
-def set_attributes(*args, **kwargs) -> Transform:
-    ...
+def set_attributes(*args, **kwargs) -> Transform: ...
 
 
 update = set_attributes
@@ -206,8 +205,7 @@ class SetEncoding(Transform):
 
 
 @BackwardsCompatibility(SetEncoding)
-def set_encoding(*args, **kwargs) -> Transform:
-    ...
+def set_encoding(*args, **kwargs) -> Transform: ...
 
 
 class SetType(Transform):
@@ -255,8 +253,7 @@ class SetType(Transform):
 
 
 @BackwardsCompatibility(SetType)
-def set_type(*args, **kwargs) -> Transform:
-    ...
+def set_type(*args, **kwargs) -> Transform: ...
 
 
 class Rename(Transform):
@@ -291,5 +288,4 @@ class Rename(Transform):
 
 
 @BackwardsCompatibility(Rename)
-def rename(*args, **kwargs) -> Transform:
-    ...
+def rename(*args, **kwargs) -> Transform: ...

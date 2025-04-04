@@ -80,8 +80,7 @@ def test_branch_with_join_undo():
     assert pipe.undo(pipe[1]) == (2, 1)
 
 
-class AdditionJoinUnImplemented(branching.Joiner):
-    ...
+class AdditionJoinUnImplemented(branching.Joiner): ...
 
 
 @pytest.mark.parametrize(

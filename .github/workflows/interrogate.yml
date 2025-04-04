@@ -32,7 +32,7 @@ jobs:
                 if-no-files-found: warn
             - name: Upload interrogate badge
               uses: actions/upload-artifact@v4
-              with: 
+              with:
                 name: interrogate-badge
                 path: interrogate-badge.svg
                 if-no-files-found: warn

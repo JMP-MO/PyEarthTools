@@ -203,8 +203,7 @@ class DaskParallelInterface(ParallelInterface):
         return getattr(self.client, key)
 
     @defer_to_client
-    def submit(self, func, *args, **kwargs):
-        ...
+    def submit(self, func, *args, **kwargs): ...
 
     @defer_to_client
     def map(self, func, *iterables, **kwargs):
@@ -212,8 +211,7 @@ class DaskParallelInterface(ParallelInterface):
         ...
 
     @defer_to_client
-    def gather(self, *args, **kwargs):
-        ...
+    def gather(self, *args, **kwargs): ...
 
     def wait(self, futures, **kwargs):
         from dask.distributed import wait

@@ -24,5 +24,4 @@ class TrainingWrapper(ModelWrapper):
     """Model wrapper to enable training"""
 
     @abstractmethod
-    def fit(self, *args, **kwargs):
-        ...
+    def fit(self, *args, **kwargs): ...
