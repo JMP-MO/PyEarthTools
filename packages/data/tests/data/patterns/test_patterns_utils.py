@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from pyearthtools.data import utils
+from pyearthtools.data.patterns import utils
 import os
 import pytest
 
@@ -22,10 +22,17 @@ def test_parse_path(monkeypatch):
 
     monkeypatch.setitem(os.environ, 'SPECIAL', 'fake_username')
 
-    test_path = '/home/fictional/path/$SPECIAL/root_dir'
-    result = utils.parse_path(test_path)
-    assert '/home/fictional/path/fake_username/root_dir' in str(result)
+    # Test temporary directory request
+    test_path = 'temp'
+    result = utils.parse_root_dir(test_path)
+    assert 'tmp' in str(result)
 
+    # Test variable replacement
+    test_path = '/home/fictional/path/$SPECIAL/root_dir'
+    result = utils.parse_root_dir(test_path)
+    assert '/home/fictional/path/fake_username/root_dir' in str(result)    
+
+    # Test nonexistent variable request
     with pytest.raises(ValueError):
         test_path = '/home/fictional/path/$NONEXISTENTREALLYREALLYREALLY/root_dir'
-        result = utils.parse_path(test_path)
+        result = utils.parse_root_dir(test_path)
