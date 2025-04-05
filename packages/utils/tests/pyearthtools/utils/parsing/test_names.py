@@ -15,6 +15,7 @@
 import pyearthtools.utils.parameter
 from pyearthtools.utils.parsing import names
 
+import datetime
 
 def test_function_name():
     """
@@ -29,6 +30,18 @@ def test_function_name():
     name = names.function_name(type(names.function_name))
     assert name == "function"
 
-    # Test a class
+    # Test a class (not an object)
     name = names.function_name(pyearthtools.utils.parameter.SingleParameter)
     assert name == "pyearthtools.utils.parameter.SingleParameter"
+
+    class MockThing:
+
+        def __init__(self):
+            self.__module__ = '__builtin__'
+
+        def __call__(self):
+            return "Hello"
+
+    # Test a callable object
+    name = names.function_name(MockThing())
+    assert name == "MockThing"
