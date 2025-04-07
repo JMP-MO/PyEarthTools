@@ -17,21 +17,18 @@ from pyearthtools.data.operations import percentile
 import xarray as xr
 import numpy as np
 
+
 def test_percentile():
 
     data = np.linspace(0, 100, 100)
-    da = xr.DataArray(coords = {'index': list(range(0,100))},
-                          data=data,
-                          name="Sam")
+    da = xr.DataArray(coords={"index": list(range(0, 100))}, data=data, name="Sam")
 
-    ds = xr.Dataset(coords = {'index': list(range(0,100))},
-                    data_vars = {'temp': da}
-                    )
+    ds = xr.Dataset(coords={"index": list(range(0, 100))}, data_vars={"temp": da})
 
     result = percentile(ds, [10, 90])
-    np.testing.assert_allclose(result['temp'].values, (10, 90))  
+    np.testing.assert_allclose(result["temp"].values, (10, 90))
 
     result = percentile(ds, 10)
-    np.testing.assert_allclose(result['temp'].values, (10,))      
+    np.testing.assert_allclose(result["temp"].values, (10,))
 
     result = percentile(da, [10, 90])

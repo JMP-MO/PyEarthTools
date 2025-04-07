@@ -19,17 +19,17 @@ import numpy as np
 import pytest
 import dask
 
+
 def test_Rechunk():
 
-    rc = Rechunk(method='auto')
+    rc = Rechunk(method="auto")
 
     data = np.ones((50, 50))
     data = dask.array.from_array(data)
-    coords = {'a': list(range(50)),
-              'b': list(range(50))}
+    coords = {"a": list(range(50)), "b": list(range(50))}
 
     da = xr.DataArray(coords=coords, data=data)
-    ds = xr.Dataset(coords=coords, data_vars = {'z': da})
+    ds = xr.Dataset(coords=coords, data_vars={"z": da})
 
     rc.apply(ds)
 

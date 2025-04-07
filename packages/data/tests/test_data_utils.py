@@ -16,16 +16,17 @@ from pyearthtools.data import utils
 import os
 import pytest
 
+
 def test_parse_path(monkeypatch):
 
     # import pudb; pudb.set_trace()
 
-    monkeypatch.setitem(os.environ, 'SPECIAL', 'fake_username')
+    monkeypatch.setitem(os.environ, "SPECIAL", "fake_username")
 
-    test_path = '/home/fictional/path/$SPECIAL/root_dir'
+    test_path = "/home/fictional/path/$SPECIAL/root_dir"
     result = utils.parse_path(test_path)
-    assert '/home/fictional/path/fake_username/root_dir' in str(result)
+    assert "/home/fictional/path/fake_username/root_dir" in str(result)
 
     with pytest.raises(ValueError):
-        test_path = '/home/fictional/path/$NONEXISTENTREALLYREALLYREALLY/root_dir'
+        test_path = "/home/fictional/path/$NONEXISTENTREALLYREALLYREALLY/root_dir"
         result = utils.parse_path(test_path)
