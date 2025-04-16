@@ -50,6 +50,7 @@ ROOT_DIRECTORIES = {
     "BARRA": "/g/data/cj37/BARRA/BARRA_{region}/{version}/{datatype}",
     "BARPA": "/g/data/py18/BARPA/",
     "BARRA_V2": "/g/data/ob53/BARRA2/",
+    "CMIP5" : "/g/data/al33/replicas/CMIP5/combined/",
 }
 
 
@@ -67,6 +68,7 @@ from site_archive_nci.ERA5 import ERA5
 from site_archive_nci.MODIS import MODIS
 from site_archive_nci.OceanMaps import OceanMaps
 from site_archive_nci.Himawari import Himawari
+from site_archive_nci._CMIP5 import CMIP5
 
 register_archive("NCI")(site_archive_nci)
 
