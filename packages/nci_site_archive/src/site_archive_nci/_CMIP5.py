@@ -428,7 +428,6 @@ class CMIP5(ArchiveIndex):
 
             time_orig = time
             time = to_cftime(time)
-            import pudb; pudb.set_trace()
 
             try:
                 try:
