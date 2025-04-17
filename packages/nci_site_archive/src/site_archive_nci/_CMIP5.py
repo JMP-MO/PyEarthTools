@@ -93,9 +93,9 @@ def to_cftime(times):
 
     pdt = times[0]
 
-    # import pudb; pudb.set_trace()
+    # converted = [cftime.num2date(pdt.datetime.timestamp(), 'seconds since 1970-01-01') for pdt in times]
 
-    converted = [cftime.num2date(pdt.datetime.timestamp(), 'seconds since 1970-01-01') for pdt in times]
+    converted = [pdt.to_cftime(calendar='noleap') for pdt in times]
 
     return converted
 
@@ -145,23 +145,7 @@ class CMIP5(ArchiveIndex):
 
         self.record_initialisation()
 
-    def load(self, *args, **kwargs) -> Any:
-        """Actually load the data"""
-        e = None
-
-        try:
-            new_kwargs = dict(kwargs)
-            new_kwargs["compat"] = "override"
-            # new_kwargs['coords'] = 'all'
-            return super().load(*args, **new_kwargs)
-        except Exception as excep:
-            try:
-                return super().load(*args, **kwargs)
-            except Exception:
-                e = excep
-        raise e
-
-    
+   
     def quick_walk(self):
         '''
         Walking a large filesystem to find matching filenames can take a long time.
@@ -429,27 +413,18 @@ class CMIP5(ArchiveIndex):
             time_orig = time
             time = to_cftime(time)
 
-            try:
-                try:
-                    subset_ds = data.sel(**{time_dim: time}, **sel_kwargs)
-                except KeyError:
-                    subset_ds = data.sel(**{time_dim: time[:-1]}, **sel_kwargs)
-            except KeyError:
-                warnings.warn(
-                    f"Unable to subset on time dimension, returning all timesteps for validation. For request: {start} -> {end} @ {interval}",
-                    IndexWarning,
-                )
+            # Try selecting exact time indexes
+            # FIXME: Something in here causes a system exit without actually entering the exception block
+            # try:
+            #     subset_ds = data.sel(**{time_dim: time}, **sel_kwargs)
+            # except Exception as ke:
+            #     warnings.warn("Could not find expected datetime indexes in the data, falling back to slice operation")
 
-            # subset_ds = subset_ds.where(subset_ds.time < end.datetime64(), drop=True)
-
-            try:
-                subset_ds = subset_ds.sel(**{time_dim: slice(None, end.datetime64())})
-            except TypeError:
-                # We may be entering a non-gregorian calendar zone supported by cftime only
-                # TODO: see if we can recognise and handle this a bit more gracefull, such as in the __lt__ method of petdatetime
-                calendar = subset_ds.time[0].item().calendar
-                end = end.to_cftime(calendar=calendar)
-                subset_ds = subset_ds.sel(**{time_dim: slice(None, end)})
+            # We may be entering a non-gregorian calendar zone supported by cftime only
+            calendar = subset_ds.time[0].item().calendar
+            start = start.to_cftime(calendar=calendar)
+            end = end.to_cftime(calendar=calendar)
+            subset_ds = subset_ds.sel(**{time_dim: slice(start, end)})
 
             if not len(subset_ds[time_dim]) == 0:
                 data = subset_ds
