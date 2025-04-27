@@ -65,7 +65,7 @@ def multisplit(element: str, splits: tuple[Union[str, int], ...]) -> list[str]:
 
 def find_components(time: str) -> dict[VALID_RESOLUTIONS, bool]:
     """
-    Find Specified Time components in given time str (e.g. indicate which of 
+    Find Specified Time components in given time str (e.g. indicate which of
     year, month, day, hour etc set is set in the time string)
 
     Args:
@@ -871,7 +871,7 @@ def time_delta(time_amount: Any) -> pd.Timedelta:
     if isinstance(time_amount, int):
         return pd.to_timedelta(time_amount, "m")
     elif isinstance(time_amount, (list, tuple)):
-            return pd.to_timedelta(*time_amount)
+        return pd.to_timedelta(*time_amount)
     elif isinstance(time_amount, pd.Timedelta):
         return time_amount
     elif isinstance(time_amount, datetime.timedelta):

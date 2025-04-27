@@ -42,8 +42,6 @@ def test_time_delta():
         pet_time.time_delta(56.2)
 
 
-
-
 def test_TimeResolution():
 
     # Test exception case
@@ -51,15 +49,15 @@ def test_TimeResolution():
         tr = pet_time.TimeResolution(2015)
 
     # Make a TR from a time specified down to the minute
-    tr = pet_time.TimeResolution('2021-02-03T0000')
+    tr = pet_time.TimeResolution("2021-02-03T0000")
 
     # Make a TR from a time specified down to the minute
-    tr = pet_time.TimeResolution('2021-02-03T00')    
+    tr = pet_time.TimeResolution("2021-02-03T00")
     as_str = repr(tr)
 
     # Valid subtration
     tr2 = tr - 1
-    assert tr2.resolution == 'day'
+    assert tr2.resolution == "day"
 
     # Subtract too much
     with pytest.raises(ValueError):
@@ -67,28 +65,25 @@ def test_TimeResolution():
 
     # Add too much
     with pytest.raises(ValueError):
-        tr + 50        
+        tr + 50
 
     with pytest.raises(TypeError):
-        tr2 = tr - "dogs"   
+        tr2 = tr - "dogs"
 
 
-
-@pytest.mark.parametrize("timestr, flagstring",
-                         [('2021-02-03T0000', '1111100')]
-                         )
+@pytest.mark.parametrize("timestr, flagstring", [("2021-02-03T0000", "1111100")])
 def test_find_components(timestr, flagstring):
     components = pet_time.find_components(timestr)
-    flags = [f == '1' for f in flagstring]
+    flags = [f == "1" for f in flagstring]
 
     assert list(components.values()) == flags
-    
+
 
 def test_find_components_exceptions():
 
-    flagstr = '1111100'    
-    brokenstr = 'zzzz-02-03T0000'
-    longstr = '2021-02-03T0000'
+    flagstr = "1111100"
+    brokenstr = "zzzz-02-03T0000"
+    longstr = "2021-02-03T0000"
 
     with pytest.raises(TypeError):
 
