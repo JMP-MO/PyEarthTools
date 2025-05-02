@@ -27,7 +27,8 @@ import fourcastnext
 CONFIG_PATH = Path(__file__, "../configs/").resolve()
 LOG = logging.getLogger("pyearthtools.zoo.fourcastnext")
 
-@pyearthtools.zoo.register('Development/FourCastNeXt', exists='ignore')
+
+@pyearthtools.zoo.register("Development/FourCastNeXt", exists="ignore")
 class FourCastNeXt(pyearthtools.zoo.BaseForecastModel):
     """
     FourCastNeXt
@@ -36,7 +37,7 @@ class FourCastNeXt(pyearthtools.zoo.BaseForecastModel):
 
     \b
     Arguments:
-        lead_time (int | str | pyearthtools.data.TimeDelta): 
+        lead_time (int | str | pyearthtools.data.TimeDelta):
             Lead time to predict to. If int will be given as hours.
             Separate delta notation by -.
         interval (int):
@@ -45,14 +46,21 @@ class FourCastNeXt(pyearthtools.zoo.BaseForecastModel):
             Override for weights path
     """
 
-    _name = 'Development/FourCastNeXt'
+    _name = "Development/FourCastNeXt"
     _default_config_path = CONFIG_PATH
     _times = [-6]
-    _download_paths = [
+    _download_paths = []
 
-    ]
-
-    def __init__(self, pipeline: str, output: str | Path, *, lead_time: int | str, ckpt_path: str | None = None, interval: int = 6, **kwargs) -> None:
+    def __init__(
+        self,
+        pipeline: str,
+        output: str | Path,
+        *,
+        lead_time: int | str,
+        ckpt_path: str | None = None,
+        interval: int = 6,
+        **kwargs,
+    ) -> None:
         """
         Create FourCastNeXt Model
 
@@ -68,7 +76,7 @@ class FourCastNeXt(pyearthtools.zoo.BaseForecastModel):
             ckpt_path (str, optional):
                 Override for weights path
         """
-        self.lead_time = pyearthtools.zoo.utils.delta_conversion(lead_time, 'hour')
+        self.lead_time = pyearthtools.zoo.utils.delta_conversion(lead_time, "hour")
         if ckpt_path:
             self._redownload_each_time = True
             self._download_paths = [(ckpt_path, "weights.ckpt")]  # type: ignore
@@ -84,10 +92,10 @@ class FourCastNeXt(pyearthtools.zoo.BaseForecastModel):
             (tuple[Any, dict[str, Any]]):
                 Predictor, index kwargs
         """
-        
+
         model_kwargs = dict(
-            data_interval = (self.interval, 'hours'), 
-            prediction_function = 'recurrent',
+            data_interval=(self.interval, "hours"),
+            prediction_function="recurrent",
             prediction_config=dict(
                 steps=math.ceil(self.lead_time // self.interval),
                 verbose=True,
@@ -99,7 +107,9 @@ class FourCastNeXt(pyearthtools.zoo.BaseForecastModel):
         model = fourcastnext.FourCastNext({})
         model_wrapper = pyearthtools.training.wrapper.lightning.Predict(model, self.pipeline)
         model_wrapper.load(self.assets / "weights.ckpt")
-        
-        wrapper = pyearthtools.training.wrapper.predict.TimeSeriesAutoRecurrent(model_wrapper, interval= f'{self.interval} hours')
-        
+
+        wrapper = pyearthtools.training.wrapper.predict.TimeSeriesAutoRecurrent(
+            model_wrapper, interval=f"{self.interval} hours"
+        )
+
         return wrapper, model_kwargs

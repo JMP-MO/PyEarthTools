@@ -14,14 +14,14 @@
 
 # reference: https://github.com/NVlabs/AFNO-transformer
 
-# This file extends and is significantly based 
-# on the code from https://github.com/nci/FourCastNeXt which is made available 
-# under the Apache 2.0 license. That repository in turn extends the code from 
-# https://github.com/NVlabs/FourCastNet/, released under the BSD 3-Clause license. 
-# The FourCastNet model is described in detail at https://arxiv.org/abs/2202.11214. 
-# The FourCastNeXt model is described in detail at https://arxiv.org/abs/2401.05584, 
-# and a version of the FourCastNeXt code is bundled, adapted for compatibility 
-# and maintained within the PyEarthTools repository so it can continue to be a useful 
+# This file extends and is significantly based
+# on the code from https://github.com/nci/FourCastNeXt which is made available
+# under the Apache 2.0 license. That repository in turn extends the code from
+# https://github.com/NVlabs/FourCastNet/, released under the BSD 3-Clause license.
+# The FourCastNet model is described in detail at https://arxiv.org/abs/2202.11214.
+# The FourCastNeXt model is described in detail at https://arxiv.org/abs/2401.05584,
+# and a version of the FourCastNeXt code is bundled, adapted for compatibility
+# and maintained within the PyEarthTools repository so it can continue to be a useful
 # reference implementation and learning aid.
 
 import pytorch_lightning as pl
@@ -37,7 +37,8 @@ from fourcastnext.architecture.afnonet import AFNONet
 from pyearthtools.training.modules import get_loss
 
 
-torch.set_float32_matmul_precision('medium')
+torch.set_float32_matmul_precision("medium")
+
 
 class FourCastNext(pl.LightningModule):
     def __init__(
@@ -58,17 +59,17 @@ class FourCastNext(pl.LightningModule):
         `T_1` can be any length thus indicating training up to that rollout.
 
         Args:
-            model_params (dict): 
+            model_params (dict):
                 Model params to pass to `AFNONet`
-            base_lr (_type_, optional): 
+            base_lr (_type_, optional):
                 Base learning rate. Defaults to 1e-3.
-            grad_accum_schedule (_type_, optional): 
+            grad_accum_schedule (_type_, optional):
                 _description_. Defaults to None.
-            precision (int, optional): 
+            precision (int, optional):
                 Float precision. Defaults to 32.
-            loss_function (str, optional): 
+            loss_function (str, optional):
                 Loss function to use. Defaults to "L1Loss".
-            loss_kwargs (dict, optional): 
+            loss_kwargs (dict, optional):
                 Kwargs to pass to the loss function. Defaults to {}.
         """
         super().__init__()
@@ -152,9 +153,7 @@ class FourCastNext(pl.LightningModule):
                     teacher = self.get_teacher(input1.device)
                     for i in range(np.random.choice(np.arange(1, n_pred_steps))):
                         output0 = self.forward(input1, teacher)
-                        input1[:, : self.out_channels, ...] = input1[
-                            :, -self.out_channels :, ...
-                        ]
+                        input1[:, : self.out_channels, ...] = input1[:, -self.out_channels :, ...]
                         input1[:, -self.out_channels :, ...] = output0
                         tar_idx = i
                 output0 = self.forward(input1, self.model)
@@ -187,9 +186,7 @@ class FourCastNext(pl.LightningModule):
             total_loss_val = total_loss.item()
 
             if not np.isfinite(total_loss_val):
-                raise Exception(
-                    f"loss is not finite, loss={total_loss_val}, step={self.trainer.global_step+1}"
-                )
+                raise Exception(f"loss is not finite, loss={total_loss_val}, step={self.trainer.global_step+1}")
 
         self.schedule_accumulate_grads(self.trainer.global_step)
 
@@ -209,18 +206,16 @@ class FourCastNext(pl.LightningModule):
 
     def configure_optimizers(self):
         net_params = [p for p in self.parameters() if p.requires_grad]
-        optimizer = Lamb(
-            net_params, lr=self.hparams.base_lr, weight_decay=self.hparams.base_lr**2
-        )
-        scheduler = CosineAnnealingLR(
-            optimizer, self.trainer.max_steps, eta_min=self.hparams.base_lr * 0.1
-        )
-        return [optimizer,], [
+        optimizer = Lamb(net_params, lr=self.hparams.base_lr, weight_decay=self.hparams.base_lr**2)
+        scheduler = CosineAnnealingLR(optimizer, self.trainer.max_steps, eta_min=self.hparams.base_lr * 0.1)
+        return [
+            optimizer,
+        ], [
             scheduler,
         ]
 
     def validation_step(self, batch, batch_idx):
-        batch, batch_idx, _ = batch # Issue caused by dataloader needed to replicate training dataloader
+        batch, batch_idx, _ = batch  # Issue caused by dataloader needed to replicate training dataloader
         inp, tar = map(lambda x: x.to(dtype=self._dtype), batch)
         target = tar[:, 0]
         B, T, C, H, W = inp.shape
@@ -246,10 +241,10 @@ class FourCastNext(pl.LightningModule):
     def predict_step(self, batch, batch_idx):
 
         try:
-            inp = batch.to(dtype = self._dtype)
-            #inp, tar = map(lambda x: x.to(dtype=self._dtype), batch)
+            inp = batch.to(dtype=self._dtype)
+            # inp, tar = map(lambda x: x.to(dtype=self._dtype), batch)
         except Exception:
-            inp = batch.to(dtype = self._dtype)
+            inp = batch.to(dtype=self._dtype)
 
         B, T, C, H, W = inp.shape
         if T > 1:
@@ -258,7 +253,7 @@ class FourCastNext(pl.LightningModule):
         else:
             input1 = inp[:, 0]
 
-        n_pred_steps = 1# tar.shape[1]
+        n_pred_steps = 1  # tar.shape[1]
 
         if n_pred_steps == 1:
             predictions = self.forward(input1, self.model)

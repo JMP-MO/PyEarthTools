@@ -100,6 +100,7 @@ def available_models() -> tuple[str, ...]:
     """Get available models"""
     return Models.available
 
+
 LIVE_SUBSTRINGS = ["live", "cds"]
 
 __all__ = ["register", "BaseForecastModel", "Models", "predict", "data", "interactive"]
