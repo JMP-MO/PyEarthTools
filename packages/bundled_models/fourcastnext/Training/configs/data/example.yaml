@@ -2,7 +2,7 @@
 
 pipelines: pipelines/example.pipe
 
-img_size: 
+img_size:
   - 128
   - 128
 in_channels: 2

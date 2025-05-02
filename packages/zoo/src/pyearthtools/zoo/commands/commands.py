@@ -19,7 +19,7 @@
 
 Available sub commands
 ```
-- predict           - Predict 
+- predict           - Predict
 - interactive       - Predict Interactively
 - models            - See what models are available
 ```
@@ -150,7 +150,7 @@ INTERACTIVE_HELP_STR = f"""
     \b
 {available_models!s}
 
-    If a keyword argument is not given, this command will prompt the user, 
+    If a keyword argument is not given, this command will prompt the user,
     however, if passed, will skip.
     """
 

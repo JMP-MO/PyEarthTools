@@ -38,12 +38,12 @@ BRAN_data
 # BRAN
 #         Description                    Bluelink ReANalysis
 #                  range                          1993-current
-#         Initialisation                 
+#         Initialisation
 #                  resolution                     daily
 #                  transforms                     {}
 #                  depth_value                    None
 #                  variables                      ocean_temp
-#         Transforms                     
+#         Transforms
 #                  ConformNaming                  {'latitude': ['lat', 'Latitude', 'yt_ocean', 'yt'], 'longitude': ['lon', 'Longitude', 'xt_ocean', 'xt'], 'time': ['Time']}
 #                  StandardLongitude180180        {'type': '-180-180'}
 #                  VariableTrim                   {'variables': ['temp']}

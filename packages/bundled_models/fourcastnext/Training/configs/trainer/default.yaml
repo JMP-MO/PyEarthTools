@@ -1,7 +1,7 @@
 precision: 16-mixed
 max_epochs: 200
 
-checkpointing: 
+checkpointing:
 - monitor: "train_loss"
   mode: "min"
   dirpath: "{path}/Checkpoints/Train"

@@ -10,7 +10,7 @@ python train.py data=example
 
 ## Example Full config
 
-This is the full config made from 
+This is the full config made from
 
 `python python train.py data=example`
 

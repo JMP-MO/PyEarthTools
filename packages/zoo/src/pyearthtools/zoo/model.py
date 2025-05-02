@@ -14,7 +14,7 @@
 
 # ruff: noqa: F821
 
-""" Base model class"""
+"""Base model class"""
 
 
 from __future__ import annotations

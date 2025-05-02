@@ -17,13 +17,13 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "click", 
-    "entrypoints", 
-    "multiurl", 
-    "tqdm", 
-    "pyearthtools-pipeline>=0.1.0", 
-    "pyearthtools-training>=0.1.0", 
-    "pyearthtools-data>=0.1.0", 
+    "click",
+    "entrypoints",
+    "multiurl",
+    "tqdm",
+    "pyearthtools-pipeline>=0.1.0",
+    "pyearthtools-training>=0.1.0",
+    "pyearthtools-data>=0.1.0",
     "pyearthtools-utils>=0.1.0",
 
 ]

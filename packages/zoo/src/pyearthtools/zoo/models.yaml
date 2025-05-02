@@ -1,5 +1,5 @@
 models:                                   # pyearthtools.zoo configuration
-  
+
   configs: null                           # Extra config location to expose, can be list, path or None
   assets: ~/.edit/models/assets/          # Location to save assets for models
   cache: ~/tmp/edit/models/cache/         # Cache of initial conditions, only used if detected a download index

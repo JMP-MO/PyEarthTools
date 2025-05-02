@@ -64,17 +64,17 @@ and use live data.
     The model will also be visible when using the `pyearthtools.zoo.predict/interactive/data` functions.
 
 ## Dynamic Importing
-    Setting $pyearthtools_MODELS_IMPORTS can allow modules not in the environment to be imported when running `pyearthtools-models` 
+    Setting $pyearthtools_MODELS_IMPORTS can allow modules not in the environment to be imported when running `pyearthtools-models`
     to allow the commands to access custom models.
 
     Seperate modules by ':', and within each specification, split the name and path by '@'.
 
         i.e.
-        
+
         ```shell
         export pyearthtools_MODELS_IMPORTS=MODULE_NAME@PATH_TO_MODULE_GOES_HERE:
         ```
-    Be aware that depending on what is being imported, this may drastically reduce command responsiveness. 
+    Be aware that depending on what is being imported, this may drastically reduce command responsiveness.
 """
 
 from pyearthtools.zoo import config as _
