@@ -1,10 +1,28 @@
 # Copyright Commonwealth of Australia, Bureau of Meteorology 2024.
-# This software is provided under license 'as is', without warranty 
-# of any kind including, but not limited to, fitness for a particular 
-# purpose. The user assumes the entire risk as to the use and 
-# performance of the software. In no event shall the copyright holder 
-# be held liable for any claim, damages or other liability arising 
-# from the use of the software.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# reference: https://github.com/NVlabs/AFNO-transformer
+
+# This file extends and is significantly based 
+# on the code from https://github.com/nci/FourCastNeXt which is made available 
+# under the Apache 2.0 license. That repository in turn extends the code from 
+# https://github.com/NVlabs/FourCastNet/, released under the BSD 3-Clause license. 
+# The FourCastNet model is described in detail at https://arxiv.org/abs/2202.11214. 
+# The FourCastNeXt model is described in detail at https://arxiv.org/abs/2401.05584, 
+# and a version of the FourCastNeXt code is bundled, adapted for compatibility 
+# and maintained within the PyEarthTools repository so it can continue to be a useful 
+# reference implementation and learning aid.
 
 import pytorch_lightning as pl
 import numpy as np
