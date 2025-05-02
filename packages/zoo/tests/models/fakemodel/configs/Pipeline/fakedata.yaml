@@ -1,0 +1,15 @@
+!edit@edit.pipeline.controller.Pipeline
+__args: !!python/tuple
+- !edit@edit.data.transforms.coordinates.StandardLongitude
+  type: -180-180
+- !edit@edit.pipeline.operations.xarray.conversion.ToNumpy
+  reference_dataset: null
+  run_parallel: false
+  saved_records: null
+exceptions_to_ignore: null
+iterator: null
+sampler: null
+
+--CONFIG--
+VERSION: 2024.06.02
+import: []
