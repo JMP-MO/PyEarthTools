@@ -81,6 +81,8 @@ class FourCastNextRM(pyearthtools.zoo.BaseForecastModel):
             self._redownload_each_time = True
             self._download_paths = [(ckpt_path, "weights.ckpt")]  # type: ignore
 
+        self.ckpt_path = ckpt_path
+
         self.interval = interval
 
         super().__init__(pipeline, output, **kwargs)
@@ -106,7 +108,8 @@ class FourCastNextRM(pyearthtools.zoo.BaseForecastModel):
 
         model = fourcastnext.FourCastNextLM({})
         model_wrapper = pyearthtools.training.wrapper.lightning.Predict(model, self.pipeline)
-        model_wrapper.load(self.assets / "weights.ckpt")
+        
+        model_wrapper.load(self.ckpt_path)
 
         wrapper = pyearthtools.training.wrapper.predict.TimeSeriesAutoRecurrent(
             model_wrapper, interval=f"{self.interval} hours"
