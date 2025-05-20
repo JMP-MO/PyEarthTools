@@ -8,9 +8,11 @@ The rest of this page contains reference information for the components of the D
 
 |  Module             |       Purpose                        |   API Docs     |
 |---------------------|--------------------------------------|----------------|
-|  `utils.decorators` | Define parameters which are aliases  | - [alias_arguments](utils_api.md#pyearthtools.utils.decorators.alias_arguments)  |
+|  `utils.decorators` | Define parameters which are aliases (e.g 't2m' and '2t')  | - [alias_arguments](utils_api.md#pyearthtools.utils.decorators.alias_arguments)  |
 |                     | Reverse a 1:1 dictionary mapping     | - [invert_dictionary_list](utils_api.md#pyearthtools.utils.decorators.invert_dictionary_list) |
 | `utils.parameter`   |                                      | - [SingleParameter](data_api.md#pyearthtools.utils.parameter.SingleParameter) |
 |                     |                                      | - [ListParameter](data_api.md#pyearthtools.utils.parameter.ListParameter) |
 |                     |                                      | - [RangeParameter](data_api.md#pyearthtools.utils.parameter.RangeParameter) |
-
+| `utils.context`     |                                      | - [ChangeValue](data_api.md#pyearthtools.utils.context.ChangeValue)
+|                     |                                      | - [Catch](data_api.md#pyearthtools.utils.context.Catch)
+|                     |                                      | - [PrintOnError](data_api.md#pyearthtools.utils.context.PrintOnError)
