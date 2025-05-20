@@ -19,8 +19,8 @@ PyEarthTools comprises multiple sub-packages which can be used individually or t
 
 |    Sub-Package  |  Purpose  |
 |-----------------|---------------------- |
-|  [Data](https://pyearthtools.readthedocs.io/en/latest/data/data_index.html)           | Loading and indexing into well-known Earth system data sets to produce ML-ready data structures |
-|  Utils          | Code for common functionality across the sub-packages |
+|  [Data](https://pyearthtools.readthedocs.io/en/latest/data/data_index.html) | Loading and indexing into well-known Earth system data sets to produce ML-ready data structures |
+|  [Utils](https://pyearthtools.readthedocs.io/en/latest/utils/utils_index.html) | Code for common functionality across the sub-packages |
 |  Pipeline       | Definining reproducible sequences of operations with the ability to cache results |
 |  Training       | Code defining the training processes and schedules of a machine learning model |
 |  Tutorial       | Contains helper code for data data sets used in tutorials |
