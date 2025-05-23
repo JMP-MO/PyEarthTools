@@ -275,14 +275,7 @@
 .. autofunction:: pyearthtools.data.save.save_utils.check_if_exists
 .. autofunction:: pyearthtools.data.save.save_utils.make_new_filename
 
-.. autoclass:: pyearthtools.data.save.keep_clear    
-    :members:       
-```
-
-## `data.static`
-
-```{eval-rst}
-.. autoclass:: pyearthtools.data.static.geographic.geographic
+.. autoclass:: pyearthtools.data.save.save_utils.keep_clear    
     :members:       
 ```
 
@@ -301,7 +294,7 @@
 .. autofunction:: pyearthtools.data.transforms.aggregation.over
 .. autofunction:: pyearthtools.data.transforms.aggregation.leaving    
 
-.. autoclass:: pyearthtools.data.transforms.aggregation.Aggregation
+.. autoclass:: pyearthtools.data.transforms.aggregation.Aggregate
     :members:  
 
 .. autoclass:: pyearthtools.data.transforms.attributes.SetAttributes
@@ -342,10 +335,10 @@
 .. autofunction:: pyearthtools.data.transforms.derive.evaluate
 .. autofunction:: pyearthtools.data.transforms.derive.derive_equations
 
-.. autoclass:: pyearthtools.data.transforms.dimension.StandardDimensionNames
+.. autoclass:: pyearthtools.data.transforms.dimensions.StandardDimensionNames
     :members:  
 
-.. autoclass:: pyearthtools.data.transforms.dimension.Expand
+.. autoclass:: pyearthtools.data.transforms.dimensions.Expand
     :members:      
 
 .. autoclass:: pyearthtools.data.transforms.interpolation.Interpolate
@@ -360,7 +353,7 @@
 .. autoclass:: pyearthtools.data.transforms.mask.UnderlyingMaskTransform
     :members:     
 .. autoclass:: pyearthtools.data.transforms.mask.Dataset
-    :members:         
+    :members:
 .. autoclass:: pyearthtools.data.transforms.mask.Replace
     :members:             
 
@@ -388,3 +381,68 @@
 .. autofunction:: pyearthtools.data.transforms.utils.parse_dataset
 
 ```
+
+## `data.catalog`
+
+```{eval-rst}
+.. autoclass:: pyearthtools.data.catalog.Catalog
+    :members:
+.. autoclass:: pyearthtools.data.catalog.CatalogEntry
+    :members:
+
+.. autofunction:: pyearthtools.data.catalog.get_name    
+```
+
+## `data.collection`
+
+```{eval-rst}
+.. autoclass:: pyearthtools.data.collection.Collection
+    :members:
+.. autoclass:: pyearthtools.data.collection.LabelledCollection
+    :members:    
+```
+
+## `data.exceptions`
+```{eval-rst}
+.. autoclass:: pyearthtools.data.exceptions.InvalidIndexError
+    :members:
+.. autoclass:: pyearthtools.data.exceptions.InvalidDataError
+    :members:
+.. autoclass:: pyearthtools.data.exceptions.DataNotFoundError
+    :members:    
+```
+
+## `data.load`
+```{eval-rst}
+.. autofunction:: pyearthtools.data.load.load
+```
+
+## `data.time`
+```{eval-rst}
+.. autofunction:: pyearthtools.data.time.multisplit
+.. autofunction:: pyearthtools.data.time.find_components
+.. autofunction:: pyearthtools.data.time.strip_to_common_resolution
+.. autofunction:: pyearthtools.data.time.time_delta
+.. autofunction:: pyearthtools.data.time.time_delta_resolution
+.. autofunction:: pyearthtools.data.time.range_samples
+
+.. autoclass:: pyearthtools.data.time.TimeResolution
+    :members:    
+.. autoclass:: pyearthtools.data.time.Petdt
+    :members:        
+.. autoclass:: pyearthtools.data.time.TimeDelta
+    :members:        
+.. autoclass:: pyearthtools.data.time.TimeRange
+    :members:            
+```
+
+## `data.warnings`
+```{eval-rst}
+.. autoclass:: pyearthtools.data.warnings.pyearthtoolsDataWarning
+    :members:
+.. autoclass:: pyearthtools.data.warnings.IndexWarning
+    :members:
+.. autoclass:: pyearthtools.data.warnings.AccessorRegistrationWarning
+    :members:    
+```
+
