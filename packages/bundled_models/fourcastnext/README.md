@@ -34,17 +34,17 @@ and `Development/FourCastNeXt` should be visible.
 If so, you can now run some inference.
 
 ```shell
-pet interactive --model Development/FourCastNeXt
+pet predict --model Development/FourCastNeXt
 ```
 
-When running the command, it will prompt for other kwargs (which fyi could be included in the initial command call),
+When running the command, it will prompt for other required arguments.
 
-Set `ckpt_path` to the full path of the checkpoint of the model you wish to load. It will then be copied to your asset folder and loaded
+Set `ckpt_path` to the full path of the checkpoint of the model you wish to load. It will then be copied to your assets folder and loaded.
 
 #### Example
 
 ```shell
-pet interactive --model Development/FourCastNeXt --ckpt_path PATH_TO_CHECKPOINT
+pet predict --model Development/FourCastNeXt --ckpt_path PATH_TO_CHECKPOINT
 ```
 
 ## Acknowledgments
