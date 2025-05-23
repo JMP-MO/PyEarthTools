@@ -60,7 +60,7 @@ PyEarthTools comprises multiple sub-packages which can be used individually or t
 |  Training       | Code defining the training processes and schedules of a machine learning model |
 |  Tutorial       | Contains helper code for data data sets used in tutorials |
 |  Bundled Models | Maintained versions of specific, bundled models which can be easily trained and run |
-|  Zoo            | Contains code for managing registered models (such as the bundled models) |
+|  [Zoo](api/zoo/zoo_index.md)            | Contains code for managing registered models (such as the bundled models) |
 |  Evaluation     | (Coming soon) Contains code for producing standard evaluations (such as benchmarks and scorecards) |
 
 ## Acknowleging or Citing `PyEarthTools`
