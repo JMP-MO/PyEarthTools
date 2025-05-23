@@ -47,7 +47,7 @@ PyEarthTools comprises multiple sub-packages which can be used individually or t
 |  Pipeline       | Definining reproducible sequences of operations with the ability to cache results |
 |  Training       | Code defining the training processes and schedules of a machine learning model |
 |  [Tutorial](https://pyearthtools.readthedocs.io/en/latest/api/tutorial/tutorial_index.html)       | Contains helper code for data data sets used in tutorials |
-|  Bundled Models | Maintained versions of specific, bundled models which can be easily trained and run |
+|  [Bundled Models](https://pyearthtools.readthedocs.io/en/latest/api/bundled_models/bundled_index.html) | Maintained versions of specific, bundled models which can be easily trained and run |
 |  [Zoo](https://pyearthtools.readthedocs.io/en/latest/api/zoo/zoo_index.html)            | Contains code for managing registered models (such as the bundled models) |
 |  Evaluation     | (Coming soon) Contains code for producing standard evaluations (such as benchmarks and scorecards) |
 
