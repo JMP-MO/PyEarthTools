@@ -159,8 +159,6 @@
     :members:
 
 .. autofunction:: pyearthtools.data.operations.index_routines.series
-.. autofunction:: pyearthtools.data.operations.index_routines._mf_series    
-.. autofunction:: pyearthtools.data.operations.index_routines._get_series
 .. autofunction:: pyearthtools.data.operations.index_routines.safe_series
 .. autofunction:: pyearthtools.data.operations.index_operations.split_ds
 .. autofunction:: pyearthtools.data.operations.index_operations.split_ds_gen
@@ -426,7 +424,7 @@
 .. autofunction:: pyearthtools.data.time.time_delta_resolution
 .. autofunction:: pyearthtools.data.time.range_samples
 
-.. autoclass:: pyearthtools.data.time.TimeResolution
+.. autoclass:: pyearthtools.data.time.range_samples
     :members:    
 .. autoclass:: pyearthtools.data.time.Petdt
     :members:        
