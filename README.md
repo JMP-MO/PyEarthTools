@@ -7,9 +7,9 @@
 
 <figure style="display:inline-block; width:45%; margin-right:5%;">
     <img src="https://pyearthtools.readthedocs.io/en/latest/_images/notebooks_demo_FourCastNeXt_Inference_9_1.png" alt="A prediction of the weather" width="100%">
-    <figcaption>A weather prediction from a trained model.</figcaption>
-</figure>
-  
+    <figcaption>A weather prediction from a model trained with PyEarthTools.</figcaption>
+</figure> 
+<br/> 
 
 Source Code: [github.com/ACCESS-Community-Hub/PyEarthTools](https://github.com/ACCESS-Community-Hub/PyEarthTools)  
 Documentation: [pyearthtools.readthedocs.io](https://pyearthtools.readthedocs.io)  
@@ -58,7 +58,7 @@ PyEarthTools comprises multiple sub-packages which can be used individually or t
 
 If you use PyEarthTools for your work, we would appreciate you acknowledging our work. A citable DOI will be available soon. In the meantime, please cite this repository.
 
-# Overview of documentation
+## Overview of documentation
 
 We have information for:
 
