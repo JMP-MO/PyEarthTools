@@ -5,7 +5,7 @@
 - Also suitable for students and newcomers
 - Still under early-stage development - things are likely to change a lot. If you notice an issue, please feel free to raise it on GitHub
 
-|![](https://pyearthtools.readthedocs.io/en/latest/_images/notebooks_demo_FourCastNeXt_Inference_9_1.png)<br>A weather prediction from a model trained with PyEarthTools.|![](https://pyearthtools.readthedocs.io/en/latest/_images/notebooks_tutorial_Working_with_Climate_Data_14_2.svg))<br>A data processing flow composed for working with climate data.|
+|![](https://pyearthtools.readthedocs.io/en/latest/_images/notebooks_demo_FourCastNeXt_Inference_9_1.png)<br>A weather prediction from a model trained with PyEarthTools.|![](https://pyearthtools.readthedocs.io/en/latest/_images/notebooks_tutorial_Working_with_Climate_Data_14_2.svg)<br>A data processing flow composed for working with climate data.|
 |:-:|:-:|
 
 Source Code: [github.com/ACCESS-Community-Hub/PyEarthTools](https://github.com/ACCESS-Community-Hub/PyEarthTools)  
