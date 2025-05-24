@@ -1,10 +1,8 @@
 # Zoo API Index
 
-This is the zoo package which forms a part of the [PyEarthTools package](https://github.com/ACCESS-Community-Hub/PyEarthTools).
+This is the Zoo package which forms a part of the [PyEarthTools package](https://github.com/ACCESS-Community-Hub/PyEarthTools).
 
-
-
-The rest of this page contains reference information for the components of the Zoo package. The entire data API docs can be viewed at [Zoo API Docs](zoo_api.md)
+The rest of this page contains reference information for the components of the Zoo package. The Zoo API docs can be viewed at [Zoo API Docs](zoo_api.md)
 
 |  Module             |       Purpose                        |   API Docs     |
 |---------------------|--------------------------------------|----------------|

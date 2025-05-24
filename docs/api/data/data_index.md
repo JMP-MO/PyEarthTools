@@ -13,7 +13,7 @@ The use of the data package within PyEarthTools includes:
 
 These tasks are aided by the API presented by the data package. Users looking for "how-to guides" or worked examples should review the [Tutorial Gallery](https://pyearthtools.readthedocs.io/en/latest/notebooks/Gallery.html).
 
-The rest of this page contains reference information for the components of the Data package. The entire data API docs can be viewed at [Data API Docs](data_api.md).
+The rest of this page contains reference information for the components of the Data package. The data API docs can be viewed at [Data API Docs](data_api.md).
 
 |  Module          |               Purpose                         |   API Docs    |
 |------------------|-----------------------------------------------|---------------------|

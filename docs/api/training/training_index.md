@@ -2,9 +2,7 @@
 
 This is the training package which forms a part of the [PyEarthTools package](https://github.com/ACCESS-Community-Hub/PyEarthTools).
 
-
-
-The rest of this page contains reference information for the components of the Data package. The entire data API docs can be viewed at [Training API Docs](training_api.md).
+The rest of this page contains reference information for the components of the Training package. The Training API docs can be viewed at [Training API Docs](training_api.md).
 
 |  Module               |       Purpose                        |   API Docs     |
 |-----------------------|--------------------------------------|----------------|
