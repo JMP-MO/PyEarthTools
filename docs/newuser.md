@@ -20,7 +20,7 @@ For other installation options, please refer to the [installation guide](install
 
 The tutorial ["Train and run a simplified global weather model"](./notebooks/tutorial/FourCastMini_Demo.ipynb) is the best place to start if you are working in your own environment. This tutorial has been tested with a 4GB GPU, uses less than 3GB of training data, and each model training epoch will take between 10 and 25 minutes depending on your hardware. This tutorial will also work at NCI or on other HPC facilities.
 
-If you are working at NCI, then ["Blending Data from Multiple Sources"](./notebooks/tutorial/MultipleSources.ipynb) and ["Working with Climate Data"](./notebooks/tutorial/Working_with_Climate_Data.ipynb") are also good places to start. These tutorials both use very large data sets. These data sets are archived on disk at NCI so these tutorials are straightforward to run using NCI facilities.
+If you are working at NCI, then ["Blending Data from Multiple Sources"](./notebooks/tutorial/MultipleSources.ipynb) and ["Working with Climate Data"](./notebooks/tutorial/Working_with_Climate_Data.ipynb) are also good places to start. These tutorials both use very large data sets. These data sets are archived on disk at NCI so these tutorials are straightforward to run using NCI facilities.
 
 ## Core Concepts in PyEarthTools
 
