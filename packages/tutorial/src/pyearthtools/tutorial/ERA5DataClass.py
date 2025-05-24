@@ -31,6 +31,7 @@ import functools
 from pathlib import Path
 from typing import Any, Literal
 import xarray as xr
+import os.path
 
 import pyearthtools.data
 from pyearthtools.data import Petdt
@@ -278,6 +279,9 @@ class ERA5LowResDemoIndex(ArchiveIndex):
         which will match that request.
         """
         path = Path(ERA5_HOME) / "era5_lowres.nc"  # Everything fits into a single 2 GIG file
+
+        if not os.path.exists(path):
+            raise ValueError(f"Could not find a matching input file at {path}")
 
         return [path]
 
