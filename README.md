@@ -57,7 +57,7 @@ If you use PyEarthTools for your work, we would appreciate you acknowledging our
 
 ## Overview of Documentation
 
-We have information for:
+PyEarthTools documentation is available at [https://pyearthtools.readthedocs.io/en/latest/](https://pyearthtools.readthedocs.io/en/latest/). Among other things, the documentation includes:
 
  - A [new users guide](https://pyearthtools.readthedocs.io/en/latest/newuser.html) to PyEarthTools
  - [Installation instructions](https://pyearthtools.readthedocs.io/en/latest/installation.html) for different usage scenarios
