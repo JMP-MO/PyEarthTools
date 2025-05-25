@@ -16,6 +16,7 @@ Tutorial Gallery: [available here](https://pyearthtools.readthedocs.io/en/latest
 
 **Here is the quickest way to install the complete framework and get started:**
 
+From within a suitable [virtual environment](https://pyearthtools.readthedocs.io/en/latest/installation.html#virtual-environments), run the following commands:
 ```
 git clone git@github.com:ACCESS-Community-Hub/PyEarthTools.git
 pip install -r requirements-dev.txt

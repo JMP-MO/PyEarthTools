@@ -28,6 +28,7 @@ Tutorial Gallery: [available here](./notebooks/Gallery)
 
 **Here is the quickest way to install the complete framework and get started:**
 
+From within a suitable [virtual environment](installation.md#virtual-environments), run the following commands:
 ```
 git clone git@github.com:ACCESS-Community-Hub/PyEarthTools.git
 pip install -r requirements-dev.txt
