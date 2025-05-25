@@ -59,8 +59,7 @@ If you use PyEarthTools for your work, we would appreciate you acknowledging our
 
 We have information for:
 
- - [New user guides and introduction to the concepts in PyEarthTools](https://pyearthtools.readthedocs.io/en/latest/newuser.html)
+ - A [new users guide](https://pyearthtools.readthedocs.io/en/latest/newuser.html) to PyEarthTools
  - [Installation instructions](https://pyearthtools.readthedocs.io/en/latest/installation.html) for different usage scenarios
- - [Data catalogue setup](https://pyearthtools.readthedocs.io/en/latest/catalogue.html) for facility managers or individuals to establish their research data catalogue
  - [A tutorial gallery with a wide variety of examples](https://pyearthtools.readthedocs.io/en/latest/notebooks/Gallery.html)
- - The documentation also includes how-to guides, a new project guide, information on accessing data, and additional orientiation for physical scientists and data scientists.
+ - [API documentation](https://pyearthtools.readthedocs.io/en/latest/api/api.html)
