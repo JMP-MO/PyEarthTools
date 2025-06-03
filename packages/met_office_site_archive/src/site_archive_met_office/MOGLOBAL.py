@@ -30,26 +30,21 @@ from pyearthtools.data.indexes import ArchiveIndex, decorators
 from pyearthtools.data.transforms import Transform, TransformCollection
 from pyearthtools.data.archive import register_archive
 
-from site_archive_met_office.utilities import cached_exists, cached_iterdir              # Could these be moved into a generic module?
-from site_archive_met_office.ancilliary.ERA5 import ERA5_SINGLE_VARIABLES, ERA5_PRESSURE_VARIABLES      # Could these be moved into a generic module?
-
-ERA_PROD = ["monthly-averaged", "monthly-averaged-by-hour", "reanalysis"]
-ERA_RES_RESOLUTION = [(1, "month"), (1, "month"), (1, "hour")]
-
-ERA5_RENAME = {"t2m": "2t", "u10": "10u", "v10": "10v", "siconc": "ci"}
-VARIABLE_EXCEPTIONS = {"z_surface": ("single", "z")}                                # What are variable exceptions? 
+from site_archive_met_office.utilities import cached_exists, cached_iterdir   
 
 
-@register_archive("ERA5", sample_kwargs=dict(variable="2t"))
-class ERA5lowres(ArchiveIndex):
-    """ECWMF ReAnalysis v5 Low-Resolution / WeatherBench"""
+MOGLOBAL_RESOLUTION = (6, "hour")
+
+@register_archive("MOGLOBAL", sample_kwargs=dict(variable="2t"))
+class MOGLOBAL(ArchiveIndex):
+    """MOGLOBAL (subset)"""
 
     @property
     def _desc_(self):
         return {
-            "singleline": "ECWMF ReAnalysis v5",
-            "range": "1970-current",
-            "Documentation": "https://confluence.ecmwf.int/display/CKB/ERA5%3A+data+documentation",
+            "singleline": "Met Office Global (subset)",
+            "range": "2018",
+            "Documentation": "https://www.metoffice.gov.uk/binaries/content/assets/metofficegovuk/pdf/data/global-nwp-asdi-datasheet.pdf",
         }
 
     @decorators.alias_arguments(
@@ -58,27 +53,23 @@ class ERA5lowres(ArchiveIndex):
         product=["resolution"],
     )
     @decorators.variable_modifications(variable_keyword="variables", remove_variables=False)
-    @decorators.check_arguments(
-        struc="site_archive_met_office.structure.ERA5.struc",
-    )
     @decorators.deprecated_arguments(
-        level="`level` is deprecated in the ERA5 index. Simply provide the variables, `level` will be autofound."
+        level="`level` is deprecated. Simply provide the variables, `level` will be autofound."
     )
     def __init__(
         self,
         variables: list[str] | str,
         *,
-        product: Literal["monthly-averaged", "monthly-averaged-by-hour", "reanalysis"] = "reanalysis",
         level_value: int | float | list[int | float] | tuple[list | int, ...] | None = None,
         transforms: Transform | TransformCollection | None = None,
     ):
         """
-        Setup ERA5 Indexer
+        Setup MOGLOBAL Low-Res Indexer
 
         Args:
             variables (list[str] | str):
                 Data variables to retrieve
-            resolution (Literal[ERA_RES], optional):
+            resolution (Literal[MOGLOBAL_RESOLUTION], optional):
                 Resolution of data, must be one of 'monthly-averaged','monthly-averaged-by-hour', 'reanalysis'.
                 Defaults to 'reanalysis'.
             level_value: (int, optional):
@@ -89,16 +80,10 @@ class ERA5lowres(ArchiveIndex):
         """
 
         variables = [variables] if isinstance(variables, str) else variables
-
-        self.resolution = product
-
         self.variables = variables
-        base_transform = TransformCollection()
-
-        base_transform += pyearthtools.data.transforms.attributes.Rename(ERA5_RENAME)
-        # base_transform += pyearthtools.data.transforms.variables.variable_trim(variables)
-
+        self.resolution = MOGLOBAL_RESOLUTION   
         self.level_value = level_value
+        base_transform = TransformCollection()
 
         if level_value:
             base_transform += pyearthtools.data.transforms.coordinates.Select(
@@ -107,7 +92,7 @@ class ERA5lowres(ArchiveIndex):
 
         super().__init__(
             transforms=base_transform + (transforms or TransformCollection()),
-            data_interval=ERA_RES_RESOLUTION[ERA_PROD.index(product)],
+            data_interval=MOGLOBAL_RESOLUTION,
         )
         self.record_initialisation()
 
@@ -115,43 +100,45 @@ class ERA5lowres(ArchiveIndex):
         self,
         querytime: str | Petdt,
     ) -> Path | dict[str, str | Path]:
-        ERA5_HOME = self.ROOT_DIRECTORIES["ERA5"]
+        MOGLOBAL_HOME = self.ROOT_DIRECTORIES["MOGLOBAL"]
+
 
         paths = {}
         querytime = Petdt(querytime)
 
-        for variable in self.variables:
-            if variable in VARIABLE_EXCEPTIONS:
-                level = VARIABLE_EXCEPTIONS[variable][0]
-                variable = VARIABLE_EXCEPTIONS[variable][1]
+        # Format the query date as YYYYMMDD
+        query_date = querytime.strftime("%Y%m%d")
+        
+        # Extract model initialization time (e.g., "00", "06")
+        # TODO: Default to "00" if not specified - I think Petdt adds Txx when not specified for all time resolution steps. 
+        model_time = querytime.strftime("%H")
+            
+        # Search for files matching the query date and model initialization time
+        files_in_dir = cached_iterdir(Path(MOGLOBAL_HOME))
+        relevant_files = [
+            filename for filename in files_in_dir
+            if query_date in str(filename) and f"_{model_time}_" in str(filename)
+        ]
+        
+        # print(f'Number of files in directory: {len(files_in_dir)}')
+        # print("Query date:", query_date)
+        # print("Query time:", querytime)
+        # print("Model time:", model_time)
+        print("Matching files:", relevant_files)
 
-            elif variable in ERA5_SINGLE_VARIABLES:
-                level = "single"
-            elif variable in ERA5_PRESSURE_VARIABLES:
-                level = "pressure"
-            else:
-                raise ValueError(f"Cannot identify level type of variable: {variable!r}.")
-
-            # TODO: Check if I need to remove the str(querytime.year) from the path.
-            var_path = Path(ERA5_HOME.format(level=level, resolution=self.resolution)) / variable / str(querytime.year)
-
-            files_in_dir = cached_iterdir(var_path)
-            start_of_month_string = querytime.replace(day=1).strftime("%Y%m%d")
-
-            relevant_path = None
-            for filename in files_in_dir:
-                if start_of_month_string in str(filename):
-                    relevant_path = filename
-                    break
-
-            if relevant_path is not None:
-                relevant_path = var_path / relevant_path
-
-                if cached_exists(relevant_path):
-                    paths[variable] = relevant_path
-                    continue
-
+        if not relevant_files:
             raise DataNotFoundError(
-                f"Unable to find data for: basetime: {querytime}, variables: {variable} at {var_path}"
+                f"Unable to find data for: basetime: {querytime} at {MOGLOBAL_HOME}"
             )
+
+        # Map the relevant files to their paths
+        for filename in relevant_files:
+            paths[str(filename)] = Path(MOGLOBAL_HOME) / filename
+
         return paths
+
+    # Do we need this?
+    @property
+    def _import(self):
+        """module to import when this class is used"""
+        return "pyearthtools.site_archive_met_office.MOGLOBAL"

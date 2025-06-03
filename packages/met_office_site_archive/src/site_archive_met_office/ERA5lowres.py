@@ -31,13 +31,12 @@ from pyearthtools.data.transforms import Transform, TransformCollection
 from pyearthtools.data.archive import register_archive
 
 from site_archive_met_office.utilities import cached_exists, cached_iterdir                             # Could these be moved into a generic module?
-from site_archive_met_office.ancilliary.ERA5 import ERA5_SINGLE_VARIABLES, ERA5_PRESSURE_VARIABLES      # Could these be moved into a generic module?
+from site_archive_met_office.ancilliary.ERA5 import ERA5_SINGLE_VARIABLES, ERA5_PRESSURE_VARIABLES # NOT NEEDED NOW?   # Could these be moved into a generic module?
 
 ERA_PROD = ["monthly-averaged", "monthly-averaged-by-hour", "reanalysis"]
-ERA_RES_RESOLUTION = [(1, "month"), (1, "month"), (1, "hour")]
+ERA_RESOLUTION = (1, "hour")
 
-ERA5_RENAME = {"t2m": "2t", "u10": "10u", "v10": "10v", "siconc": "ci"}                                 # Why is this needed?
-VARIABLE_EXCEPTIONS = {"z_surface": ("single", "z")}                                                    # What are variable exceptions? 
+# ERA5_RENAME = {"t2m": "2t", "u10": "10u", "v10": "10v", "siconc": "ci"}                                 # Why is this needed?
 
 
 V_TO_PATH = {
@@ -79,9 +78,6 @@ class ERA5lowres(ArchiveIndex):
         product=["resolution"],
     )
     @decorators.variable_modifications(variable_keyword="variables", remove_variables=False)
-    @decorators.check_arguments(
-        struc="site_archive_met_office.structure.ERA5.struc",
-    )
     @decorators.deprecated_arguments(
         level="`level` is deprecated in the ERA5 index. Simply provide the variables, `level` will be autofound."
     )
@@ -89,12 +85,11 @@ class ERA5lowres(ArchiveIndex):
         self,
         variables: list[str] | str,
         *,
-        product: Literal["monthly-averaged", "monthly-averaged-by-hour", "reanalysis"] = "reanalysis",
         level_value: int | float | list[int | float] | tuple[list | int, ...] | None = None,
         transforms: Transform | TransformCollection | None = None,
     ):
         """
-        Setup ERA5 Indexer
+        Setup ERA5 Low-Res Indexer
 
         Args:
             variables (list[str] | str):
@@ -111,12 +106,12 @@ class ERA5lowres(ArchiveIndex):
 
         variables = [variables] if isinstance(variables, str) else variables
 
-        self.resolution = product
+        self.resolution = ERA_RESOLUTION
 
         self.variables = variables
         base_transform = TransformCollection()
 
-        base_transform += pyearthtools.data.transforms.attributes.Rename(ERA5_RENAME)
+        # base_transform += pyearthtools.data.transforms.attributes.Rename(ERA5_RENAME)
         # base_transform += pyearthtools.data.transforms.variables.variable_trim(variables)
 
         self.level_value = level_value
@@ -128,7 +123,7 @@ class ERA5lowres(ArchiveIndex):
 
         super().__init__(
             transforms=base_transform + (transforms or TransformCollection()),
-            data_interval=ERA_RES_RESOLUTION[ERA_PROD.index(product)],
+            data_interval=ERA_RESOLUTION,
         )
         self.record_initialisation()
 
@@ -142,22 +137,12 @@ class ERA5lowres(ArchiveIndex):
         querytime = Petdt(querytime)
 
         for variable in self.variables:
-            if variable in VARIABLE_EXCEPTIONS:
-                level = VARIABLE_EXCEPTIONS[variable][0]
-                variable = VARIABLE_EXCEPTIONS[variable][1]
-
-            elif variable in ERA5_SINGLE_VARIABLES:
-                level = "single"
-            elif variable in ERA5_PRESSURE_VARIABLES:
-                level = "pressure"
-            else:
-                raise ValueError(f"Cannot identify level type of variable: {variable!r}.")
 
             # This line tells pyearthtools how to go from a request for a date/time to a path containing the files
             var_path = Path(ERA5lowres_HOME) / V_TO_PATH[variable] 
 
             files_in_dir = cached_iterdir(var_path)
-            start_of_month_string = querytime.replace(day=1).strftime("%Y%m%d")
+            start_of_month_string = querytime.strftime("%Y")
 
             relevant_path = None
             for filename in files_in_dir:
@@ -176,3 +161,9 @@ class ERA5lowres(ArchiveIndex):
                 f"Unable to find data for: basetime: {querytime}, variables: {variable} at {var_path}"
             )
         return paths
+
+    # Do we need this?
+    @property
+    def _import(self):
+        """module to import when this class is used"""
+        return "pyearthtools.site_archive_met_office.ERA5lowres"
