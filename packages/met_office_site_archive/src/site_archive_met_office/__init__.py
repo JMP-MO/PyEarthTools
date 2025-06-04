@@ -20,6 +20,7 @@ Met Office specific Indexes
 | :---        |       ----: |
 | [ERA5][site_archive_met_office.ERA5lowres]   | ECWMF ReAnalysis v5 WeatherBench Low Res       |
 | [MOGLOBAL][site_archive_met_office.MOGLOBAL] | Subset of Met Office Global Analysis Data      |
+| [MOUKV][site_archive_met_office.MOUKV]       | Subset of Met Office UKV Analysis Data         |
 """
 
 import pyearthtools.data
@@ -28,7 +29,8 @@ from pyearthtools.data.archive import register_archive
 
 ROOT_DIRECTORIES = {
     "ERA5lowres": "/data/users/infolab/weatherbench/5.625deg/",
-    "MOGLOBAL": "/data/scratch/john.pill/PET_MO_Global_data/netcdf_files/",    # Temporary location for experimentation.
+    "MOGLOBAL": "/data/scratch/john.pill/PET_MO_Global_data/netcdf_files/",     # Temporary location for experimentation.
+    "MOUKV": "/data/scratch/john.pill/PET_MO_UKV_data/netcdf_files/",           # Temporary location for experimentation.
 }
 
 
@@ -38,6 +40,7 @@ import site_archive_met_office
 
 from site_archive_met_office.ERA5lowres import ERA5lowres
 from site_archive_met_office.MOGLOBAL import MOGLOBAL
+from site_archive_met_office.MOUKV import MOUKV
 
 register_archive("met_office")(site_archive_met_office)
 
