@@ -2,7 +2,7 @@
 
 ## Overview
 
-**Step One:** Set up a place for your project. Use [Cookie Cutter Data Science](https://cookiecutter-data-science.drivendata.org). This will give all of your projects a consistent layout and structure regardless of what kind of data science project is done. Install this and use their instructions to start a new project. It's fine to do things differently, but this is a way to get started consistently with a documentated approach. 
+**Step One:** Set up a place for your project. Consider using [Cookie Cutter Data Science](https://cookiecutter-data-science.drivendata.org). This will give all of your projects a consistent layout and structure regardless of what kind of data science project is done. Install this and use their instructions to start a new project. It's fine to do things differently, but this is a way to get started consistently with a documentated approach. 
 
 **Step Two:** Load and visualise your data. Read [the data API how-to](/api/data/data_how_to.md) for more information fetching and adding data.
 
