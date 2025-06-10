@@ -101,6 +101,7 @@ def set_root_directory(key: str, path: str):
         key (str): The key to update (e.g., "ERA5lowres").
         path (str): The new path to set.
     """
+    
     ROOT_DIRECTORIES = pyearthtools.data.archive.ROOT_DIRECTORIES
     
     if key not in ROOT_DIRECTORIES:
