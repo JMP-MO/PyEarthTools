@@ -24,15 +24,14 @@ Met Office specific Indexes
 """
 
 import pyearthtools.data
-from pyearthtools.data.archive import register_archive
+from pyearthtools.data.archive import register_archive, set_root_directory, get_root_directories
 
 
 ROOT_DIRECTORIES = {
-    "ERA5lowres": "/data/users/infolab/weatherbench/5.625deg/",
-    "MOGLOBAL": "/data/scratch/john.pill/PET_MO_Global_data/netcdf_files/",     # Temporary location for experimentation.
-    "MOUKV": "/data/scratch/john.pill/PET_MO_UKV_data/netcdf_files/",           # Temporary location for experimentation.
+    "ERA5lowres": "",   # NO HARD CODED PATHS!
+    "MOGLOBAL": "", 
+    "MOUKV": "",        
 }
-
 
 register_archive("ROOT_DIRECTORIES")(ROOT_DIRECTORIES)
 

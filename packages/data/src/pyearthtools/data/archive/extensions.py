@@ -91,3 +91,29 @@ def register_archive(name: str, *, sample_kwargs: dict[str, Any] | None = None) 
         return archive_index
 
     return decorator
+
+
+def set_root_directory(key: str, path: str):
+    """
+    Set / update the path for a specific key in ROOT_DIRECTORIES.
+
+    Args:
+        key (str): The key to update (e.g., "ERA5lowres").
+        path (str): The new path to set.
+    """
+    ROOT_DIRECTORIES = pyearthtools.data.archive.ROOT_DIRECTORIES
+    
+    if key not in ROOT_DIRECTORIES:
+        raise KeyError(f"Invalid key '{key}'. Valid keys are: {list(ROOT_DIRECTORIES.keys())}")
+    ROOT_DIRECTORIES[key] = path
+
+
+def get_root_directories():
+    """
+    Get the current ROOT_DIRECTORIES.
+
+    Returns:
+        dict: The current ROOT_DIRECTORIES.
+    """
+
+    return pyearthtools.data.archive.ROOT_DIRECTORIES
