@@ -42,6 +42,8 @@ from __future__ import annotations
 from types import ModuleType
 from typing import Callable, Any
 
+import os
+import yaml
 import warnings
 
 import pyearthtools.data
@@ -118,3 +120,22 @@ def get_root_directories():
     """
 
     return pyearthtools.data.archive.ROOT_DIRECTORIES
+
+
+def load_root_directories_from_config(config_path=None):
+    """Load ROOT_DIRECTORIES from a YAML config file."""
+    
+    if config_path is None:
+        username = os.getenv("USER")
+        config_path = f"/home/users/{username}/met_office_paths.yaml"
+        
+    ROOT_DIRECTORIES = pyearthtools.data.archive.ROOT_DIRECTORIES
+    
+    if os.path.exists(config_path):
+        with open(config_path, "r") as f:
+            config = yaml.safe_load(f)
+        for key in ROOT_DIRECTORIES:
+            if key in config:
+                ROOT_DIRECTORIES[key] = config[key]
+                
+    print("ROOT_DIRECTORIES:", ROOT_DIRECTORIES)

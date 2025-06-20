@@ -24,11 +24,11 @@ Met Office specific Indexes
 """
 
 import pyearthtools.data
-from pyearthtools.data.archive import register_archive, set_root_directory, get_root_directories
+from pyearthtools.data.archive import register_archive, set_root_directory, get_root_directories, load_root_directories_from_config
 
 
 ROOT_DIRECTORIES = {
-    "ERA5lowres": "",   # NO HARD CODED PATHS!
+    "ERA5lowres": "",
     "MOGLOBAL": "", 
     "MOUKV": "",        
 }
@@ -42,6 +42,8 @@ from site_archive_met_office.MOGLOBAL import MOGLOBAL
 from site_archive_met_office.MOUKV import MOUKV
 
 register_archive("met_office")(site_archive_met_office)
+
+load_root_directories_from_config()
 
 try:
     # NOTE: the `_version.py` file must not be present in the git repository
