@@ -17,7 +17,6 @@ from unittest.mock import patch, mock_open
 
 import yaml
 
-
 from pyearthtools.data import load
 from pyearthtools.data.utils import parse_path
 from pathlib import Path
@@ -38,16 +37,19 @@ def test_load_file_not_found():
         with pytest.raises(FileNotFoundError):
             load(mock_file_path)
 
+
 def test_load_empty_directory():
     """Test loading from a directory with no matching catalog files."""
 
     mock_empty_dir = "data/empty_dir"
+
     with (
         patch("pyearthtools.data.utils.parse_path", return_value=Path(mock_empty_dir)),
         patch("pathlib.Path.glob", return_value=[]),
     ):  # Mock an empty directory
         with pytest.raises(FileNotFoundError):
             load(mock_empty_dir)
+
 
 def test_update_contents_called_correctly():
     """Test that initialisation.update_contents is called with the correct arguments."""

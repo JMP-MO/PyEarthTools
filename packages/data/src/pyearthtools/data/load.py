@@ -42,12 +42,10 @@ def load(stream: Union[str, Path], **kwargs) -> "pyearthtools.data.Index":
         (pyearthtools.data.Index):
             Loaded Index
     """
-    
+
     # Check if the stream is not a Path or String and raise an error
     if not isinstance(stream, (str, Path)):
-        raise TypeError(
-            f"Stream is not a Path or String {type(stream)} - {stream}."
-        )
+        raise TypeError(f"Stream is not a Path or String {type(stream)} - {stream}.")
 
     contents = None
 
@@ -65,8 +63,10 @@ def load(stream: Union[str, Path], **kwargs) -> "pyearthtools.data.Index":
                         *Path(stream).glob("*.cat"),
                         *Path(stream).glob("*.edi"),
                     ]
-                )[0]  # Find default save file of index
-            
+                )[
+                    0
+                ]  # Find default save file of index
+
             # Combine all files into a single variable
             contents = "".join(open(str(parse_path(stream))).readlines())
         except FileNotFoundError as e:
