@@ -122,12 +122,16 @@ def get_root_directories():
     return pyearthtools.data.archive.ROOT_DIRECTORIES
 
 
-def load_root_directories_from_config(config_path=None):
-    """Load ROOT_DIRECTORIES from a YAML config file."""
+def load_root_directories_from_config(config_path: str):
+    """
+    Load ROOT_DIRECTORIES from a YAML config file.
     
+    Args:
+        config_path (str): 
+            The path to the YAML configuration file containing the root directory mappings.
+    """
     if config_path is None:
-        username = os.getenv("USER")
-        config_path = f"/home/users/{username}/met_office_paths.yaml"
+        raise ValueError("config_path must be provided to load ROOT_DIRECTORIES from a config file.")
         
     ROOT_DIRECTORIES = pyearthtools.data.archive.ROOT_DIRECTORIES
     

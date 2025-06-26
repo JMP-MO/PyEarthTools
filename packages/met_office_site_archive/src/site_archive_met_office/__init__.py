@@ -23,6 +23,7 @@ Met Office specific Indexes
 | [MOUKV][site_archive_met_office.MOUKV]       | Subset of Met Office UKV Analysis Data         |
 """
 
+import os
 import pyearthtools.data
 from pyearthtools.data.archive import register_archive, set_root_directory, get_root_directories, load_root_directories_from_config
 
@@ -43,7 +44,9 @@ from site_archive_met_office.MOUKV import MOUKV
 
 register_archive("met_office")(site_archive_met_office)
 
-load_root_directories_from_config()
+# Load the Met Office PyEarthTools config file to set the root directories
+username = os.getenv("USER")
+load_root_directories_from_config(config_path=f"/home/users/{username}/.pyearthtoolsconfig")
 
 try:
     # NOTE: the `_version.py` file must not be present in the git repository
