@@ -34,3 +34,6 @@ identifiers:
     - type: doi
       value: 10.5281/zenodo.15760769
 date-released: 2025-06-28
+preferred-citation:
+  collection-doi: 10.5281/zenodo.15760769
+  type: software
