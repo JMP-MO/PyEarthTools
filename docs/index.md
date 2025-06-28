@@ -5,6 +5,8 @@
 
 # PyEarthTools: Machine learning for Earth system science
 
+[![DOI](https://zenodo.org/badge/903938118.svg)](https://doi.org/10.5281/zenodo.15760768)
+
 - An approachable way for researchers to get started with ML research for Earth system science
 - Provides a software framework for research and experimentation
 - Also suitable for students and newcomers
@@ -66,7 +68,40 @@ PyEarthTools comprises multiple sub-packages which can be used individually or t
 
 ## Acknowleging or Citing `PyEarthTools`
 
-If you use PyEarthTools for your work, we would appreciate you acknowledging our work. A citable DOI will be available soon. In the meantime, please cite this repository.
+If you use PyEarthTools for your work, we would appreciate you citing our software. 
+
+Cook, H., Leeuwenburg, T., Rio, M., Miller, J., Mason, G., Ramanathan, N., Pill, J., Haddad, S., & de Burgh-Day, C. (2025). PyEarthTools: Machine learning for Earth system science. (0.1.1). Zenodo. https://doi.org/10.5281/zenodo.15760769
+
+BibTeX:
+```
+@software{cook_2025_15760769,
+  author       = {Cook, Harrison and
+                  Leeuwenburg, Tennessee and
+                  Rio, Maxime and
+                  Miller, Joel and
+                  Mason, Gemma and
+                  Ramanathan, Nikeeth and
+                  Pill, John and
+                  Haddad, Stephen and
+                  de Burgh-Day, Catherine},
+  title        = {PyEarthTools: Machine learning for Earth system
+                   science.
+                  },
+  month        = jun,
+  year         = 2025,
+  publisher    = {Zenodo},
+  version      = {0.1.1},
+  doi          = {10.5281/zenodo.15760769},
+  url          = {https://doi.org/10.5281/zenodo.15760769},
+  swhid        = {swh:1:dir:7c8d6c15f005b5981c235cddfab24954c96e02cd
+                   ;origin=https://doi.org/10.5281/zenodo.15760768;vi
+                   sit=swh:1:snp:938e9de792c403c3539fdc22cf9e9386b79f
+                   ad61;anchor=swh:1:rel:25862e8c772eaba3b2507712f2b8
+                   a8049456743b;path=ACCESS-Community-Hub-
+                   PyEarthTools-b8f7b71
+                  }
+}
+```
   
 
 ```{toctree}
