@@ -73,7 +73,9 @@ docs = [
   "scipy",
   "bottleneck",
   "nbsphinx",
-  "sphinx_gallery"
+  "sphinx_gallery",
+  "sphinx-design",
+  "sphinx-togglebutton",
 ]
 
 [project.urls]
