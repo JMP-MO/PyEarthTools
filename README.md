@@ -13,6 +13,7 @@
 Source Code: [github.com/ACCESS-Community-Hub/PyEarthTools](https://github.com/ACCESS-Community-Hub/PyEarthTools)  
 Documentation: [pyearthtools.readthedocs.io](https://pyearthtools.readthedocs.io)  
 Tutorial Gallery: [available here](https://pyearthtools.readthedocs.io/en/latest/notebooks/Gallery.html)  
+New Users Guide: [available here](https://pyearthtools.readthedocs.io/en/latest/newuser.html) 
 
 ## Installation
 
@@ -97,11 +98,3 @@ BibTeX:
 }
 ```
 
-## Overview of Documentation
-
-PyEarthTools documentation is available at [https://pyearthtools.readthedocs.io](https://pyearthtools.readthedocs.io). Among other things, the documentation includes:
-
- - A [new users guide](https://pyearthtools.readthedocs.io/en/latest/newuser.html) to PyEarthTools
- - [Installation instructions](https://pyearthtools.readthedocs.io/en/latest/installation.html) for different usage scenarios
- - [A tutorial gallery with a wide variety of examples](https://pyearthtools.readthedocs.io/en/latest/notebooks/Gallery.html)
- - [API documentation](https://pyearthtools.readthedocs.io/en/latest/api/api.html)
