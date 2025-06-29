@@ -93,14 +93,7 @@ BibTeX:
   publisher    = {Zenodo},
   version      = {0.1.1},
   doi          = {10.5281/zenodo.15760769},
-  url          = {https://doi.org/10.5281/zenodo.15760769},
-  swhid        = {swh:1:dir:7c8d6c15f005b5981c235cddfab24954c96e02cd
-                   ;origin=https://doi.org/10.5281/zenodo.15760768;vi
-                   sit=swh:1:snp:938e9de792c403c3539fdc22cf9e9386b79f
-                   ad61;anchor=swh:1:rel:25862e8c772eaba3b2507712f2b8
-                   a8049456743b;path=ACCESS-Community-Hub-
-                   PyEarthTools-b8f7b71
-                  }
+  url          = {https://doi.org/10.5281/zenodo.15760769}
 }
 ```
 
