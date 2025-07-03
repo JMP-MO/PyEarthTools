@@ -17,7 +17,8 @@ import pytest
 
 from pyearthtools.data.indexes import FakeIndex
 
-@pytest.mark.skipif(platform.system() == 'Darwin', reason='This specific test fails on macOS')
+
+@pytest.mark.skipif(platform.system() == "Darwin", reason="This specific test fails on macOS")
 @pytest.mark.parametrize(
     "period, value",
     [
@@ -47,7 +48,8 @@ def test_rename():
     )
     assert "accum_data" in index["2020-01-01T00"]
 
-@pytest.mark.skipif(platform.system() == 'Darwin', reason='This specific test fails on macOS')
+
+@pytest.mark.skipif(platform.system() == "Darwin", reason="This specific test fails on macOS")
 @pytest.mark.parametrize(
     "period",
     [
@@ -75,7 +77,8 @@ def test_accumulate_manual(period):
         == index_manual.series("2020-01-01T00", "2020-01-01T06").sum(dim="time")["data"].mean().values
     )
 
-@pytest.mark.skipif(platform.system() == 'Darwin', reason='This specific test fails on macOS')
+
+@pytest.mark.skipif(platform.system() == "Darwin", reason="This specific test fails on macOS")
 @pytest.mark.parametrize(
     "period, value",
     [

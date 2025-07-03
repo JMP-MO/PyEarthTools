@@ -40,7 +40,7 @@ def test_Normaliser_default_setup(monkeypatch):
 
 
 # Test utility functions
-def test_open_file(monkeypatch): # Note that get_default_transforms() is not mocked here
+def test_open_file(monkeypatch):  # Note that get_default_transforms() is not mocked here
     monkeypatch.setattr(pyearthtools.data.transforms.normalisation.default, "open_files", lambda x: sample_da)
 
     result = default.open_file("pretend_filename.nc")
@@ -48,7 +48,7 @@ def test_open_file(monkeypatch): # Note that get_default_transforms() is not moc
     assert result is not None
 
 
-def test_open_non_xarray_file(monkeypatch): # Note that get_default_transforms() is not mocked here
+def test_open_non_xarray_file(monkeypatch):  # Note that get_default_transforms() is not mocked here
     monkeypatch.setattr(pyearthtools.data.transforms.normalisation.default, "open_files", lambda x: sample_numpy_array)
 
     result = default.open_file("pretend_filename.nc")
@@ -109,7 +109,9 @@ def test_range(test_Normaliser_default_setup):
 def test_repr(test_Normaliser_default_setup):
     n, ati = test_Normaliser_default_setup
 
-    assert repr(n) == "Normalisation Class waiting upon a request for a method, either call with a method or use property."
+    assert (
+        repr(n) == "Normalisation Class waiting upon a request for a method, either call with a method or use property."
+    )
 
 
 # Test Normaliser abstract base class
@@ -183,7 +185,8 @@ def test_Normaliser_check_init_args_missing_retrieval_args(monkeypatch, missing_
         default.Normaliser(index=ati, **temp_retrieval_args).check_init_args()
     assert missing_arg in str(e.value)
 
-@pytest.mark.skipif(platform.system() == 'Darwin', reason='This specific test fails on macOS')
+
+@pytest.mark.skipif(platform.system() == "Darwin", reason="This specific test fails on macOS")
 def test_Normaliser_get_average(test_Normaliser_default_setup, monkeypatch):
     n, ati = test_Normaliser_default_setup
     monkeypatch.setattr(ati, "get", lambda x: sample_da)
@@ -192,7 +195,8 @@ def test_Normaliser_get_average(test_Normaliser_default_setup, monkeypatch):
 
     assert result == 1
 
-@pytest.mark.skipif(platform.system() == 'Darwin', reason='This specific test fails on macOS')
+
+@pytest.mark.skipif(platform.system() == "Darwin", reason="This specific test fails on macOS")
 def test_Normaliser_get_deviation(test_Normaliser_default_setup, monkeypatch):
     n, ati = test_Normaliser_default_setup
     monkeypatch.setattr(ati, "get", lambda x: sample_da)
@@ -202,7 +206,8 @@ def test_Normaliser_get_deviation(test_Normaliser_default_setup, monkeypatch):
     assert result_mean == 1
     assert result_std == 0
 
-@pytest.mark.skipif(platform.system() == 'Darwin', reason='This specific test fails on macOS')
+
+@pytest.mark.skipif(platform.system() == "Darwin", reason="This specific test fails on macOS")
 def test_Normaliser_get_anomaly(test_Normaliser_default_setup, monkeypatch):
     n, ati = test_Normaliser_default_setup
     monkeypatch.setattr(ati, "get", lambda x: sample_da)

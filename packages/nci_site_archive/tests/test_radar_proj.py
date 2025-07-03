@@ -200,7 +200,7 @@ class TestRadarProj:
         assert np.min(ds_inv.lon) >= lon0 - 1
         assert np.max(ds_inv.lon) <= lon1 + 1
 
-    @pytest.mark.skipif(platform.system() == 'Darwin', reason='This specific test fails on macOS')
+    @pytest.mark.skipif(platform.system() == "Darwin", reason="This specific test fails on macOS")
     @pytest.mark.parametrize(
         "interp_method",
         ["linear", "slinear", "cubic"],

@@ -4,6 +4,7 @@ from pyearthtools.data.download import arcoera5
 
 # FIXME: Skip slow downloads unless chosen specifically
 
+
 def _load_sample(variables, levels, sample_time):
     arco = arcoera5.ARCOERA5(variables, levels=levels)
     sample = arco.get(sample_time)
@@ -17,6 +18,7 @@ def _load_sample(variables, levels, sample_time):
     assert sample.sizes["longitude"] == 1440
 
     return sample
+
 
 @pytest.mark.slow
 @pytest.mark.parametrize(
@@ -41,6 +43,7 @@ def test_load_vars(variables, levels, sample_time):
     assert sample.sizes["level"] == len(levels)
     assert all(level in sample.level for level in levels)
 
+
 @pytest.mark.slow
 @pytest.mark.parametrize(
     "variable,levels,sample_time",
@@ -60,6 +63,7 @@ def test_load_1var(variable, levels, sample_time):
     assert "level" in sample.dims
     assert sample.sizes["level"] == len(levels)
     assert all(level in sample.level for level in levels)
+
 
 @pytest.mark.slow
 @pytest.mark.parametrize(
