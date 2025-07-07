@@ -33,6 +33,8 @@ from site_archive_met_office.utilities import cached_exists, cached_iterdir
 
 
 MOUKV_RESOLUTION = (6, "hour")
+MOUKV_RENAME = {"grid_latitude": "latitude", "grid_longitude": "longitude"}
+
 
 @register_archive("MOUKV", sample_kwargs=dict(variable="2t"))
 class MOUKV(ArchiveIndex):
@@ -83,6 +85,8 @@ class MOUKV(ArchiveIndex):
         self.resolution = MOUKV_RESOLUTION   
         self.level_value = level_value
         base_transform = TransformCollection()
+        
+        base_transform += pyearthtools.data.transforms.attributes.Rename(MOUKV_RENAME)
 
         if level_value:
             base_transform += pyearthtools.data.transforms.coordinates.Select(
@@ -124,7 +128,7 @@ class MOUKV(ArchiveIndex):
         # print("Query date:", query_date)
         # print("Query time:", querytime)
         # print("Model time:", model_time)
-        print("Matching files:", relevant_files)
+        # print("Matching files:", relevant_files)
 
         if not relevant_files:
             raise DataNotFoundError(
