@@ -33,4 +33,5 @@ version: 0.1.1
 doi: 10.5281/zenodo.15760769
 url: https://doi.org/10.5281/zenodo.15760769
 date-released: 2025-06-28
-publisher: Zenodo
+publisher: 
+  name: "Zenodo"
