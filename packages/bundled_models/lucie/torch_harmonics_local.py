@@ -4,6 +4,7 @@ import torch.nn as nn
 from torch.utils.checkpoint import checkpoint
 from dataclasses import dataclass
 from typing import Any, Tuple
+
 # import torch_harmonics as th
 # import torch_harmonics.distributed as thd
 
@@ -24,7 +25,7 @@ from torch.nn.parallel import DistributedDataParallel
 import tensorly as tl
 import numpy as np
 
-device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 if torch.cuda.is_available():
     torch.cuda.set_device(0)
 
@@ -75,6 +76,7 @@ class ModelMetaData:
         self.onnx_cpu = self.onnx if self.onnx_cpu is None else self.onnx_cpu
         self.onnx_gpu = self.onnx if self.onnx_gpu is None else self.onnx_gpu
 
+
 import torch
 import logging
 
@@ -103,9 +105,7 @@ class Module(torch.nn.Module):
 
         self.logger = logging.getLogger("core.module")
         handler = logging.StreamHandler()
-        formatter = logging.Formatter(
-            f"[%(asctime)s - %(levelname)s] %(message)s", datefmt="%H:%M:%S"
-        )
+        formatter = logging.Formatter(f"[%(asctime)s - %(levelname)s] %(message)s", datefmt="%H:%M:%S")
         handler.setFormatter(formatter)
         self.logger.addHandler(handler)
         self.logger.setLevel(logging.WARNING)
@@ -146,9 +146,7 @@ class Module(torch.nn.Module):
 
         file_name = Path(file_name)
         if not file_name.parents[0].is_dir():
-            raise IOError(
-                f"Model checkpoint parent directory {file_name.parents[0]} not found"
-            )
+            raise IOError(f"Model checkpoint parent directory {file_name.parents[0]} not found")
 
         torch.save(self.state_dict(), str(file_name))
 
@@ -195,14 +193,11 @@ class Module(torch.nn.Module):
         return count
 
 
-
 import torch
 
 
 @torch.jit.script
-def compl_mul1d_fwd(
-    a: torch.Tensor, b: torch.Tensor
-) -> torch.Tensor:  # pragma: no cover
+def compl_mul1d_fwd(a: torch.Tensor, b: torch.Tensor) -> torch.Tensor:  # pragma: no cover
     """
     Performs a complex-valued multiplication operation between two 1-dimensional
     tensors.
@@ -215,9 +210,7 @@ def compl_mul1d_fwd(
 
 
 @torch.jit.script
-def compl_muladd1d_fwd(
-    a: torch.Tensor, b: torch.Tensor, c: torch.Tensor
-) -> torch.Tensor:  # pragma: no cover
+def compl_muladd1d_fwd(a: torch.Tensor, b: torch.Tensor, c: torch.Tensor) -> torch.Tensor:  # pragma: no cover
     """
     Performs complex multiplication of two 1-dimensional tensors 'a' and 'b', and then
     adds a third tensor 'c'.
@@ -228,9 +221,7 @@ def compl_muladd1d_fwd(
 
 
 @torch.jit.script
-def compl_mul2d_fwd(
-    a: torch.Tensor, b: torch.Tensor
-) -> torch.Tensor:  # pragma: no cover
+def compl_mul2d_fwd(a: torch.Tensor, b: torch.Tensor) -> torch.Tensor:  # pragma: no cover
     """
     Performs a complex-valued multiplication operation between two 2-dimensional
     tensors.
@@ -243,9 +234,7 @@ def compl_mul2d_fwd(
 
 
 @torch.jit.script
-def compl_muladd2d_fwd(
-    a: torch.Tensor, b: torch.Tensor, c: torch.Tensor
-) -> torch.Tensor:  # pragma: no cover
+def compl_muladd2d_fwd(a: torch.Tensor, b: torch.Tensor, c: torch.Tensor) -> torch.Tensor:  # pragma: no cover
     """
     Performs complex multiplication of two 2-dimensional tensors 'a' and 'b', and then
     adds a third tensor 'c'.
@@ -256,9 +245,7 @@ def compl_muladd2d_fwd(
 
 
 @torch.jit.script  # TODO remove
-def _contract_localconv_fwd(
-    a: torch.Tensor, b: torch.Tensor
-) -> torch.Tensor:  # pragma: no cover
+def _contract_localconv_fwd(a: torch.Tensor, b: torch.Tensor) -> torch.Tensor:  # pragma: no cover
     """
     Performs a complex local convolution operation between two tensors 'a' and 'b'.
     """
@@ -270,9 +257,7 @@ def _contract_localconv_fwd(
 
 
 @torch.jit.script  # TODO remove
-def _contract_blockconv_fwd(
-    a: torch.Tensor, b: torch.Tensor
-) -> torch.Tensor:  # pragma: no cover
+def _contract_blockconv_fwd(a: torch.Tensor, b: torch.Tensor) -> torch.Tensor:  # pragma: no cover
     """
     Performs a complex block convolution operation between two tensors 'a' and 'b'.
     """
@@ -284,9 +269,7 @@ def _contract_blockconv_fwd(
 
 
 @torch.jit.script  # TODO remove
-def _contractadd_blockconv_fwd(
-    a: torch.Tensor, b: torch.Tensor, c: torch.Tensor
-) -> torch.Tensor:  # pragma: no cover
+def _contractadd_blockconv_fwd(a: torch.Tensor, b: torch.Tensor, c: torch.Tensor) -> torch.Tensor:  # pragma: no cover
     """
     Performs a complex block convolution operation between two tensors 'a' and 'b', and
     then adds a third tensor 'c'.
@@ -298,9 +281,7 @@ def _contractadd_blockconv_fwd(
 
 # for the experimental layer
 @torch.jit.script  # TODO remove
-def compl_exp_mul2d_fwd(
-    a: torch.Tensor, b: torch.Tensor
-) -> torch.Tensor:  # pragma: no cover
+def compl_exp_mul2d_fwd(a: torch.Tensor, b: torch.Tensor) -> torch.Tensor:  # pragma: no cover
     """
     Performs a 2D complex multiplication operation between two tensors 'a' and 'b'.
     """
@@ -325,9 +306,7 @@ def compl_exp_muladd2d_fwd(  # TODO remove
 
 
 @torch.jit.script
-def real_mul2d_fwd(
-    a: torch.Tensor, b: torch.Tensor
-) -> torch.Tensor:  # pragma: no cover
+def real_mul2d_fwd(a: torch.Tensor, b: torch.Tensor) -> torch.Tensor:  # pragma: no cover
     """
     Performs a 2D real multiplication operation between two tensors 'a' and 'b'.
     """
@@ -336,9 +315,7 @@ def real_mul2d_fwd(
 
 
 @torch.jit.script
-def real_muladd2d_fwd(
-    a: torch.Tensor, b: torch.Tensor, c: torch.Tensor
-) -> torch.Tensor:  # pragma: no cover
+def real_muladd2d_fwd(a: torch.Tensor, b: torch.Tensor, c: torch.Tensor) -> torch.Tensor:  # pragma: no cover
     """
     Performs a 2D real multiplication operation between two tensors 'a' and 'b', and
     then adds a third tensor 'c'.
@@ -349,9 +326,7 @@ def real_muladd2d_fwd(
 
 # new contractions set to replace older ones. We use complex
 @torch.jit.script
-def _contract_diagonal(
-    a: torch.Tensor, b: torch.Tensor
-) -> torch.Tensor:  # pragma: no cover
+def _contract_diagonal(a: torch.Tensor, b: torch.Tensor) -> torch.Tensor:  # pragma: no cover
     """
     Performs a complex diagonal operation between two tensors 'a' and 'b'.
     """
@@ -363,9 +338,7 @@ def _contract_diagonal(
 
 
 @torch.jit.script
-def _contract_dhconv(
-    a: torch.Tensor, b: torch.Tensor
-) -> torch.Tensor:  # pragma: no cover
+def _contract_dhconv(a: torch.Tensor, b: torch.Tensor) -> torch.Tensor:  # pragma: no cover
     """
     Performs a complex Driscoll-Healy style convolution operation between two tensors
     'a' and 'b'.
@@ -378,9 +351,7 @@ def _contract_dhconv(
 
 
 @torch.jit.script
-def _contract_sep_diagonal(
-    a: torch.Tensor, b: torch.Tensor
-) -> torch.Tensor:  # pragma: no cover
+def _contract_sep_diagonal(a: torch.Tensor, b: torch.Tensor) -> torch.Tensor:  # pragma: no cover
     """
     Performs a complex convolution operation between two tensors 'a' and 'b'
     """
@@ -392,9 +363,7 @@ def _contract_sep_diagonal(
 
 
 @torch.jit.script
-def _contract_sep_dhconv(
-    a: torch.Tensor, b: torch.Tensor
-) -> torch.Tensor:  # pragma: no cover
+def _contract_sep_dhconv(a: torch.Tensor, b: torch.Tensor) -> torch.Tensor:  # pragma: no cover
     """
     Performs a complex convolution operation between two tensors 'a' and 'b'
     """
@@ -404,11 +373,13 @@ def _contract_sep_dhconv(
     res = torch.view_as_real(resc)
     return res
 
+
 def clm(l, m):
     """
     defines the normalization factor to orthonormalize the Spherical Harmonics
     """
-    return np.sqrt((2*l + 1) / 4 / np.pi) * np.sqrt(np.math.factorial(l-m) / np.math.factorial(l+m))
+    return np.sqrt((2 * l + 1) / 4 / np.pi) * np.sqrt(np.math.factorial(l - m) / np.math.factorial(l + m))
+
 
 def legpoly(mmax, lmax, x, norm="ortho", inverse=False, csphase=True):
     r"""
@@ -424,32 +395,34 @@ def legpoly(mmax, lmax, x, norm="ortho", inverse=False, csphase=True):
     """
 
     # compute the tensor P^m_n:
-    nmax = max(mmax,lmax)
+    nmax = max(mmax, lmax)
     vdm = np.zeros((nmax, nmax, len(x)), dtype=np.float64)
-        
-    norm_factor = 1. if norm == "ortho" else np.sqrt(4 * np.pi)
-    norm_factor = 1. / norm_factor if inverse else norm_factor
+
+    norm_factor = 1.0 if norm == "ortho" else np.sqrt(4 * np.pi)
+    norm_factor = 1.0 / norm_factor if inverse else norm_factor
 
     # initial values to start the recursion
-    vdm[0,0,:] = norm_factor / np.sqrt(4 * np.pi)
+    vdm[0, 0, :] = norm_factor / np.sqrt(4 * np.pi)
 
     # fill the diagonal and the lower diagonal
     for l in range(1, nmax):
-        vdm[l-1, l, :] = np.sqrt(2*l + 1) * x * vdm[l-1, l-1, :]
-        vdm[l, l, :] = np.sqrt( (2*l + 1) * (1 + x) * (1 - x) / 2 / l ) * vdm[l-1, l-1, :]
+        vdm[l - 1, l, :] = np.sqrt(2 * l + 1) * x * vdm[l - 1, l - 1, :]
+        vdm[l, l, :] = np.sqrt((2 * l + 1) * (1 + x) * (1 - x) / 2 / l) * vdm[l - 1, l - 1, :]
 
     # fill the remaining values on the upper triangle and multiply b
     for l in range(2, nmax):
-        for m in range(0, l-1):
-            vdm[m, l, :] = x * np.sqrt((2*l - 1) / (l - m) * (2*l + 1) / (l + m)) * vdm[m, l-1, :] \
-                            - np.sqrt((l + m - 1) / (l - m) * (2*l + 1) / (2*l - 3) * (l - m - 1) / (l + m)) * vdm[m, l-2, :]
+        for m in range(0, l - 1):
+            vdm[m, l, :] = (
+                x * np.sqrt((2 * l - 1) / (l - m) * (2 * l + 1) / (l + m)) * vdm[m, l - 1, :]
+                - np.sqrt((l + m - 1) / (l - m) * (2 * l + 1) / (2 * l - 3) * (l - m - 1) / (l + m)) * vdm[m, l - 2, :]
+            )
 
     if norm == "schmidt":
         for l in range(0, nmax):
             if inverse:
-                vdm[:, l, : ] = vdm[:, l, : ] * np.sqrt(2*l + 1)
+                vdm[:, l, :] = vdm[:, l, :] * np.sqrt(2 * l + 1)
             else:
-                vdm[:, l, : ] = vdm[:, l, : ] / np.sqrt(2*l + 1)
+                vdm[:, l, :] = vdm[:, l, :] / np.sqrt(2 * l + 1)
 
     vdm = vdm[:mmax, :lmax]
 
@@ -458,6 +431,7 @@ def legpoly(mmax, lmax, x, norm="ortho", inverse=False, csphase=True):
             vdm[m] *= -1
 
     return vdm
+
 
 def _precompute_legpoly(mmax, lmax, t, norm="ortho", inverse=False, csphase=True):
     r"""
@@ -474,6 +448,7 @@ def _precompute_legpoly(mmax, lmax, t, norm="ortho", inverse=False, csphase=True
 
     return legpoly(mmax, lmax, np.cos(t), norm=norm, inverse=inverse, csphase=csphase)
 
+
 def _precompute_dlegpoly(mmax, lmax, t, norm="ortho", inverse=False, csphase=True):
     r"""
     Computes the values of the derivatives $\frac{d}{d \theta} P^m_l(\cos \theta)$
@@ -485,7 +460,7 @@ def _precompute_dlegpoly(mmax, lmax, t, norm="ortho", inverse=False, csphase=Tru
     [2] Wang, B., Wang, L., Xie, Z.; Accurate calculation of spherical and vector spherical harmonic expansions via spectral element grids; Adv Comput Math.
     """
 
-    pct = _precompute_legpoly(mmax+1, lmax+1, t, norm=norm, inverse=inverse, csphase=False)
+    pct = _precompute_legpoly(mmax + 1, lmax + 1, t, norm=norm, inverse=inverse, csphase=False)
 
     dpct = np.zeros((2, mmax, lmax, len(t)), dtype=np.float64)
 
@@ -493,23 +468,31 @@ def _precompute_dlegpoly(mmax, lmax, t, norm="ortho", inverse=False, csphase=Tru
     for l in range(0, lmax):
 
         # m = 0
-        dpct[0, 0, l] = - np.sqrt(l*(l+1)) * pct[1, l]
+        dpct[0, 0, l] = -np.sqrt(l * (l + 1)) * pct[1, l]
 
         # 0 < m < l
         for m in range(1, min(l, mmax)):
-            dpct[0, m, l] = 0.5 * ( np.sqrt((l+m)*(l-m+1)) * pct[m-1, l] - np.sqrt((l-m)*(l+m+1)) * pct[m+1, l] )
+            dpct[0, m, l] = 0.5 * (
+                np.sqrt((l + m) * (l - m + 1)) * pct[m - 1, l] - np.sqrt((l - m) * (l + m + 1)) * pct[m + 1, l]
+            )
 
         # m == l
         if mmax > l:
-            dpct[0, l, l] = np.sqrt(l/2) * pct[l-1, l]
+            dpct[0, l, l] = np.sqrt(l / 2) * pct[l - 1, l]
 
         # fill the - 1j m P^m_l / sin(phi). as this component is purely imaginary,
         # we won't store it explicitly in a complex array
-        for m in range(1, min(l+1, mmax)):
+        for m in range(1, min(l + 1, mmax)):
             # this component is implicitly complex
             # we do not divide by m here as this cancels with the derivative of the exponential
-            dpct[1, m, l] = 0.5 * np.sqrt((2*l+1)/(2*l+3)) * \
-                ( np.sqrt((l-m+1)*(l-m+2)) * pct[m-1, l+1] + np.sqrt((l+m+1)*(l+m+2)) * pct[m+1, l+1] )
+            dpct[1, m, l] = (
+                0.5
+                * np.sqrt((2 * l + 1) / (2 * l + 3))
+                * (
+                    np.sqrt((l - m + 1) * (l - m + 2)) * pct[m - 1, l + 1]
+                    + np.sqrt((l + m + 1) * (l + m + 2)) * pct[m + 1, l + 1]
+                )
+            )
 
     if csphase:
         for m in range(1, mmax, 2):
@@ -527,9 +510,7 @@ tl.set_backend("pytorch")
 einsum_symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 
-def _contract_dense(
-    x, weight, separable=False, operator_type="diagonal"
-):  # pragma: no cover
+def _contract_dense(x, weight, separable=False, operator_type="diagonal"):  # pragma: no cover
     order = tl.ndim(x)
     # batch-size, in_channels, x, y...
     x_syms = list(einsum_symbols[:order])
@@ -563,9 +544,7 @@ def _contract_dense(
     return tl.einsum(eq, x, weight)
 
 
-def _contract_cp(
-    x, cp_weight, separable=False, operator_type="diagonal"
-):  # pragma: no cover
+def _contract_cp(x, cp_weight, separable=False, operator_type="diagonal"):  # pragma: no cover
     order = tl.ndim(x)
 
     x_syms = str(einsum_symbols[:order])
@@ -591,16 +570,12 @@ def _contract_cp(
     else:
         raise ValueError(f"Unkonw operator type {operator_type}")
 
-    eq = (
-        x_syms + "," + rank_sym + "," + ",".join(factor_syms) + "->" + "".join(out_syms)
-    )
+    eq = x_syms + "," + rank_sym + "," + ",".join(factor_syms) + "->" + "".join(out_syms)
 
     return tl.einsum(eq, x, cp_weight.weights, *cp_weight.factors)
 
 
-def _contract_tucker(
-    x, tucker_weight, separable=False, operator_type="diagonal"
-):  # pragma: no cover
+def _contract_tucker(x, tucker_weight, separable=False, operator_type="diagonal"):  # pragma: no cover
     order = tl.ndim(x)
 
     x_syms = str(einsum_symbols[:order])
@@ -618,35 +593,21 @@ def _contract_tucker(
             einsum_symbols[1] + core_syms[0],
             out_sym + core_syms[1],
         ]  # out, in
-        factor_syms += [
-            xs + rs for (xs, rs) in zip(x_syms[2:], core_syms[2:])
-        ]  # x, y, ...
+        factor_syms += [xs + rs for (xs, rs) in zip(x_syms[2:], core_syms[2:])]  # x, y, ...
 
     if operator_type == "diagonal":
         pass
     elif operator_type == "block-diagonal":
-        raise NotImplementedError(
-            f"Operator type {operator_type} not implemented for Tucker"
-        )
+        raise NotImplementedError(f"Operator type {operator_type} not implemented for Tucker")
     else:
         raise ValueError(f"Unkonw operator type {operator_type}")
 
-    eq = (
-        x_syms
-        + ","
-        + core_syms
-        + ","
-        + ",".join(factor_syms)
-        + "->"
-        + "".join(out_syms)
-    )
+    eq = x_syms + "," + core_syms + "," + ",".join(factor_syms) + "->" + "".join(out_syms)
 
     return tl.einsum(eq, x, tucker_weight.core, *tucker_weight.factors)
 
 
-def _contract_tt(
-    x, tt_weight, separable=False, operator_type="diagonal"
-):  # pragma: no cover
+def _contract_tt(x, tt_weight, separable=False, operator_type="diagonal"):  # pragma: no cover
     order = tl.ndim(x)
 
     x_syms = list(einsum_symbols[:order])
@@ -673,21 +634,13 @@ def _contract_tt(
     tt_syms = []
     for i, s in enumerate(weight_syms):
         tt_syms.append([rank_syms[i], s, rank_syms[i + 1]])
-    eq = (
-        "".join(x_syms)
-        + ","
-        + ",".join("".join(f) for f in tt_syms)
-        + "->"
-        + "".join(out_syms)
-    )
+    eq = "".join(x_syms) + "," + ",".join("".join(f) for f in tt_syms) + "->" + "".join(out_syms)
 
     return tl.einsum(eq, x, *tt_weight.factors)
 
 
 # jitted PyTorch contractions:
-def _contract_dense_pytorch(
-    x, weight, separable=False, operator_type="diagonal"
-):  # pragma: no cover
+def _contract_dense_pytorch(x, weight, separable=False, operator_type="diagonal"):  # pragma: no cover
 
     # to cheat the fused optimizers convert to real here
     x = torch.view_as_real(x)
@@ -737,13 +690,9 @@ def get_contract_fun(
         elif isinstance(weight, FactorizedTensor):
             raise ValueError(f"tensorly not found")
         else:
-            raise ValueError(
-                f"Got unexpected weight type of class {weight.__class__.__name__}"
-            )
+            raise ValueError(f"Got unexpected weight type of class {weight.__class__.__name__}")
     else:
-        raise ValueError(
-            f'Got {implementation=}, expected "reconstructed" or "factorized"'
-        )
+        raise ValueError(f'Got {implementation=}, expected "reconstructed" or "factorized"')
 
 
 # Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
@@ -776,9 +725,7 @@ class ComplexReLU(nn.Module):
         self.mode = mode
         if self.mode in ["modulus", "halfplane"]:
             if bias_shape is not None:
-                self.bias = nn.Parameter(
-                    scale * torch.ones(bias_shape, dtype=torch.float32)
-                )
+                self.bias = nn.Parameter(scale * torch.ones(bias_shape, dtype=torch.float32))
             else:
                 self.bias = nn.Parameter(scale * torch.ones((1), dtype=torch.float32))
         else:
@@ -802,9 +749,7 @@ class ComplexReLU(nn.Module):
         elif self.mode == "halfplane":
             # bias is an angle parameter in this case
             modified_angle = torch.angle(z) - self.bias
-            condition = torch.logical_and(
-                (0.0 <= modified_angle), (modified_angle < torch.pi / 2.0)
-            )
+            condition = torch.logical_and((0.0 <= modified_angle), (modified_angle < torch.pi / 2.0))
             out = torch.where(condition, z, self.negative_slope * z)
 
         elif self.mode == "real":
@@ -861,8 +806,6 @@ class ComplexActivation(nn.Module):
             out = z
 
         return out
-
-
 
 
 import math
@@ -925,14 +868,8 @@ def trunc_normal_(tensor, mean=0.0, std=1.0, a=-2.0, b=2.0):
     return _no_grad_trunc_normal_(tensor, mean, std, a, b)
 
 
-
-
-
-
 @torch.jit.script
-def drop_path(
-    x: torch.Tensor, drop_prob: float = 0.0, training: bool = False
-) -> torch.Tensor:  # pragma: no cover
+def drop_path(x: torch.Tensor, drop_prob: float = 0.0, training: bool = False) -> torch.Tensor:  # pragma: no cover
     """Drop paths (Stochastic Depth) per sample (when applied in main path of
     residual blocks).
     This is the same as the DropConnect impl for EfficientNet, etc networks, however,
@@ -945,9 +882,7 @@ def drop_path(
     if drop_prob == 0.0 or not training:
         return x
     keep_prob = 1.0 - drop_prob
-    shape = (x.shape[0],) + (1,) * (
-        x.ndim - 1
-    )  # work with diff dim tensors, not just 2d ConvNets
+    shape = (x.shape[0],) + (1,) * (x.ndim - 1)  # work with diff dim tensors, not just 2d ConvNets
     random_tensor = keep_prob + torch.rand(shape, dtype=x.dtype, device=x.device)
     random_tensor.floor_()  # binarize
     output = x.div(keep_prob) * random_tensor
@@ -974,17 +909,13 @@ class PatchEmbed(nn.Module):
     using a convolutional layer.
     """
 
-    def __init__(
-        self, img_size=(224, 224), patch_size=(16, 16), in_chans=3, embed_dim=768
-    ):  # pragma: no cover
+    def __init__(self, img_size=(224, 224), patch_size=(16, 16), in_chans=3, embed_dim=768):  # pragma: no cover
         super(PatchEmbed, self).__init__()
         num_patches = (img_size[1] // patch_size[1]) * (img_size[0] // patch_size[0])
         self.img_size = img_size
         self.patch_size = patch_size
         self.num_patches = num_patches
-        self.proj = nn.Conv2d(
-            in_chans, embed_dim, kernel_size=patch_size, stride=patch_size
-        )
+        self.proj = nn.Conv2d(in_chans, embed_dim, kernel_size=patch_size, stride=patch_size)
 
     def forward(self, x):  # pragma: no cover
         # gather input
@@ -1225,9 +1156,7 @@ class SpectralConvS2(nn.Module):
                 self.weight.is_shared_mp = ["matmul"]
 
         # get the contraction handle
-        self._contract = get_contract_fun(
-            self.weight, implementation="factorized", separable=separable
-        )
+        self._contract = get_contract_fun(self.weight, implementation="factorized", separable=separable)
 
         if bias:
             self.bias = nn.Parameter(scale * torch.zeros(1, out_channels, 1, 1))
@@ -1312,16 +1241,12 @@ class LocalConvS2(nn.Module):
         assert self.inverse_transform.lmax == self.modes_lat
         assert self.inverse_transform.mmax == self.modes_lon
 
-        self.weight = nn.Parameter(
-            scale * torch.randn(in_channels, out_channels, nradius, 1)
-        )
+        self.weight = nn.Parameter(scale * torch.randn(in_channels, out_channels, nradius, 1))
 
         self._contract = _contract_localconv_fwd
 
         if bias:
-            self.bias = nn.Parameter(
-                scale * torch.randn(1, out_channels, *self.output_dims)
-            )
+            self.bias = nn.Parameter(scale * torch.randn(1, out_channels, *self.output_dims))
 
     def forward(self, x):  # pragma: no cover
 
@@ -1395,9 +1320,9 @@ class SpectralAttentionS2(nn.Module):
         self.forward_transform = forward_transform
         self.inverse_transform = inverse_transform
 
-        self.scale_residual = (
-            self.forward_transform.nlat != self.inverse_transform.nlat
-        ) or (self.forward_transform.nlon != self.inverse_transform.nlon)
+        self.scale_residual = (self.forward_transform.nlat != self.inverse_transform.nlat) or (
+            self.forward_transform.nlon != self.inverse_transform.nlon
+        )
 
         assert inverse_transform.lmax == self.modes_lat
         assert inverse_transform.mmax == self.modes_lon
@@ -1414,16 +1339,11 @@ class SpectralAttentionS2(nn.Module):
                 w.append(self.scale * torch.randn(hidden_size, hidden_size, 2))
             self.w = nn.ParameterList(w)
 
-            self.wout = nn.Parameter(
-                self.scale * torch.randn(hidden_size, self.embed_dim, 2)
-            )
+            self.wout = nn.Parameter(self.scale * torch.randn(hidden_size, self.embed_dim, 2))
 
             if bias:
                 self.b = nn.ParameterList(
-                    [
-                        self.scale * torch.randn(hidden_size, 1, 1, 2)
-                        for _ in range(self.spectral_layers)
-                    ]
+                    [self.scale * torch.randn(hidden_size, 1, 1, 2) for _ in range(self.spectral_layers)]
                 )
 
             self.activations = nn.ModuleList([])
@@ -1442,27 +1362,17 @@ class SpectralAttentionS2(nn.Module):
             self.mul_handle = compl_exp_mul2d_fwd
 
             # weights
-            w = [
-                self.scale * torch.randn(self.modes_lat, self.embed_dim, hidden_size, 2)
-            ]
+            w = [self.scale * torch.randn(self.modes_lat, self.embed_dim, hidden_size, 2)]
             for l in range(1, self.spectral_layers):
-                w.append(
-                    self.scale
-                    * torch.randn(self.modes_lat, hidden_size, hidden_size, 2)
-                )
+                w.append(self.scale * torch.randn(self.modes_lat, hidden_size, hidden_size, 2))
             self.w = nn.ParameterList(w)
 
             if bias:
                 self.b = nn.ParameterList(
-                    [
-                        self.scale * torch.randn(hidden_size, 1, 1, 2)
-                        for _ in range(self.spectral_layers)
-                    ]
+                    [self.scale * torch.randn(hidden_size, 1, 1, 2) for _ in range(self.spectral_layers)]
                 )
 
-            self.wout = nn.Parameter(
-                self.scale * torch.randn(self.modes_lat, hidden_size, self.embed_dim, 2)
-            )
+            self.wout = nn.Parameter(self.scale * torch.randn(self.modes_lat, hidden_size, self.embed_dim, 2))
 
             self.activations = nn.ModuleList([])
             for l in range(0, self.spectral_layers):
@@ -1536,7 +1446,6 @@ class SpectralAttentionS2(nn.Module):
         return x, residual
 
 
-
 class RealSpectralAttentionS2(nn.Module):
     """
     Non-linear SFNO layer using a real-valued NN instead of a complex one
@@ -1573,9 +1482,9 @@ class RealSpectralAttentionS2(nn.Module):
         self.forward_transform = forward_transform
         self.inverse_transform = inverse_transform
 
-        self.scale_residual = (
-            self.forward_transform.nlat != self.inverse_transform.nlat
-        ) or (self.forward_transform.nlon != self.inverse_transform.nlon)
+        self.scale_residual = (self.forward_transform.nlat != self.inverse_transform.nlat) or (
+            self.forward_transform.nlon != self.inverse_transform.nlon
+        )
 
         assert inverse_transform.lmax == self.modes_lat
         assert inverse_transform.mmax == self.modes_lon
@@ -1591,16 +1500,11 @@ class RealSpectralAttentionS2(nn.Module):
             w.append(self.scale * torch.randn(hidden_size, hidden_size))
         self.w = nn.ParameterList(w)
 
-        self.wout = nn.Parameter(
-            self.scale * torch.randn(hidden_size, 2 * self.embed_dim)
-        )
+        self.wout = nn.Parameter(self.scale * torch.randn(hidden_size, 2 * self.embed_dim))
 
         if bias:
             self.b = nn.ParameterList(
-                [
-                    self.scale * torch.randn(hidden_size, 1, 1)
-                    for _ in range(self.spectral_layers)
-                ]
+                [self.scale * torch.randn(hidden_size, 1, 1) for _ in range(self.spectral_layers)]
             )
 
         self.activations = nn.ModuleList([])
@@ -1655,9 +1559,6 @@ class RealSpectralAttentionS2(nn.Module):
         return x
 
 
-
-
-
 import torch
 import torch.nn.functional as F
 import torch.distributed as dist
@@ -1677,9 +1578,7 @@ def sync_params(model, mode="broadcast"):  # pragma: no cover
     """Helper routine to ensure shared weights are the same after initialization"""
 
     non_singleton_group_names = [
-        x
-        for x in comm.get_names()
-        if (comm.get_size(x) > 1) and not (x in ["data", "model", "spatial"])
+        x for x in comm.get_names() if (comm.get_size(x) > 1) and not (x in ["data", "model", "spatial"])
     ]
 
     with torch.no_grad():
@@ -1692,10 +1591,7 @@ def sync_params(model, mode="broadcast"):  # pragma: no cover
             for comm_group in param.is_shared_mp:
                 if comm.get_size(comm_group) > 1:
                     if mode == "broadcast":
-                        tlist = [
-                            torch.empty_like(param)
-                            for x in range(comm.get_size(comm_group))
-                        ]
+                        tlist = [torch.empty_like(param) for x in range(comm.get_size(comm_group))]
                         tlist[comm.get_rank(comm_group)] = param
                         # gather all weights in the comm group
                         dist.all_gather(tlist, param, group=comm.get_group(comm_group))
@@ -1726,17 +1622,9 @@ def pad_helper(tensor, dim, new_size, mode="zero"):  # pragma: no cover
     tensor_pad = F.pad(tensor, output_shape, mode="constant", value=0.0)
 
     if mode == "conj":
-        lhs_slice = [
-            slice(0, x) if idx != dim else slice(orig_size, new_size)
-            for idx, x in enumerate(tensor.shape)
-        ]
-        rhs_slice = [
-            slice(0, x) if idx != dim else slice(1, output_shape[1] + 1)
-            for idx, x in enumerate(tensor.shape)
-        ]
-        tensor_pad[lhs_slice] = torch.flip(
-            torch.conj(tensor_pad[rhs_slice]), dims=[dim]
-        )
+        lhs_slice = [slice(0, x) if idx != dim else slice(orig_size, new_size) for idx, x in enumerate(tensor.shape)]
+        rhs_slice = [slice(0, x) if idx != dim else slice(1, output_shape[1] + 1) for idx, x in enumerate(tensor.shape)]
+        tensor_pad[lhs_slice] = torch.flip(torch.conj(tensor_pad[rhs_slice]), dims=[dim])
 
     return tensor_pad
 
@@ -1746,10 +1634,7 @@ def truncate_helper(tensor, dim, new_size):  # pragma: no cover
     input_format = get_memory_format(tensor)
     ndim = tensor.ndim
     dim = (dim + ndim) % ndim
-    output_slice = [
-        slice(0, x) if idx != dim else slice(0, new_size)
-        for idx, x in enumerate(tensor.shape)
-    ]
+    output_slice = [slice(0, x) if idx != dim else slice(0, new_size) for idx, x in enumerate(tensor.shape)]
     tensor_trunc = tensor[output_slice].contiguous(memory_format=input_format)
 
     return tensor_trunc
@@ -1757,9 +1642,7 @@ def truncate_helper(tensor, dim, new_size):  # pragma: no cover
 
 def split_tensor_along_dim(tensor, dim, num_chunks):  # pragma: no cover
     """Helper routine to split a tensor along a given dimension"""
-    assert (
-        dim < tensor.dim()
-    ), f"Error, tensor dimension is {tensor.dim()} which cannot be split along {dim}"
+    assert dim < tensor.dim(), f"Error, tensor dimension is {tensor.dim()} which cannot be split along {dim}"
     assert (
         tensor.shape[dim] % num_chunks == 0
     ), f"Error, cannot split dim {dim} evenly. Dim size is \
@@ -1781,10 +1664,7 @@ def _transpose(tensor, dim0, dim1, group=None, async_op=False):  # pragma: no co
 
     # split and local transposition
     split_size = tensor.shape[dim0] // comm_size
-    x_send = [
-        y.contiguous(memory_format=input_format)
-        for y in torch.split(tensor, split_size, dim=dim0)
-    ]
+    x_send = [y.contiguous(memory_format=input_format) for y in torch.split(tensor, split_size, dim=dim0)]
     x_recv = [torch.empty_like(x_send[0]) for _ in range(comm_size)]
 
     # global transposition
@@ -1843,9 +1723,7 @@ def _gather(input_, dim_, group=None):  # pragma: no cover
         return input_
 
     # sanity checks
-    assert (
-        dim_ < input_.dim()
-    ), f"Error, cannot gather along {dim_} for tensor with {input_.dim()} dimensions."
+    assert dim_ < input_.dim(), f"Error, cannot gather along {dim_} for tensor with {input_.dim()} dimensions."
 
     # Size and dimension.
     comm_rank = dist.get_rank(group=group)
@@ -1861,12 +1739,9 @@ def _gather(input_, dim_, group=None):  # pragma: no cover
     return output
 
 
-
-
-
-
 # torch utils
 from torch._utils import _flatten_dense_tensors, _unflatten_dense_tensors
+
 
 # generalized
 class _CopyToParallelRegion(torch.autograd.Function):
@@ -2017,6 +1892,7 @@ def gather_from_parallel_region(input_, dim, comm_name):  # pragma: no cover
 # def gather_within_matmul_parallel_region(input_, dim):
 #    return _GatherWithinMatmulParallelRegion.apply(input_, dim, "matmul")
 
+
 # spatial parallel
 def copy_to_spatial_parallel_region(input_):  # pragma: no cover
     """copy helper"""
@@ -2064,9 +1940,7 @@ def init_gradient_reduction_hooks(
     else:
         # check if there are shared weights, otherwise we can skip
         non_singleton_group_names = [
-            x
-            for x in comm.get_names()
-            if (comm.get_size(x) > 1) and not (x in ["data", "model", "spatial"])
+            x for x in comm.get_names() if (comm.get_size(x) > 1) and not (x in ["data", "model", "spatial"])
         ]
         num_shared = {x: 0 for x in non_singleton_group_names}
         num_parameters = 0
@@ -2097,9 +1971,7 @@ def init_gradient_reduction_hooks(
 
         elif all([(x == num_parameters) for x in num_param_shared_model]):
             # in this case, we just need to register a backward hook to multiply the gradients according to the multiplicity:
-            print(
-                "Setting up gradient hooks to account for shared parameter multiplicity"
-            )
+            print("Setting up gradient hooks to account for shared parameter multiplicity")
             for param in model.parameters():
                 param.register_hook(lambda grad: grad * float(comm.get_size("model")))
 
@@ -2137,9 +2009,7 @@ def init_gradient_reduction_hooks(
         buff = bucket.buffer()
 
         # get future for allreduce
-        fut = dist.all_reduce(
-            buff, op=dist.ReduceOp.AVG, group=comm.get_group("data"), async_op=True
-        ).get_future()
+        fut = dist.all_reduce(buff, op=dist.ReduceOp.AVG, group=comm.get_group("data"), async_op=True).get_future()
 
         # get grads for shared weights
         params = bucket.parameters()
@@ -2187,24 +2057,15 @@ def init_gradient_reduction_hooks(
 
 
 @torch.jit.script
-def compl_mul_add_fwd(
-    a: torch.Tensor, b: torch.Tensor, c: torch.Tensor
-) -> torch.Tensor:  # pragma: no cover
+def compl_mul_add_fwd(a: torch.Tensor, b: torch.Tensor, c: torch.Tensor) -> torch.Tensor:  # pragma: no cover
     """complex multiplication and addition"""
     tmp = torch.einsum("bkixys,kiot->stbkoxy", a, b)
-    res = (
-        torch.stack(
-            [tmp[0, 0, ...] - tmp[1, 1, ...], tmp[1, 0, ...] + tmp[0, 1, ...]], dim=-1
-        )
-        + c
-    )
+    res = torch.stack([tmp[0, 0, ...] - tmp[1, 1, ...], tmp[1, 0, ...] + tmp[0, 1, ...]], dim=-1) + c
     return res
 
 
 @torch.jit.script
-def compl_mul_add_fwd_c(
-    a: torch.Tensor, b: torch.Tensor, c: torch.Tensor
-) -> torch.Tensor:  # pragma: no cover
+def compl_mul_add_fwd_c(a: torch.Tensor, b: torch.Tensor, c: torch.Tensor) -> torch.Tensor:  # pragma: no cover
     """Performs a complex multiplication and addition operation on three tensors"""
     ac = torch.view_as_complex(a)
     bc = torch.view_as_complex(b)
@@ -2224,9 +2085,7 @@ def config_logger(log_level=logging.INFO):  # pragma: no cover
     logging.basicConfig(format=_format, level=log_level)
 
 
-def log_to_file(
-    logger_name=None, log_level=logging.INFO, log_filename="tensorflow.log"
-):  # pragma: no cover
+def log_to_file(logger_name=None, log_level=logging.INFO, log_filename="tensorflow.log"):  # pragma: no cover
     """
     Log to a file with the given log level.
     """
@@ -2245,7 +2104,6 @@ def log_to_file(
 
 
 def log_versions():  # pragma: no cover
-
     """
     Log the versions of git and torch.
     """
@@ -2254,13 +2112,8 @@ def log_versions():  # pragma: no cover
 
     logging.info("--------------- Versions ---------------")
     try:
-        logging.info(
-            "git branch: " + str(subprocess.check_output(["git", "branch"]).strip())
-        )
-        logging.info(
-            "git hash: "
-            + str(subprocess.check_output(["git", "rev-parse", "HEAD"]).strip())
-        )
+        logging.info("git branch: " + str(subprocess.check_output(["git", "branch"]).strip()))
+        logging.info("git hash: " + str(subprocess.check_output(["git", "rev-parse", "HEAD"]).strip()))
     except:
         pass
     logging.info("Torch: " + str(torch.__version__))
@@ -2291,8 +2144,6 @@ class disable_logging(object):
         logging.disable(level=logging.NOTSET)
 
 
-
-
 import os
 import logging
 import math
@@ -2305,6 +2156,7 @@ import numpy as np
 # dummy placeholders
 _COMM_LIST = []
 _COMM_NAMES = {}
+
 
 # world comm
 class comm:
@@ -2320,7 +2172,6 @@ class comm:
         else:
             return dist.get_world_size(group=_COMM_LIST[cid])
 
-
     def get_rank(comm_id: Union[str, int]) -> int:  # pragma: no cover
         """Returns the rank of a specified communicator."""
         if isinstance(comm_id, int):
@@ -2332,7 +2183,6 @@ class comm:
             return 0
         else:
             return dist.get_rank(group=_COMM_LIST[cid])
-
 
     def get_group(comm_id: Union[str, int]) -> int:  # pragma: no cover
         """Returns the group of a specified communicator."""
@@ -2346,7 +2196,6 @@ class comm:
         else:
             return _COMM_LIST[cid]
 
-
     # specialized routines for world comms
     def get_world_size():  # pragma: no cover
         """Returns the world size"""
@@ -2355,14 +2204,12 @@ class comm:
         else:
             return dist.get_world_size()
 
-
     def get_world_rank():  # pragma: no cover
         """Returns the world rank"""
         if not dist.is_initialized():
             return 0
         else:
             return dist.get_rank()
-
 
     def get_local_rank():  # pragma: no cover
         """Returns the local rank of the current process."""
@@ -2375,16 +2222,13 @@ class comm:
         else:
             return get_world_rank() % torch.cuda.device_count()
 
-
     def get_names():  # pragma: no cover
         """Returns the names of all available communicators."""
         return _COMM_NAMES
 
-
     def is_distributed(name: str):  # pragma: no cover
         """check if distributed."""
         return name in _COMM_NAMES
-
 
     # get
     def init(params, verbose=False):  # pragma: no cover
@@ -2412,9 +2256,7 @@ class comm:
             port = 29500
             master_address = None
             if world_rank == 0:
-                master_address_info = socket.getaddrinfo(
-                    my_host, port, family=socket.AF_INET, proto=socket.IPPROTO_TCP
-                )
+                master_address_info = socket.getaddrinfo(my_host, port, family=socket.AF_INET, proto=socket.IPPROTO_TCP)
                 master_address = master_address_info[0][-1][0]
             master_address = mpi_comm.bcast(master_address, root=0)
             os.environ["MASTER_ADDRESS"] = master_address
@@ -2467,9 +2309,7 @@ class comm:
             model_parallel_names = params.model_parallel_names
         else:
             model_parallel_names = ["model"]
-        assert len(model_parallel_names) == len(
-            model_parallel_sizes
-        ), "Please specify names for your communicators"
+        assert len(model_parallel_names) == len(model_parallel_sizes), "Please specify names for your communicators"
         model_parallel_size = math.prod(model_parallel_sizes)
         params["model_parallel_size"] = model_parallel_size
 
@@ -2491,9 +2331,7 @@ class comm:
 
             # set up the strides:
             model_parallel_sizes_reversed = model_parallel_sizes[::-1]
-            model_grid = np.reshape(
-                np.arange(0, model_parallel_size), model_parallel_sizes[::-1]
-            )
+            model_grid = np.reshape(np.arange(0, model_parallel_size), model_parallel_sizes[::-1])
             perm = np.roll(np.arange(0, len(model_parallel_sizes)), 1).tolist()
             ranks_lookup = {}
 
@@ -2542,9 +2380,7 @@ class comm:
                     while merging:
                         merging = False
                         for i, group in enumerate(pooled):
-                            merged = next(
-                                (g for g in pooled[i + 1 :] if g.intersection(group)), None
-                            )
+                            merged = next((g for g in pooled[i + 1 :] if g.intersection(group)), None)
                             if not merged:
                                 continue
                             group.update(merged)
@@ -2563,9 +2399,7 @@ class comm:
                         comm_count += 1
 
             # now the data and model comm:
-            model_groups = np.reshape(
-                np.arange(0, world_size), (-1, model_parallel_size)
-            ).tolist()
+            model_groups = np.reshape(np.arange(0, world_size), (-1, model_parallel_size)).tolist()
             for grp in model_groups:
                 if len(grp) > 1:
                     tmp_group = dist.new_group(ranks=grp)
@@ -2576,9 +2410,7 @@ class comm:
 
             if data_parallel_size == world_size:
                 if verbose and world_rank == 0:
-                    print(
-                        f"Creating comm groups for id data: {[list(range(0, world_size))]}"
-                    )
+                    print(f"Creating comm groups for id data: {[list(range(0, world_size))]}")
 
                 _COMM_LIST.append(None)
                 _COMM_NAMES["data"] = comm_count
@@ -2602,7 +2434,6 @@ class comm:
             logging.info("Finished Wireup")
 
         return
-
 
 
 class RealSHT(nn.Module):
@@ -2641,13 +2472,13 @@ class RealSHT(nn.Module):
             self.lmax = lmax or self.nlat
         elif self.grid == "lobatto":
             cost, w = lobatto_weights(nlat, -1, 1)
-            self.lmax = lmax or self.nlat-1
+            self.lmax = lmax or self.nlat - 1
         elif self.grid == "equiangular":
             cost, w = clenshaw_curtiss_weights(nlat, -1, 1)
             # cost, w = fejer2_weights(nlat, -1, 1)
             self.lmax = lmax or self.nlat
         else:
-            raise(ValueError("Unknown quadrature mode"))
+            raise (ValueError("Unknown quadrature mode"))
 
         # apply cosine transform and flip them
         tq = np.flip(np.arccos(cost))
@@ -2659,7 +2490,7 @@ class RealSHT(nn.Module):
         weights = torch.from_numpy(w).to(device)
         pct = _precompute_legpoly(self.mmax, self.lmax, tq, norm=self.norm, csphase=self.csphase)
         pct = torch.from_numpy(pct).to(device)
-        weights = torch.einsum('mlk,k->mlk', pct, weights)
+        weights = torch.einsum("mlk,k->mlk", pct, weights)
 
         # remember quadrature weights
         # if USE_FIX:
@@ -2671,12 +2502,12 @@ class RealSHT(nn.Module):
         """
         Pretty print module
         """
-        return f'nlat={self.nlat}, nlon={self.nlon},\n lmax={self.lmax}, mmax={self.mmax},\n grid={self.grid}, csphase={self.csphase}'
+        return f"nlat={self.nlat}, nlon={self.nlon},\n lmax={self.lmax}, mmax={self.mmax},\n grid={self.grid}, csphase={self.csphase}"
 
     def forward(self, x: torch.Tensor):
 
-        assert(x.shape[-2] == self.nlat)
-        assert(x.shape[-1] == self.nlon)
+        assert x.shape[-2] == self.nlat
+        assert x.shape[-1] == self.nlon
 
         # apply real fft in the longitudinal direction
         x = 2.0 * torch.pi * torch.fft.rfft(x, dim=-1, norm="forward")
@@ -2691,11 +2522,12 @@ class RealSHT(nn.Module):
         xout = torch.zeros(out_shape, dtype=x.dtype, device=x.device)
         # contraction
         self.weights = self.weights.to(x.device)
-        xout[..., 0] = torch.einsum('...km,mlk->...lm', x[..., :self.mmax, 0], self.weights)
-        xout[..., 1] = torch.einsum('...km,mlk->...lm', x[..., :self.mmax, 1], self.weights)
+        xout[..., 0] = torch.einsum("...km,mlk->...lm", x[..., : self.mmax, 0], self.weights)
+        xout[..., 1] = torch.einsum("...km,mlk->...lm", x[..., : self.mmax, 1], self.weights)
         x = torch.view_as_complex(xout)
 
         return x
+
 
 class InverseRealSHT(nn.Module):
     """
@@ -2724,12 +2556,12 @@ class InverseRealSHT(nn.Module):
             self.lmax = lmax or self.nlat
         elif self.grid == "lobatto":
             cost, _ = lobatto_weights(nlat, -1, 1)
-            self.lmax = lmax or self.nlat-1
+            self.lmax = lmax or self.nlat - 1
         elif self.grid == "equiangular":
             cost, _ = clenshaw_curtiss_weights(nlat, -1, 1)
             self.lmax = lmax or self.nlat
         else:
-            raise(ValueError("Unknown quadrature mode"))
+            raise (ValueError("Unknown quadrature mode"))
 
         # apply cosine transform and flip them
         t = np.flip(np.arccos(cost))
@@ -2744,26 +2576,26 @@ class InverseRealSHT(nn.Module):
         if USE_FIX:
             self.pct = pct.float()
         else:
-            self.register_buffer('pct', pct, persistent=False)
+            self.register_buffer("pct", pct, persistent=False)
 
     def extra_repr(self):
         """
         Pretty print module
         """
-        return f'nlat={self.nlat}, nlon={self.nlon},\n lmax={self.lmax}, mmax={self.mmax},\n grid={self.grid}, csphase={self.csphase}'
+        return f"nlat={self.nlat}, nlon={self.nlon},\n lmax={self.lmax}, mmax={self.mmax},\n grid={self.grid}, csphase={self.csphase}"
 
     def forward(self, x: torch.Tensor):
 
-        assert(x.shape[-2] == self.lmax)
-        assert(x.shape[-1] == self.mmax)
+        assert x.shape[-2] == self.lmax
+        assert x.shape[-1] == self.mmax
 
         # Evaluate associated Legendre functions on the output nodes
         x = torch.view_as_real(x)
         USE_FIX = True
         if USE_FIX:
             self.pct = self.pct.to(x.device)
-        rl = torch.einsum('...lm, mlk->...km', x[..., 0], self.pct )
-        im = torch.einsum('...lm, mlk->...km', x[..., 1], self.pct )
+        rl = torch.einsum("...lm, mlk->...km", x[..., 0], self.pct)
+        im = torch.einsum("...lm, mlk->...km", x[..., 1], self.pct)
         xs = torch.stack((rl, im), -1)
 
         # apply the inverse (real) FFT
@@ -2812,11 +2644,8 @@ class SpectralFilterLayer(nn.Module):
     ):
         super(SpectralFilterLayer, self).__init__()
 
-
         # spectral transform is passed to the module
-        if filter_type == "linear" and (
-            isinstance(forward_transform, RealSHT)
-        ):
+        if filter_type == "linear" and (isinstance(forward_transform, RealSHT)):
             self.filter = SpectralConvS2(
                 forward_transform,
                 inverse_transform,
@@ -2960,9 +2789,9 @@ class FourierNeuralOperatorBlock(nn.Module):
             x = self.act_layer(x)
 
         x_norm = torch.zeros_like(x)
-        x_norm[
-            ..., : self.output_shape_loc[0], : self.output_shape_loc[1]
-        ] = self.norm1(x[..., : self.output_shape_loc[0], : self.output_shape_loc[1]])
+        x_norm[..., : self.output_shape_loc[0], : self.output_shape_loc[1]] = self.norm1(
+            x[..., : self.output_shape_loc[0], : self.output_shape_loc[1]]
+        )
         x = x_norm
 
         if hasattr(self, "mlp"):
@@ -2978,7 +2807,6 @@ class FourierNeuralOperatorBlock(nn.Module):
                 x = x + self.outer_skip(residual)
 
         return x
-
 
 
 class SphericalFourierNeuralOperatorNet(Module):
@@ -3021,85 +2849,45 @@ class SphericalFourierNeuralOperatorNet(Module):
 
         self.params = params
         self.spectral_transform = (
-            params.spectral_transform
-            if hasattr(params, "spectral_transform")
-            else spectral_transform
+            params.spectral_transform if hasattr(params, "spectral_transform") else spectral_transform
         )
-        self.filter_type = (
-            params.filter_type if hasattr(params, "filter_type") else filter_type
-        )
-        self.operator_type = (
-            params.operator_type if hasattr(params, "operator_type") else operator_type
-        )
+        self.filter_type = params.filter_type if hasattr(params, "filter_type") else filter_type
+        self.operator_type = params.operator_type if hasattr(params, "operator_type") else operator_type
         self.img_shape = (
             (params.img_shape_x, params.img_shape_y)
             if hasattr(params, "img_shape_x") and hasattr(params, "img_shape_y")
             else img_shape
         )
-        self.scale_factor = (
-            params.scale_factor if hasattr(params, "scale_factor") else scale_factor
-        )
-        self.in_chans = (
-            params.N_in_channels if hasattr(params, "N_in_channels") else in_chans
-        )
-        self.out_chans = (
-            params.N_out_channels if hasattr(params, "N_out_channels") else out_chans
-        )
-        self.embed_dim = self.num_features = (
-            params.embed_dim if hasattr(params, "embed_dim") else embed_dim
-        )
-        self.num_layers = (
-            params.num_layers if hasattr(params, "num_layers") else num_layers
-        )
-        self.num_blocks = (
-            params.num_blocks if hasattr(params, "num_blocks") else num_blocks
-        )
+        self.scale_factor = params.scale_factor if hasattr(params, "scale_factor") else scale_factor
+        self.in_chans = params.N_in_channels if hasattr(params, "N_in_channels") else in_chans
+        self.out_chans = params.N_out_channels if hasattr(params, "N_out_channels") else out_chans
+        self.embed_dim = self.num_features = params.embed_dim if hasattr(params, "embed_dim") else embed_dim
+        self.num_layers = params.num_layers if hasattr(params, "num_layers") else num_layers
+        self.num_blocks = params.num_blocks if hasattr(params, "num_blocks") else num_blocks
         self.hard_thresholding_fraction = (
             params.hard_thresholding_fraction
             if hasattr(params, "hard_thresholding_fraction")
             else hard_thresholding_fraction
         )
         self.normalization_layer = (
-            params.normalization_layer
-            if hasattr(params, "normalization_layer")
-            else normalization_layer
+            params.normalization_layer if hasattr(params, "normalization_layer") else normalization_layer
         )
         self.use_mlp = params.use_mlp if hasattr(params, "use_mlp") else use_mlp
         self.activation_function = (
-            params.activation_function
-            if hasattr(params, "activation_function")
-            else activation_function
+            params.activation_function if hasattr(params, "activation_function") else activation_function
         )
-        self.encoder_layers = (
-            params.encoder_layers
-            if hasattr(params, "encoder_layers")
-            else encoder_layers
-        )
+        self.encoder_layers = params.encoder_layers if hasattr(params, "encoder_layers") else encoder_layers
         self.pos_embed = params.pos_embed if hasattr(params, "pos_embed") else pos_embed
         self.big_skip = params.big_skip if hasattr(params, "big_skip") else big_skip
         self.rank = params.rank if hasattr(params, "rank") else rank
-        self.factorization = (
-            params.factorization if hasattr(params, "factorization") else factorization
-        )
+        self.factorization = params.factorization if hasattr(params, "factorization") else factorization
         self.separable = params.separable if hasattr(params, "separable") else separable
-        self.complex_network = (
-            params.complex_network
-            if hasattr(params, "complex_network")
-            else complex_network
-        )
+        self.complex_network = params.complex_network if hasattr(params, "complex_network") else complex_network
         self.complex_activation = (
-            params.complex_activation
-            if hasattr(params, "complex_activation")
-            else complex_activation
+            params.complex_activation if hasattr(params, "complex_activation") else complex_activation
         )
-        self.spectral_layers = (
-            params.spectral_layers
-            if hasattr(params, "spectral_layers")
-            else spectral_layers
-        )
-        self.checkpointing = (
-            params.checkpointing if hasattr(params, "checkpointing") else checkpointing
-        )
+        self.spectral_layers = params.spectral_layers if hasattr(params, "spectral_layers") else spectral_layers
+        self.checkpointing = params.checkpointing if hasattr(params, "checkpointing") else checkpointing
         data_grid = params.data_grid if hasattr(params, "data_grid") else "legendre-gauss"
         # self.pretrain_encoding = params.pretrain_encoding if hasattr(params, "pretrain_encoding") else False
 
@@ -3125,12 +2913,8 @@ class SphericalFourierNeuralOperatorNet(Module):
             isht_handle = InverseRealSHT
 
             # set up
-            self.trans_down = sht_handle(
-                *self.img_shape, lmax=modes_lat, mmax=modes_lon, grid=data_grid
-            ).float()
-            self.itrans_up = isht_handle(
-                *self.img_shape, lmax=modes_lat, mmax=modes_lon, grid=data_grid
-            ).float()
+            self.trans_down = sht_handle(*self.img_shape, lmax=modes_lat, mmax=modes_lon, grid=data_grid).float()
+            self.itrans_up = isht_handle(*self.img_shape, lmax=modes_lat, mmax=modes_lon, grid=data_grid).float()
             self.trans = sht_handle(
                 self.h, self.w, lmax=modes_lat, mmax=modes_lon, grid="legendre-gauss"  # was legendre-gauss
             ).float()
@@ -3152,19 +2936,10 @@ class SphericalFourierNeuralOperatorNet(Module):
                 self.img_shape_eff[1] // comm.get_size("w"),
             ]
 
-
-            self.trans_down = fft_handle(
-                *self.img_shape_eff, lmax=modes_lat, mmax=modes_lon
-            ).float()
-            self.itrans_up = ifft_handle(
-                *self.img_shape_eff, lmax=modes_lat, mmax=modes_lon
-            ).float()
-            self.trans = fft_handle(
-                self.h, self.w, lmax=modes_lat, mmax=modes_lon
-            ).float()
-            self.itrans = ifft_handle(
-                self.h, self.w, lmax=modes_lat, mmax=modes_lon
-            ).float()
+            self.trans_down = fft_handle(*self.img_shape_eff, lmax=modes_lat, mmax=modes_lon).float()
+            self.itrans_up = ifft_handle(*self.img_shape_eff, lmax=modes_lat, mmax=modes_lon).float()
+            self.trans = fft_handle(self.h, self.w, lmax=modes_lat, mmax=modes_lon).float()
+            self.itrans = ifft_handle(self.h, self.w, lmax=modes_lat, mmax=modes_lon).float()
         else:
             raise (ValueError("Unknown spectral transform"))
 
@@ -3201,9 +2976,7 @@ class SphericalFourierNeuralOperatorNet(Module):
         current_dim = self.in_chans
         encoder_modules = []
         for i in range(self.encoder_layers):
-            encoder_modules.append(
-                nn.Conv2d(current_dim, encoder_hidden_dim, 1, bias=True)
-            )
+            encoder_modules.append(nn.Conv2d(current_dim, encoder_hidden_dim, 1, bias=True))
             encoder_modules.append(self.activation_function())
             current_dim = encoder_hidden_dim
         encoder_modules.append(nn.Conv2d(current_dim, self.embed_dim, 1, bias=False))
@@ -3220,9 +2993,7 @@ class SphericalFourierNeuralOperatorNet(Module):
                 normalized_shape=(self.img_shape_loc[0], self.img_shape_loc[1]),
                 eps=1e-6,
             )
-            norm_layer1 = partial(
-                nn.LayerNorm, normalized_shape=(self.h_loc, self.w_loc), eps=1e-6
-            )
+            norm_layer1 = partial(nn.LayerNorm, normalized_shape=(self.h_loc, self.w_loc), eps=1e-6)
         elif self.normalization_layer == "instance_norm":
 
             norm_layer0 = partial(
@@ -3237,9 +3008,7 @@ class SphericalFourierNeuralOperatorNet(Module):
             norm_layer0 = nn.Identity
             norm_layer1 = norm_layer0
         else:
-            raise NotImplementedError(
-                f"Error, normalization {self.normalization_layer} not implemented."
-            )
+            raise NotImplementedError(f"Error, normalization {self.normalization_layer} not implemented.")
 
         # FNO blocks
         self.blocks = nn.ModuleList([])
@@ -3297,9 +3066,7 @@ class SphericalFourierNeuralOperatorNet(Module):
         current_dim = self.embed_dim + self.big_skip * self.in_chans
         decoder_modules = []
         for i in range(self.encoder_layers):
-            decoder_modules.append(
-                nn.Conv2d(current_dim, decoder_hidden_dim, 1, bias=True)
-            )
+            decoder_modules.append(nn.Conv2d(current_dim, decoder_hidden_dim, 1, bias=True))
             decoder_modules.append(self.activation_function())
             current_dim = decoder_hidden_dim
         decoder_modules.append(nn.Conv2d(current_dim, self.out_chans, 1, bias=False))
@@ -3308,11 +3075,7 @@ class SphericalFourierNeuralOperatorNet(Module):
         # learned position embedding
         if self.pos_embed:
             # currently using deliberately a differently shape position embedding
-            self.pos_embed = nn.Parameter(
-                torch.zeros(
-                    1, self.embed_dim, self.img_shape_loc[0], self.img_shape_loc[1]
-                )
-            )
+            self.pos_embed = nn.Parameter(torch.zeros(1, self.embed_dim, self.img_shape_loc[0], self.img_shape_loc[1]))
             # self.pos_embed = nn.Parameter( torch.zeros(1, self.embed_dim, self.img_shape_eff[0], self.img_shape_eff[1]) )
             self.pos_embed.is_shared_mp = ["matmul"]
             trunc_normal_(self.pos_embed, std=0.02)
@@ -3361,8 +3124,7 @@ class SphericalFourierNeuralOperatorNet(Module):
             if self.img_shape_loc != self.img_shape_eff:
                 xp = torch.zeros_like(x)
                 xp[..., : self.img_shape_loc[0], : self.img_shape_loc[1]] = (
-                    x[..., : self.img_shape_loc[0], : self.img_shape_loc[1]]
-                    + self.pos_embed
+                    x[..., : self.img_shape_loc[0], : self.img_shape_loc[1]] + self.pos_embed
                 )
                 x = xp
             else:
@@ -3384,6 +3146,7 @@ class SphericalFourierNeuralOperatorNet(Module):
 
         return x
 
+
 def geometric_mean(array):
     log_array = np.log(array)
     log_mean = np.mean(log_array)
@@ -3391,15 +3154,18 @@ def geometric_mean(array):
 
     return geom_mean
 
+
 def residual_norm(array, std_array):
-    tar = array[1:]-array[:-1]
+    tar = array[1:] - array[:-1]
     std = std_zeromean(tar)
     geo_mean = geometric_mean(std_array)
     std_res = std / geo_mean
     return array / std_res, std_res
 
+
 def std_zeromean(array):
-    return np.sqrt(np.mean( array ** 2 ))
+    return np.sqrt(np.mean(array**2))
+
 
 def load_data(fname):
     data = np.load(fname)
@@ -3417,7 +3183,7 @@ def load_data(fname):
 
 # SPDX-FileCopyrightText: Copyright (c) 2022 The torch-harmonics Authors. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
 #
@@ -3446,6 +3212,7 @@ def load_data(fname):
 
 import numpy as np
 
+
 def _precompute_grid(n, grid="equidistant", a=0.0, b=1.0, periodic=False):
 
     if (grid != "equidistant") and periodic:
@@ -3465,6 +3232,7 @@ def _precompute_grid(n, grid="equidistant", a=0.0, b=1.0, periodic=False):
 
     return xlg, wlg
 
+
 def _precompute_latitudes(nlat, grid="equiangular"):
     r"""
     Convenience routine to precompute latitudes
@@ -3477,6 +3245,7 @@ def _precompute_latitudes(nlat, grid="equiangular"):
     wlg = np.flip(wlg).copy()
 
     return lats, wlg
+
 
 def trapezoidal_weights(n, a=-1.0, b=1.0, periodic=False):
     r"""
@@ -3493,6 +3262,7 @@ def trapezoidal_weights(n, a=-1.0, b=1.0, periodic=False):
 
     return xlg, wlg
 
+
 def legendre_gauss_weights(n, a=-1.0, b=1.0):
     r"""
     Helper routine which returns the Legendre-Gauss nodes and weights
@@ -3504,6 +3274,7 @@ def legendre_gauss_weights(n, a=-1.0, b=1.0):
     wlg = wlg * (b - a) * 0.5
 
     return xlg, wlg
+
 
 def lobatto_weights(n, a=-1.0, b=1.0, tol=1e-16, maxiter=100):
     r"""
@@ -3517,33 +3288,33 @@ def lobatto_weights(n, a=-1.0, b=1.0, tol=1e-16, maxiter=100):
 
     # Vandermonde Matrix
     vdm = np.zeros((n, n))
-  
+
     # initialize Chebyshev nodes as first guess
-    for i in range(n): 
-        tlg[i] = -np.cos(np.pi*i / (n-1))
-    
+    for i in range(n):
+        tlg[i] = -np.cos(np.pi * i / (n - 1))
+
     tmp = 2.0
-    
+
     for i in range(maxiter):
         tmp = tlg
-       
-        vdm[:,0] = 1.0 
-        vdm[:,1] = tlg
-       
+
+        vdm[:, 0] = 1.0
+        vdm[:, 1] = tlg
+
         for k in range(2, n):
-            vdm[:, k] = ( (2*k-1) * tlg * vdm[:, k-1] - (k-1) * vdm[:, k-2] ) / k
-       
-        tlg = tmp - ( tlg*vdm[:, n-1] - vdm[:, n-2] ) / ( n * vdm[:, n-1]) 
-        
-        if (max(abs(tlg - tmp).flatten()) < tol ):
-            break 
-    
-    wlg = 2.0 / ( (n*(n-1))*(vdm[:, n-1]**2))
+            vdm[:, k] = ((2 * k - 1) * tlg * vdm[:, k - 1] - (k - 1) * vdm[:, k - 2]) / k
+
+        tlg = tmp - (tlg * vdm[:, n - 1] - vdm[:, n - 2]) / (n * vdm[:, n - 1])
+
+        if max(abs(tlg - tmp).flatten()) < tol:
+            break
+
+    wlg = 2.0 / ((n * (n - 1)) * (vdm[:, n - 1] ** 2))
 
     # rescale
     tlg = (b - a) * 0.5 * tlg + (b + a) * 0.5
     wlg = wlg * (b - a) * 0.5
-    
+
     return tlg, wlg
 
 
@@ -3555,12 +3326,12 @@ def clenshaw_curtiss_weights(n, a=-1.0, b=1.0):
     [1] Joerg Waldvogel, Fast Construction of the Fejer and Clenshaw-Curtis Quadrature Rules; BIT Numerical Mathematics, Vol. 43, No. 1, pp. 001–018.
     """
 
-    assert(n > 1)
+    assert n > 1
 
     tcc = np.cos(np.linspace(np.pi, 0, n))
 
     if n == 2:
-        wcc = np.array([1., 1.])
+        wcc = np.array([1.0, 1.0])
     else:
 
         n1 = n - 1
@@ -3568,13 +3339,13 @@ def clenshaw_curtiss_weights(n, a=-1.0, b=1.0):
         l = len(N)
         m = n1 - l
 
-        v = np.concatenate([2 / N / (N-2), 1 / N[-1:], np.zeros(m)])
+        v = np.concatenate([2 / N / (N - 2), 1 / N[-1:], np.zeros(m)])
         v = 0 - v[:-1] - v[-1:0:-1]
 
         g0 = -np.ones(n1)
         g0[l] = g0[l] + n1
         g0[m] = g0[m] + n1
-        g = g0 / (n1**2 - 1 + (n1%2))
+        g = g0 / (n1**2 - 1 + (n1 % 2))
         wcc = np.fft.ifft(v + g).real
         wcc = np.concatenate((wcc, wcc[:1]))
 
@@ -3584,6 +3355,7 @@ def clenshaw_curtiss_weights(n, a=-1.0, b=1.0):
 
     return tcc, wcc
 
+
 def fejer2_weights(n, a=-1.0, b=1.0):
     r"""
     Computation of the Fejer quadrature nodes and weights.
@@ -3592,7 +3364,7 @@ def fejer2_weights(n, a=-1.0, b=1.0):
     [1] Joerg Waldvogel, Fast Construction of the Fejer and Clenshaw-Curtis Quadrature Rules; BIT Numerical Mathematics, Vol. 43, No. 1, pp. 001–018.
     """
 
-    assert(n > 2)
+    assert n > 2
 
     tcc = np.cos(np.linspace(np.pi, 0, n))
 
@@ -3601,7 +3373,7 @@ def fejer2_weights(n, a=-1.0, b=1.0):
     l = len(N)
     m = n1 - l
 
-    v = np.concatenate([2 / N / (N-2), 1 / N[-1:], np.zeros(m)])
+    v = np.concatenate([2 / N / (N - 2), 1 / N[-1:], np.zeros(m)])
     v = 0 - v[:-1] - v[-1:0:-1]
 
     wcc = np.fft.ifft(v).real
@@ -3612,4 +3384,3 @@ def fejer2_weights(n, a=-1.0, b=1.0):
     wcc = wcc * (b - a) * 0.5
 
     return tcc, wcc
-
