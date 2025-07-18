@@ -204,6 +204,11 @@ class DateRange(Iterator):
             at this stage. For example, if the underlying data is hourly, and a particular
             day needs to be skipped entirely, each hour of that day will need to be in the
             blocklist.
+
+        Examples:
+            >>> known_bad = ['2015-01-01T06']
+            >>> iterator=DateRange(2015, 2016, interval='6 hours', blocklist=known_bad)
+
         """
         super().__init__()
         self.record_initialisation()
