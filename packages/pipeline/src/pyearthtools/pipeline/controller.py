@@ -57,6 +57,8 @@ from pyearthtools.pipeline.exceptions import PipelineFilterException, ExceptionI
 from pyearthtools.pipeline.validation import filter_steps
 from pyearthtools.pipeline.graph import Graphed, format_graph_node
 
+from pyearthtools.pipeline import _save_pipeline
+
 
 PIPELINE_TYPES = Union[Index, PipelineStep, Transform, TransformCollection]
 VALID_PIPELINE_TYPES = Union[PIPELINE_TYPES, tuple[PIPELINE_TYPES, ...], tuple[tuple, ...]]
@@ -804,8 +806,8 @@ class Pipeline(_Pipeline, Index):
                 If `path` is None, `pipeline` in save form else None.
         """
         if only_steps:
-            return pyearthtools.pipeline.save(Pipeline(*self.complete_steps), path)  # type: ignore
-        return pyearthtools.pipeline.save(Pipeline(*self.complete_steps, iterator=self.iterator, sampler=self.sampler, exceptions_to_ignore=self._exceptions_to_ignore), path)  # type: ignore
+            return _save_pipeline.save_pipeline(Pipeline(*self.complete_steps), path)  # type: ignore
+        return _save_pipeline.save_pipeline(Pipeline(*self.complete_steps, iterator=self.iterator, sampler=self.sampler, exceptions_to_ignore=self._exceptions_to_ignore), path)  # type: ignore
 
     def _ipython_display_(self):
         """Override for repr of `Pipeline`, shows initialisation arguments and graph"""

@@ -45,8 +45,10 @@ __version__ = "0.2.0"
 
 import pyearthtools.pipeline.logger
 
-from pyearthtools.pipeline.save import save, load
+
+# from pyearthtools.pipeline.save import save, load
 from pyearthtools.pipeline.controller import Pipeline, PipelineIndex
+from pyearthtools.pipeline._save_pipeline import load_pipeline as load
 
 from pyearthtools.pipeline.operation import Operation
 

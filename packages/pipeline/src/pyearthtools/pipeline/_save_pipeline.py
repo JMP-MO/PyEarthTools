@@ -13,7 +13,10 @@
 # limitations under the License.
 
 
-"""Saving and Loading of `Pipelines`"""
+"""
+Saving and Loading of `Pipelines`
+Used only in the Pipeline class, not intended to be used by end users
+"""
 
 import os
 from typing import Any, Union, Optional
@@ -38,7 +41,9 @@ SUFFIX = ".epi"
 LOG = logging.getLogger("pyearthtools.pipeline")
 
 
-def save(pipeline: "pyearthtools.pipeline.Pipeline", path: Optional[Union[str, Path]] = None) -> Union[None, str]:
+def save_pipeline(
+    pipeline: "pyearthtools.pipeline.Pipeline",
+    path: Optional[Union[str, Path]] = None) -> Union[None, str]:
     """
     Save `Pipeline`
 
@@ -75,15 +80,14 @@ def save(pipeline: "pyearthtools.pipeline.Pipeline", path: Optional[Union[str, P
         file.write(full_yaml)
 
 
-def load(stream: Union[str, Path], **kwargs: Any) -> "pyearthtools.pipeline.Pipeline":
+def load_pipeline(stream: Union[str, Path], **kwargs: Any) -> "pyearthtools.pipeline.Pipeline":
     """
     Load `Pipeline` config
 
     Args:
-        stream (Union[str, Path]):
-            File or dump to load
-        kwargs (Any):
-            Updates to default values include in the config.
+        stream: either a path to a file, or the contents of a loaded file
+    kwargs (Any):
+        Updates to default values include in the config.
 
     Returns:
         (pyearthtools.pipeline.Pipeline):
@@ -93,6 +97,7 @@ def load(stream: Union[str, Path], **kwargs: Any) -> "pyearthtools.pipeline.Pipe
 
     contents = None
 
+    # Try to load the input file if it's a file
     if os.path.sep in str(stream) or parse_path(stream).exists():
         try:
             if parse_path(stream).is_dir():
@@ -101,6 +106,7 @@ def load(stream: Union[str, Path], **kwargs: Any) -> "pyearthtools.pipeline.Pipe
         except OSError:
             pass
 
+    # If the file couldn't be loaded from disk (i.e. was not a path), treat it as string input
     if contents is None:
         contents = str(stream)
 
