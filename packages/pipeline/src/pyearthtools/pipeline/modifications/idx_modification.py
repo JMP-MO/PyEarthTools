@@ -434,6 +434,8 @@ class SequenceRetrieval(IdxModifier):
         return super().__getitem__(idx)
 
 
+
+
 class TemporalRetrieval(SequenceRetrieval):
     """
     Retrieve a sequence of samples from `SequenceRetrieval`,
@@ -453,6 +455,12 @@ class TemporalRetrieval(SequenceRetrieval):
         merge_kwargs: Optional[dict[str, Any]] = None,
         delta_unit: Optional[str] = None,
     ):
+        '''
+        Args:
+            samples: number of samples to fetch (negative for n-back, positive for n-forward)
+            delta_unit: e.g. "month" or "hour"
+            concat: whether to contact or merge
+        '''
         super().__init__(samples, merge_function=merge_function, concat=concat, merge_kwargs=merge_kwargs)
 
         def map_to_tuple(mod):
