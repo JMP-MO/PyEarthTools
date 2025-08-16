@@ -736,19 +736,21 @@ class AdvancedTimeIndex(TimeIndex):
 
     Overrides `retrieve`, to allow a series of data to be retrieved based upon given date resolution.
 
-    ??? tip "New retrieve Behaviour"
-        Consider a dataset with 10 minute resolution
-
-        | Date      | Behaviour               |
-        | --------- | ----------------          |
-        |`2021-01-01T00:00`|Exact Data            |
-        |`2021-01-01T00`   |All Data in that hour  |
-        |`2021-01-01`      |All Data in that day  |
-        |`2021-01`         |All Data in that month|
-        |`2021`            |All Data in that year |
-
-    !!! Important
-        Many features of this class require the `data_interval` to be specified
+    
+    >>> ??? tip "New retrieve Behaviour"
+    >>>
+    >>>    Consider a dataset with 10 minute resolution
+    >>>
+    >>>    | Date      | Behaviour               |
+    >>>    | --------- | ----------------          |
+    >>>    |`2021-01-01T00:00`|Exact Data            |
+    >>>    |`2021-01-01T00`   |All Data in that hour  |
+    >>>    |`2021-01-01`      |All Data in that day  |
+    >>>    |`2021-01`         |All Data in that month|
+    >>>    |`2021`            |All Data in that year |
+    >>>
+    >>> !!! Important
+    >>>    Many features of this class require the `data_interval` to be specified
 
     """
 
@@ -764,14 +766,14 @@ class AdvancedTimeIndex(TimeIndex):
         """
         Retrieve data at timestep, but will use the resolution of the time to infer large scale retrievals.
 
-        !!! tip "Date Behaviour"
-
-            | Date      | Behaviour               |
-            | --------- | ----------------          |
-            |`2021-01-01T00:00`|Exact Data            |
-            |`2021-01-01`      |All Data in that day  |
-            |`2021-01`         |All Data in that month|
-            |`2021`            |All Data in that year |
+        >>> !!! tip "Date Behaviour"
+        >>>
+        >>>    | Date      | Behaviour               |
+        >>>    | --------- | ----------------          |
+        >>>    | '2021-01-01T00:00'|Exact Data            |
+        >>>    | '2021-01-01'      |All Data in that day  |
+        >>>    | '2021-01'         |All Data in that month|
+        >>>    | '2021'            |All Data in that year |
 
         Args:
             querytime (str | datetime.datetime):
