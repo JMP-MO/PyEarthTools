@@ -6,8 +6,6 @@
 
 .. autoclass:: pyearthtools.pipeline.Sampler
     :members:
-.. autoclass:: pyearthtools.pipeline.Iterator
-    :members:
 .. autoclass:: pyearthtools.pipeline.Pipeline
     :members:
 .. autoclass:: pyearthtools.pipeline.Operation

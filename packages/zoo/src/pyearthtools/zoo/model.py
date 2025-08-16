@@ -199,11 +199,11 @@ class BaseForecastModel:
     and limit the directory size to `10GB`, see `pyearthtools.data.indexes.CachingIndex` for more information.
 
     The model `_name` and pipeline name is automatically added to the path to prevent collisions. So:
-    ```txt
+
     If `config_path` is `/data/goes/here`, and the model is `Model/Name`, with pipeline `PipelineName`
 
     The full path is `/data/goes/here/Model/Name/PipelineName`
-    ```
+    
     The pattern of the cache will then take over.
 
     """
