@@ -76,6 +76,7 @@ docs = [
     "sphinx_gallery",
     "sphinx-design",
     "sphinx-togglebutton",
+    "sphinxcontrib-mermaid"
 ]
 
 [project.urls]

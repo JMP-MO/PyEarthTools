@@ -32,6 +32,7 @@ extensions = [
     "sphinx_gallery.load_style",
     "sphinx_design",
     "sphinx_togglebutton",
+    "sphinxcontrib.mermaid"
 ]
 source_suffix = [".rst", ".md"]
 
@@ -39,6 +40,7 @@ myst_enable_extensions = [
     "substitution",
     "colon_fence",
 ]
+myst_fence_as_directive = ["mermaid"]
 
 templates_path = ["_templates"]
 exclude_patterns = [
