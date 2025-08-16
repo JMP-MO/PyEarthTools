@@ -188,24 +188,22 @@ class Pipeline(_Pipeline, Index):
 
     Provides a way to set a sequence of operations to be applied to samples / data retrieved from `pyearthtools.data`.
 
-    ## Example:
-    ```python
-    pipeline = pyearthtools.pipeline.Pipeline(
-        pyearthtools.data.download.cds.ERA5('tcwv'),
-        pyearthtools.pipeline.operations.xarray.conversion.ToNumpy()
-    )
-    pipeline['2000-01-01T00]
-    ```
+    ## Examples:
+        >>> python
+        >>> pipeline = pyearthtools.pipeline.Pipeline(
+        >>>     pyearthtools.data.download.cds.ERA5('tcwv'),
+        >>>     pyearthtools.pipeline.operations.xarray.conversion.ToNumpy()
+        >>>     )
+        >>> pipeline['2000-01-01T00]
 
     ## Usage:
-    A `Pipeline` can be used in three primary ways,
+        A `Pipeline` can be used in three primary ways.
 
-    | Type | Code|
-    |----|----|
-    | Direct Indexing | `pipeline[idx]` |
-    | Iteration | `for i in pipeline` |
-    | Applying | `pipeline.apply` |
-
+        | Type | Code|
+        |----|----|
+        | Direct Indexing | `pipeline[idx]` |
+        | Iteration | `for i in pipeline` |
+        | Applying | `pipeline.apply` |
     """
 
     _sampler: samplers.Sampler
@@ -603,15 +601,14 @@ class Pipeline(_Pipeline, Index):
         Reverses the steps and operations applied to the `sample`.
         Ideally this should result in the `sample` looking identical to the initial data.
 
-        Examples:
-        ```python
-            pipeline = (
-                Index,
-                Operation1,
-            )
-            pipeline[1]
-            # Data
-            pipeline.undo(pipeline[1])
+        ## Examples:
+            >>> python
+            >>> pipeline = (
+            >>>     Index,
+            >>>     Operation1,
+            >>> )
+            >>> pipeline[1]
+            >>> pipeline.undo(pipeline[1])
 
         """
         for i, step in enumerate(reversed(self.steps)):
