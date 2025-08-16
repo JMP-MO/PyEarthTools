@@ -26,7 +26,8 @@ import numpy as np
 from pathlib import Path
 
 import pyearthtools.pipeline
-from pyearthtools.pipeline import Pipeline, Iterator
+from pyearthtools.pipeline import Pipeline
+from pyearthtools.pipeline.iterators import Iterator
 from pyearthtools.utils.initialisation import InitialisationRecordingMixin
 
 
