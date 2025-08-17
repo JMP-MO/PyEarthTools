@@ -50,11 +50,11 @@ class TimeSeriesPredictor(Predictor):
             Function executed to prepare model outputs for the inputs.
 
     Usage:
-        ```python
-        model = ModelWrapper(MODEL_GOES_HERE, DATA_PIPELINE)
-        predictor = TimeSeriesPredictionWrapper(model)
-        predictor.recurrent('2000-01-01T00', steps = 10)
-        ```
+
+        >>> model = ModelWrapper(MODEL_GOES_HERE, DATA_PIPELINE)
+        >>> predictor = TimeSeriesPredictionWrapper(model)
+        >>> predictor.recurrent('2000-01-01T00', steps = 10)
+
     """
 
     def __init__(
@@ -70,22 +70,18 @@ class TimeSeriesPredictor(Predictor):
         Predict with a `model` a time series.
 
         Args:
-            model (ModelWrapper):
-                Model and Data source to use.
-            reverse_pipeline (Optional[Pipeline | int | str], optional):
-                Override for `Pipeline` to use on the undo operation.
-                    If not given, will default to using `model.pipelines`.
-                    If `str` or `int` use value to index into `model.pipelines`. Useful if `model.pipelines`
-                    is a dictionary or tuple.
-                    Or can be `Pipeline` it self to use. If `reverse_pipeline.has_source()` is True, run `reverse_pipeline.undo`. otherwise
-                    apply pipeline with `reverse_pipeline.apply`
-                Defaults to None.
-            fix_time_dim (bool, optional):
-                Fix time dimension after prediction. Defaults to True.
-            interval (int | str | TimeDelta, optional):
-                Interval of temporal predictions, must be passable by `pyearthtools.data.TimeDelta`. Defaults to 1.
-            time_dim (str, optional):
-                Name of time dimension in undone data. Defaults to "time".
+            model: Model and Data source to use.
+            reverse_pipeline: Override for `Pipeline` to use on the undo operation.
+
+                - If not given, will default to using `model.pipelines`.
+                - If `str` or `int` use value to index into `model.pipelines`. Useful if `model.pipelines`
+                  is a dictionary or tuple.
+                - Or can be `Pipeline` it self to use. 
+                - If `reverse_pipeline.has_source()` is True, run `reverse_pipeline.undo`. otherwise
+                  apply pipeline with `reverse_pipeline.apply` 
+            fix_time_dim: Fix time dimension after prediction. 
+            interval: Interval of temporal predictions, must be passable by `pyearthtools.data.TimeDelta`. 
+            time_dim: Name of time dimension in undone data. 
         """
         super().__init__(model, reverse_pipeline)  # type: ignore
         self.record_initialisation()
