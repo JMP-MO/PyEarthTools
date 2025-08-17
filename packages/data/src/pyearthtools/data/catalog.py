@@ -208,30 +208,23 @@ class CatalogEntry:
         This dictionary can be of two forms, one that is the result of `CatalogEntry.to_dict()`,
         and the other a more general form.
 
-        ```python
-        ## Form of the init_dict
+        **Form of the init_dict**
 
-        {
-            CLASS:
-                { # All are optional
-                args: #Arguments to initalise with
-                kwargs: #Keyword arguments to initalise with
-                name: #Name of entry
-                }
-
-        }
-        ```
+        >>> {
+        >>>     CLASS:
+        >>>         { # All are optional
+        >>>         args: #Arguments to initalise with
+        >>>         kwargs: #Keyword arguments to initalise with
+        >>>         name: #Name of entry
+        >>>         }
+        >>>
+        >>> }
 
         Args:
-            init_dict (dict):
-                Initialisation Dictionary.
-            **kwargs (dict, optional):
-                Kwargs to replace init_dict['kwargs'] with. Defaults to {}
+            init_dict: Initialisation Dictionary.
+            **kwargs: Kwargs to replace init_dict['kwargs'] with.
 
-
-        Returns:
-            CatalogEntry:
-                Loaded `CatalogEntry`
+        Returns: Loaded `CatalogEntry`
         """
 
         if "data_index" in init_dict:
