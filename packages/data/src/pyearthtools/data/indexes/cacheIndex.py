@@ -250,16 +250,16 @@ class FileSystemCacheIndex(BaseCacheIndex, FileSystemIndex):
     but is being generated from other sources and saved in given cache.
 
 
-    ## Data Flowchart
+    **Data Flowchart**
 
-    ```{mermaid}
+    .. mermaid::
+
         graph LR
-        A[Data Request `.get`] --> B{Cache Given?};
-        B --> | Yes | C{Data Exists...};
-        C --> | No  | G;
-        C --> | Yes | D[Get Data from Cache];
-        B --> | No  | G[Generate Data];
-    ```
+            A[Data Request '.get'] --> B{Cache Given?};
+            B --> | Yes | C{Data Exists...};
+            C --> | No  | G;
+            C --> | Yes | D[Get Data from Cache];
+            B --> | No  | G[Generate Data];
     """
 
     _cleanup: dict[str, Any] | float | int | str | None = None
