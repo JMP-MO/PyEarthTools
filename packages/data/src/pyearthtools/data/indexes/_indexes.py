@@ -714,20 +714,23 @@ class AdvancedTimeIndex(TimeIndex):
     Overrides `retrieve`, to allow a series of data to be retrieved based upon given date resolution.
 
 
-    >>> ??? tip "New retrieve Behaviour"
-    >>>
-    >>>    Consider a dataset with 10 minute resolution
-    >>>
-    >>>    | Date      | Behaviour               |
-    >>>    | --------- | ----------------          |
-    >>>    |`2021-01-01T00:00`|Exact Data            |
-    >>>    |`2021-01-01T00`   |All Data in that hour  |
-    >>>    |`2021-01-01`      |All Data in that day  |
-    >>>    |`2021-01`         |All Data in that month|
-    >>>    |`2021`            |All Data in that year |
-    >>>
-    >>> !!! Important
-    >>>    Many features of this class require the `data_interval` to be specified
+    .. tip::
+
+        **"New retrieve Behaviour"**
+
+        >>>    Consider a dataset with 10 minute resolution
+        >>>
+        >>>    | Date             | Behaviour             |
+        >>>    | -----------------|-----------------------|
+        >>>    |`2021-01-01T00:00`|Exact Data             |
+        >>>    |`2021-01-01T00`   |All Data in that hour  |
+        >>>    |`2021-01-01`      |All Data in that day   |
+        >>>    |`2021-01`         |All Data in that month |
+        >>>    |`2021`            |All Data in that year  |
+
+    .. important::
+
+        Many features of this class require the `data_interval` to be specified
 
     """
 
@@ -743,38 +746,37 @@ class AdvancedTimeIndex(TimeIndex):
         """
         Retrieve data at timestep, but will use the resolution of the time to infer large scale retrievals.
 
-        >>> !!! tip "Date Behaviour"
-        >>>
-        >>>    | Date      | Behaviour               |
-        >>>    | --------- | ----------------          |
-        >>>    | '2021-01-01T00:00'|Exact Data            |
-        >>>    | '2021-01-01'      |All Data in that day  |
-        >>>    | '2021-01'         |All Data in that month|
-        >>>    | '2021'            |All Data in that year |
+        .. tip::
+
+            **"Date Behaviour"**
+
+            >>>    | Date               | Behaviour              |
+            >>>    | ------------------ | -----------------------|
+            >>>    | '2021-01-01T00:00' | Exact Data             |
+            >>>    | '2021-01-01'       | All Data in that day   |
+            >>>    | '2021-01'          | All Data in that month |
+            >>>    | '2021'             | All Data in that year  |
 
         Args:
-            querytime (str | datetime.datetime):
-                Timestep to retrieve data at, can be exact data or range as described above.
-            aggregation (str, optional):
-                If data becomes a range, can specify an aggregation method. Defaults to None.
-            select (bool, optional):
-                Whether to attempt to select the given timestep if date is either fully qualified
-                or data_interval not given. Defaults to True.
-            use_simple (bool, optional):
-                Whether to simply use the DataIndex.retrieve instead. Defaults to False.
-            kwargs (Any, optional):
-                Kwargs passed to downstream retrieval function
 
-        Raises:
-            DataNotFoundError:
-                If Data not found at timestep
+            querytime: Timestep to retrieve data at, can be exact data or range as described above.
+            aggregation: If data becomes a range, can specify an aggregation method.
+            select: Whether to attempt to select the given timestep if date is either fully qualified
+                or data_interval not given.
+            use_simple: Whether to simply use the `DataIndex.retrieve` instead.
+            kwargs: Kwargs passed to downstream retrieval function
 
         Returns:
-            (xr.Dataset):
-                Loaded Dataset with transforms applied, and aggregated if `aggregation_method` given
+
+            Loaded Dataset with transforms applied, and aggregated if `aggregation_method` given.
+
+        Raises:
+
+            DataNotFoundError: If Data not found at timestep.
 
         Note:
             Extra transforms can be supplied, using `transforms = `
+
         """
 
         querytime = Petdt(querytime)

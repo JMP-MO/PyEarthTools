@@ -158,28 +158,21 @@ class XESMF(Transform):
         method: str = "bilinear",
         **coords,
     ):
-        """Create Transform using xesmf
+        """
+        Create Transform using xesmf
 
         Either `reference_dataset` or `coords` must be given
 
         Args:
-            reference_dataset (xr.Dataset, optional):
-                Reference Dataset. Defaults to None.
-            **coords (tuple):
-                Coordinates to create reference_dataset from.
-                Can be fully created or tuple to use to fill np.arange
-                Either:
-                    lat = (["lat"], np.arange(16, 75, 1.0))
-                or
-                    lat = (16, 75, 1.0)
-            method (str, optional):
-                Method to use. Defaults to "bilinear".
+            reference_dataset: Reference Dataset.
+            **coords: Coordinates to create reference_dataset from. Can be fully created or tuple to use to fill np.arange.
+                    Either `lat = (["lat"], np.arange(16, 75, 1.0))`
+                    or `lat = (16, 75, 1.0)`
+            method: Interpolation method to use.
 
         Raises:
-            ImportError:
-                xesmf could not be imported
-            KeyError:
-                No arguments given
+            ImportError: xesmf could not be imported
+            KeyError: No arguments given
         """
         super().__init__()
         self.record_initialisation()
