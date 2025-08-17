@@ -277,7 +277,7 @@ class Flatten(Operation):
             >>> incoming_data = np.zeros((5,4,3,2))
             >>> flattener = Flatten(flatten_dims = 2)
             >>> flattener.apply_func(incoming_data).shape
-            .. (5, 4, 6)
+            ... (5, 4, 6)
             >>> flattener = Flatten(flatten_dims = 3)
             >>> flattener.apply_func(incoming_data).shape
             ... (5, 24)
