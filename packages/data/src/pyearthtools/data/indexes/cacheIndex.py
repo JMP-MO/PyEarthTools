@@ -287,31 +287,46 @@ class FileSystemCacheIndex(BaseCacheIndex, FileSystemIndex):
         `cache` can also be 'temp' to set to a TemporaryDirectory created on `__init__`, or include any environment variables,
         with $NOTATION.
 
-        !!! Existing Cache:
+        .. warning::
+
+            **Existing Cache**
+
             If the `cache` is set to an existing cache location, and the `pattern` is the same being made and exists,
             `pattern_kwargs` will be set by default to the existing cache's kwargs, and then updated by any given.
 
         Args:
-            cache (str | Path):
-                Location to save data to.
-            pattern (str | type | PatternIndex, optional):
-                String of pattern to use or defined pattern.
-                Defaults to ExpandedDate, or TemporalExpandedDate.
-            pattern_kwargs (dict, optional):
-                Kwargs to pass to initalisation of new pattern if pattern is str. Defaults to {}.
-            transforms (Transform | TransformCollection, optional):
-                Base Transforms to apply. Defaults to TransformCollection().
-            cleanup (dict | float | int | str | None, optional):
-                Cache cleanup settings.
-                If a number type, assumed to represent age of file in days
+
+            cache: Location to save data to.
+            pattern: String of pattern to use or defined pattern.
+                     Defaults to ExpandedDate, or TemporalExpandedDate.
+            pattern_kwargs: Kwargs to pass to initalisation of new pattern if pattern is str.
+            transforms: Base Transforms to apply. 
+            cleanup: 
+
+                **Cache cleanup settings.**
+
+                If a number type, assumed to represent age of file in days.
+
                 If dictionary type, the following keys can be used:
-                | Key | Purpose | Type |
-                | --- | ------- | ---- |
-                | delta | Time delta to delete files past | int, float, tuple, TimeDelta |
-                | dir_size | Maximum allowed directory size. Deletes oldest according to `key` | int, float, str, ByteSize (if str, use '100 GB' format) |
-                | key | Key to use to find time of file for other time based delete steps. Default 'modified'. | Literal['modified', 'created'] |
-                | data_time | Maximum difference in time the data is of and current time | int, float, tuple, TimeDelta |
-                | verbose | Print files being deleted | bool] |
+
+                .. table:: 
+
+                    +-----------+----------------------------------------------+--------------------------------+
+                    | Key       | Purpose                                      | Type                           |
+                    +===========+==============================================+================================+
+                    | delta     | Time delta to delete files past              | int, float, tuple, TimeDelta   |
+                    +-----------+----------------------------------------------+--------------------------------+
+                    | dir_size  | Maximum allowed directory size. Deletes      | int, float, str, ByteSize      |
+                    |           | oldest according to `key`                    | (if str, use '100 GB' format)  |
+                    +-----------+----------------------------------------------+--------------------------------+
+                    | key       | Key to use to find time of file for other    | Literal['modified', 'created'] |
+                    |           | time based delete steps. Default 'modified'. |                                |
+                    +-----------+----------------------------------------------+--------------------------------+
+                    | data_time | Maximum difference in time the data is of    | int, float, tuple, TimeDelta   |
+                    |           | and current time                             |                                |
+                    +-----------+----------------------------------------------+--------------------------------+
+                    | verbose   | Print files being deleted                    | bool                           |
+                    +-----------+----------------------------------------------+--------------------------------+                     
 
                 Cleanup is run on each initialisation and deletion of the `CacheIndex`, and can be triggered manually with `.cleanup()`
 
