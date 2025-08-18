@@ -49,22 +49,16 @@ class Interpolate(Transform):
         Interpolation Transform passing kwargs
 
         Args:
-            **kwargs (Any):
+            **kwargs:
                 Kwargs to pass to `xr.interp`. Should be variables with new coordinates to interpolate to.
-                e.g.
-                    latitude = [-90,-80,...,80,90]
-            method (InterpOptions, optional):
+                e.g. `latitude = [-90,-80,...,80,90]`
+            method:
                 Method to use for interpolate. Defaults to "linear".
                 Must be one of xarray.interp methods
-
                 "linear", "nearest", "zero", "slinear", "quadratic", "cubic", "polynomial", "barycentric", "krog", "pchip", "spline", "akima"
-            keep_encoding (bool, optional):
-                Whether to keep the encoding of the incoming dataset. Defaults to False.
-            skip_missing (bool, optional):
-                Skip missing dimensions as given in `kwargs` but not in dataset. Defaults to False.
-            pad (bool | int, optional):
-                Whether to pad all coords by 1. If `int` size to pad by.
-                Defaults to False.
+            keep_encoding: Whether to keep the encoding of the incoming dataset.
+            skip_missing: Skip missing dimensions as given in `kwargs` but not in dataset.
+            pad: Whether to pad all coords by 1. If `int` size to pad by.
 
 
         Returns:

@@ -554,21 +554,17 @@ class BaseForecastModel:
         )
 
     def load_pipeline(self, pipeline: str, data: bool = True, ancillary: Optional[str] = None, **kwargs: Any) -> "pyearthtools.pipeline.Pipeline":  # type: ignore
-        """Hook to allow modification of how `pipeline is loaded.
+        """
+
+        Hook to allow modification of how `pipeline` is loaded.
 
         Args:
-            pipeline (str):
-                Path to pipeline file to open.
-            data (bool, optional):
-                If pipeline is the data source or pipeline. Defaults to True.
-            ancillary (Optional[str], optional):
-                Name of ancillary pipeline if ancillary pipeline. Defaults to False.
-            kwargs (Any):
-                Assignments to pass to `pyearthtools.pipeline.load`
+            pipeline: Path to pipeline file to open.
+            data: If pipeline is the data source or pipeline.
+            ancillary: Name of ancillary pipeline if ancillary pipeline.
+            kwargs: Assignments to pass to `pyearthtools.pipeline.load`
 
-        Returns:
-            (pyearthtools.pipeline.Pipeline):
-                Loaded pipeline
+        Returns: Loaded pipeline
 
         Usage:
             A child model could override this to assign values within `__KEY__` keys inside the `Pipeline`.

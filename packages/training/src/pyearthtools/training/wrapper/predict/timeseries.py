@@ -44,7 +44,6 @@ class TimeSeriesPredictor(Predictor):
 
     Adds `recurrent`, which is expected to be implemented by subclass.
 
-
     Hooks:
         `prepare_output` (prediction) -> prediction:
             Function executed to prepare model outputs for the inputs.
@@ -182,43 +181,36 @@ class TimeSeriesAutoRecurrentPredictor(TimeSeriesPredictor):
         """
         Predict with a `model` a time series.
 
+        `combine` and `combine_axis` can be used to modify how timesteps are combined.
 
-        `combine` and `combine_axis` can be used to modify how timesteps are combined,
-        if model predictions have a leading time dim, use `concat`, or if time dim at 2nd axis,
+        If model predictions have a leading time dim, use `concat`, or if time dim at 2nd axis,
         set `combine_axis = 1`.
+
         If no time dim included, set `combine` to `stack`.
 
         If data must be reversed before being combined, set `combine = None`.
         Will be undone, and `xr.combine_by_coords` used.
 
-        ## Warning:
+        .. warning::
+
             The pipeline that is used to undo the predictions, if `combine` must allow a change in the time dimension,
             i.e. no squish's or expand's on that dim.
 
         Args:
-            model (ModelWrapper):
-                Model and Data source to use.
-            reverse_pipeline (Optional[Pipeline | int | str], optional):
-                Override for `Pipeline` to use on the undo operation.
-                    If not given, will default to using `model.pipelines`.
-                    If `str` or `int` use value to index into `model.pipelines`. Useful if `model.pipelines`
-                    is a dictionary or tuple.
-                    Or can be `Pipeline` it self to use. If `reverse_pipeline.has_source()` is True, run `reverse_pipeline.undo`. otherwise
-                    apply pipeline with `reverse_pipeline.apply`
-                Defaults to None.
-            fix_time_dim (bool, optional):
-                Fix time dimension after prediction. Defaults to True.
-            interval (int | str | TimeDelta, optional):
-                Interval of temporal predictions, must be passable by `pyearthtools.data.TimeDelta`. Defaults to 1.
-            time_dim (str, optional):
-                Name of time dimension in undone data. Defaults to "time".
-            combine (Optional[Literal['stack', 'combine']], optional):
-                How to combine timesteps, either stack on `combine_axis` or concat.
+            model: Model and Data source to use.
+            reverse_pipeline: Override for `Pipeline` to use on the undo operation.
+                If not given, will default to using `model.pipelines`.
+                If `str` or `int` use value to index into `model.pipelines`. Useful if `model.pipelines`
+                is a dictionary or tuple.
+                Or can be `Pipeline` it self to use. If `reverse_pipeline.has_source()` is True, run `reverse_pipeline.undo`. otherwise
+                apply pipeline with `reverse_pipeline.apply`
+            fix_time_dim: Fix time dimension after prediction.
+            interval: Interval of temporal predictions, must be passable by `pyearthtools.data.TimeDelta`.
+            time_dim: Name of time dimension in undone data.
+            combine: How to combine timesteps, either stack on `combine_axis` or concat.
                 If `None`, do not combine before undo operation and use `xr.combine_by_coords` after.
                 `concat` concatenates on existing axis, whereas `stack` stacks on new axis.
-                Defaults to 'concat'.
-            combine_axis (int, optional):
-                If to `combine` which axis to combine on. Will remove the batch dim, so 0 is actually 1 with batch dim included.
+            combine_axis: If to `combine` which axis to combine on. Will remove the batch dim, so 0 is actually 1 with batch dim included.
         """
         super().__init__(model, reverse_pipeline, fix_time_dim=fix_time_dim, interval=interval, time_dim=time_dim)
         self.record_initialisation()

@@ -64,10 +64,12 @@ class IdxOverride(PipelineIndex):
 
 
 class IdxModifier(PipelineIndex, ParallelEnabledMixin):
-    """Modify index used in `__getitem__`, allows for multiple samples.
+    """
+    Modify index used in `__getitem__`, allows for multiple samples.
 
 
-    Examples
+    Examples:
+
         >>> pipeline = Pipeline(IdxModifier((0, 1)))
         >>> pipeline[1] # Will get sample with (1, 2)
     """
@@ -87,32 +89,26 @@ class IdxModifier(PipelineIndex, ParallelEnabledMixin):
         Index modification
 
         Args:
-            modification (Union[Any, tuple[Union[Any, tuple[Any, ...]], ...]]):
-                Can be Any type, if tuple will map across elements.
-            merge (Union[bool, int], optional):
-                Merge retrieved tuple, must all be the same type.
+            modification: Can be Any type, if tuple will map across elements.
+            merge: Merge retrieved tuple, must all be the same type.
                 If `int` corresponds to how many layers to merge from the bottom up.
                 If `True`, merge one layer.
-                Defaults to False.
-            concat (bool, optional):
-                Whether to concat arrays instead of stack. Defaults to False.
-            merge_function (Optional[Callable], optional):
-                Override for function to use when merging.
-                Defaults to None.
-            merge_kwargs (Optional[dict[str, Any]], optional):
-                Optional extra kwargs for the merge function if `merge`. Defaults to None.
+            concat: Whether to concat arrays instead of stack.
+            merge_function: Override for function to use when merging.
+            merge_kwargs: Optional extra kwargs for the merge function if `merge`.
 
         Examples:
-        >>> IdxModifier((0, 1))
-            # Will get samples with (idx+0, idx+1)
-        >>> IdxModifier((0, (1, 2)))
-            # Will get samples with (idx+0, (idx+1, idx+2))
-        >>> IdxModifier((0, (1, 2)), merge = 1)
-            # Will get samples with (idx+0, merged(idx+1, idx+2))
-        >>> IdxModifier((0, (1, 2)), merge = True)
-            # Will get samples with (idx+0, merged(idx+1, idx+2))
-        >>> IdxModifier((0, (1, 2)), merge = 2)
-            # Will get samples with merged(idx+0, merged(idx+1, idx+2))
+
+            >>> IdxModifier((0, 1))
+            ... # Will get samples with (idx+0, idx+1)
+            >>> IdxModifier((0, (1, 2)))
+            ... # Will get samples with (idx+0, (idx+1, idx+2))
+            >>> IdxModifier((0, (1, 2)), merge = 1)
+            ... # Will get samples with (idx+0, merged(idx+1, idx+2))
+            >>> IdxModifier((0, (1, 2)), merge = True)
+            ... # Will get samples with (idx+0, merged(idx+1, idx+2))
+            >>> IdxModifier((0, (1, 2)), merge = 2)
+            ... # Will get samples with merged(idx+0, merged(idx+1, idx+2))
 
         """
         super().__init__()
