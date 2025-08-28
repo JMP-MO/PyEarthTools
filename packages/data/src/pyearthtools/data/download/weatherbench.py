@@ -40,6 +40,14 @@ def create_dataset_mapping(module_path: str):
         "gs://weatherbench2/datasets/era5-hourly-climatology/1990-2019_6h_512x256_equiangular_conservative.zarr",
         "gs://weatherbench2/datasets/era5-hourly-climatology/1990-2019_6h_240x121_equiangular_with_poles_conservative.zarr",
         "gs://weatherbench2/datasets/era5-hourly-climatology/1990-2019_6h_64x32_equiangular_conservative.zarr",
+        "gs://weatherbench2/datasets/hres_t0/2016-2022-6h-1440x721.zarr",
+        "gs://weatherbench2/datasets/hres_t0/2016-2022-6h-512x256_equiangular_conservative.zarr",
+        "gs://weatherbench2/datasets/hres_t0/2016-2022-6h-240x121_equiangular_with_poles_conservative.zarr",
+        "gs://weatherbench2/datasets/hres_t0/2016-2022-6h-64x32_equiangular_conservative.zarr",
+        "gs://weatherbench2/datasets/hres/2016-2022-0012-1440x721.zarr",
+        "gs://weatherbench2/datasets/hres/2016-2022-0012-512x256_equiangular_conservative.zarr",
+        "gs://weatherbench2/datasets/hres/2016-2022-0012-240x121_equiangular_with_poles_conservative.zarr",
+        "gs://weatherbench2/datasets/hres/2016-2022-0012-64x32_equiangular_conservative.zarr",
     ]
     dataset_infos = {url: _extract_dataset_infos(url) for url in urls}
     module_txt = f"""\
@@ -365,7 +373,7 @@ class WB2ERA5(WeatherBench2):
     @classmethod
     def sample(cls):
         """Example subset of the dataset"""
-        return WB2ERA5("64x32", variables="2m_temperature")
+        return cls("64x32", variables="2m_temperature")
 
 
 class WB2ERA5Clim(WeatherBench2):
@@ -424,4 +432,104 @@ class WB2ERA5Clim(WeatherBench2):
     @classmethod
     def sample(cls):
         """Example subset of the dataset"""
-        return WB2ERA5Clim("64x32", "1990-2017", variables="2m_temperature")
+        return cls("64x32", "1990-2017", variables="2m_temperature")
+
+
+class WB2IFSHRESAnalysis(WeatherBench2):
+    """WeatherBench2 cloud-optimized IFS HRES t=0 "Analysis" dataset
+
+    Note these are the initial conditions of the HRES forecasts, i.e. the
+    forecasts at lead time zero as analysis. This is not exactly the same as the
+    analysis dataset provided by ECMWF (see paper for details).
+
+    https://weatherbench2.readthedocs.io/en/latest/data-guide.html#ifs-hres-t-0-analysis
+
+    Stephan Rasp, Stephan Hoyer, Alexander Merose, Ian Langmore, Peter Battaglia,
+    Tyler Russel, Alvaro Sanchez-Gonzalez, Vivian Yang, Rob Carver, Shreya Agrawal,
+    Matthew Chantry, Zied Ben Bouallegue, Peter Dueben, Carla Bromberg, Jared Sisk,
+    Luke Barrington, Aaron Bell and Fei Sha (2024):
+    WeatherBench 2: A benchmark for the next generation of data-driven global
+    weather models
+    Journal of Advances in Modeling Earth Systems, 16, e2023MS004019
+    https://doi.org/10.1029/2023MS004019
+    """
+
+    DATASETS = {
+        "1440x721": "2016-2022-6h-1440x721.zarr",
+        "512x256": "2016-2022-6h-512x256_equiangular_conservative.zarr",
+        "240x121": "2016-2022-6h-240x121_equiangular_with_poles_conservative.zarr",
+        "64x32": "2016-2022-6h-64x32_equiangular_conservative.zarr",
+    }
+
+    @decorators.check_arguments(resolution=["1440x721", "512x256", "240x121", "64x32"])
+    def __init__(self, resolution: str = "64x32", **kwargs):
+        """
+        See :class:`pyearthtools.data.download.weatherbench.WeatherBench2` for additional
+        parameters.
+
+        Args:
+            resolution (str, optional):
+                Dataset resolution, one of "1440x721", "512x256", "240x121" and "64x32".
+                Defaults to "64x32".
+        """
+        url = f"gs://weatherbench2/datasets/hres_t0/{self.DATASETS[resolution]}"
+        super().__init__(url, **kwargs)
+        self.resolution = resolution
+
+    @property
+    def license_url(self):
+        return "gs://weatherbench2/datasets/hres_t0/LICENSE"
+
+    @classmethod
+    def sample(cls):
+        """Example subset of the dataset"""
+        return cls("64x32", variables="2m_temperature")
+
+
+class WB2IFSHRES(WeatherBench2):
+    """WeatherBench2 cloud-optimized IFS HRES dataset
+
+    This dataset provides 00 and 12 UTC initializations of HRES.
+
+    https://weatherbench2.readthedocs.io/en/latest/data-guide.html#ifs-hres
+
+    Stephan Rasp, Stephan Hoyer, Alexander Merose, Ian Langmore, Peter Battaglia,
+    Tyler Russel, Alvaro Sanchez-Gonzalez, Vivian Yang, Rob Carver, Shreya Agrawal,
+    Matthew Chantry, Zied Ben Bouallegue, Peter Dueben, Carla Bromberg, Jared Sisk,
+    Luke Barrington, Aaron Bell and Fei Sha (2024):
+    WeatherBench 2: A benchmark for the next generation of data-driven global
+    weather models
+    Journal of Advances in Modeling Earth Systems, 16, e2023MS004019
+    https://doi.org/10.1029/2023MS004019
+    """
+
+    DATASETS = {
+        "1440x721": "2016-2022-0012-1440x721.zarr",
+        "512x256": "2016-2022-0012-512x256_equiangular_conservative.zarr",
+        "240x121": "2016-2022-0012-240x121_equiangular_with_poles_conservative.zarr",
+        "64x32": "2016-2022-0012-64x32_equiangular_conservative.zarr",
+    }
+
+    @decorators.check_arguments(resolution=["1440x721", "512x256", "240x121", "64x32"])
+    def __init__(self, resolution: str = "64x32", **kwargs):
+        """
+        See :class:`pyearthtools.data.download.weatherbench.WeatherBench2` for additional
+        parameters.
+
+        Args:
+            resolution (str, optional):
+                Dataset resolution, one of "1440x721", "512x256", "240x121" and "64x32".
+                Defaults to "64x32".
+        """
+        url = f"gs://weatherbench2/datasets/hres/{self.DATASETS[resolution]}"
+        super().__init__(url, decode_timedelta=True, **kwargs)
+        self.resolution = resolution
+
+    @property
+    def license_url(self):
+        return "gs://weatherbench2/datasets/hres/LICENSE"
+
+    @classmethod
+    def sample(cls):
+        """Example subset of the dataset"""
+        return cls("64x32", variables="2m_temperature")
