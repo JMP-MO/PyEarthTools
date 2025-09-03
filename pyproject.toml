@@ -49,21 +49,12 @@ zoo = [
     "pyearthtools-training~=0.2.0",
     "pyearthtools-zoo~=0.2.0",
 ]
-bundled-fourcastnext = [
-    "pyearthtools-utils @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/utils",
-    "pyearthtools-data @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/data",
-    "pyearthtools-pipeline @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/pipeline",
-    "pyearthtools-training[lightning] @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/training",
-    "pyearthtools-zoo @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/zoo",
-    "pyearthtools-bundled-fourcastnext @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/bundled_models/fourcastnext",
-]
 all = [
     "pyearthtools-utils~=0.2.0",
     "pyearthtools-data[all]~=0.2.0",
     "pyearthtools-pipeline[all]~=0.2.0",
     "pyearthtools-training[all]~=0.2.0",
     "pyearthtools-zoo~=0.2.0",
-    "pyearthtools-bundled-fourcastnext @ git+https://github.com/ACCESS-Community-Hub/PyEarthTools.git#subdirectory=packages/bundled_models/fourcastnext",
 ]
 test = ["pytest", "pytest-cov", "pytest-xdist", "pudb"]
 dev = ["pre-commit", "black==25.1.0", "interrogate", "ruff"]
