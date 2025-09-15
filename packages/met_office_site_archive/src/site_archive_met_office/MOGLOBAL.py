@@ -19,21 +19,24 @@ Met Office Global (subset)
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any, Literal
+import warnings
+
 
 
 import pyearthtools.data
 
 from pyearthtools.data import Petdt
 from pyearthtools.data.exceptions import DataNotFoundError
+from pyearthtools.data.warnings import IndexWarning
 from pyearthtools.data.indexes import ArchiveIndex, decorators
 from pyearthtools.data.transforms import Transform, TransformCollection
 from pyearthtools.data.archive import register_archive
 
-from site_archive_met_office.utilities import cached_iterdir
+from site_archive_met_office.utilities import cached_exists, cached_iterdir, postprocess_dataset  
 
 
-MOGLOBAL_RESOLUTION = (6, "hour")
-
+MOGLOBAL_RESOLUTION = (6, "h")
 
 @register_archive("MOGLOBAL", sample_kwargs=dict(variable="2t"))
 class MOGLOBAL(ArchiveIndex):
@@ -83,7 +86,7 @@ class MOGLOBAL(ArchiveIndex):
         self.variables = variables
         self.resolution = MOGLOBAL_RESOLUTION
         self.level_value = level_value
-        base_transform = TransformCollection()
+        base_transform = pyearthtools.data.transforms.variables.Trim(variables) + (transforms or TransformCollection())
 
         if level_value:
             base_transform += pyearthtools.data.transforms.coordinates.Select(
@@ -92,8 +95,7 @@ class MOGLOBAL(ArchiveIndex):
 
         super().__init__(
             transforms=base_transform + (transforms or TransformCollection()),
-            data_interval=MOGLOBAL_RESOLUTION,
-        )
+            data_interval=MOGLOBAL_RESOLUTION,)
         self.record_initialisation()
 
     def filesystem(
@@ -104,6 +106,14 @@ class MOGLOBAL(ArchiveIndex):
 
         paths = {}
         querytime = Petdt(querytime)
+        resolution = MOGLOBAL_RESOLUTION[0]
+        
+        # Check if querytime is valid for the MOGLOBAL resolution
+        if not int(querytime.hour) % resolution == 0:
+            warnings.warn(
+                f"Data exists at {resolution} hourly intervals, {querytime} is thus invalid. Rounding down...",
+                IndexWarning,
+            )
 
         # Format the query date as YYYYMMDD
         query_date = querytime.strftime("%Y%m%d")
@@ -117,12 +127,13 @@ class MOGLOBAL(ArchiveIndex):
         relevant_files = [
             filename for filename in files_in_dir if query_date in str(filename) and f"_{model_time}_" in str(filename)
         ]
-
+        
+        # PRINT STATEMENTS FOR DEBUGGING:
         # print(f'Number of files in directory: {len(files_in_dir)}')
         # print("Query date:", query_date)
         # print("Query time:", querytime)
         # print("Model time:", model_time)
-        print("Matching files:", relevant_files)
+        # print("Matching files:", relevant_files)
 
         if not relevant_files:
             raise DataNotFoundError(f"Unable to find data for: basetime: {querytime} at {MOGLOBAL_HOME}")
@@ -132,6 +143,13 @@ class MOGLOBAL(ArchiveIndex):
             paths[str(filename)] = Path(MOGLOBAL_HOME) / filename
 
         return paths
+    
+
+    # Override the __getitem__ method to apply postprocessing
+    def __getitem__(self, key):
+        ds = super().__getitem__(key)
+        ds = postprocess_dataset(ds)
+        return ds
 
     # Do we need this?
     @property
