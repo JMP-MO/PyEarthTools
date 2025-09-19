@@ -63,7 +63,6 @@ def postprocess_dataset(ds: xr.Dataset) -> xr.Dataset:
             arr = arr.assign_coords(longitude=ds["longitude"])
         ds[var] = arr
 
-
     # Keep only latitude, longitude, and time as coordinates
     keep_coords = {"latitude", "longitude", "time"}
     coords_to_drop = [c for c in ds.coords if c not in keep_coords]
