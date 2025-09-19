@@ -28,7 +28,7 @@ from pyearthtools.data.indexes import ArchiveIndex, decorators
 from pyearthtools.data.transforms import Transform, TransformCollection
 from pyearthtools.data.archive import register_archive
 
-from site_archive_met_office.utilities import cached_exists, cached_iterdir, postprocess_dataset   
+from site_archive_met_office.utilities import cached_exists, cached_iterdir, postprocess_dataset
 
 
 MOUKV_RESOLUTION = (6, "hour")
@@ -84,7 +84,7 @@ class MOUKV(ArchiveIndex):
         self.resolution = MOUKV_RESOLUTION
         self.level_value = level_value
         base_transform = pyearthtools.data.transforms.variables.Trim(variables) + (transforms or TransformCollection())
-        
+
         base_transform += pyearthtools.data.transforms.attributes.Rename(MOUKV_RENAME)
 
         if level_value:
@@ -135,7 +135,7 @@ class MOUKV(ArchiveIndex):
             paths[str(filename)] = Path(MOGLOBAL_HOME) / filename
 
         return paths
-    
+
     # Override the __getitem__ method to apply postprocessing
     def __getitem__(self, key):
         ds = super().__getitem__(key)

@@ -23,7 +23,6 @@ from typing import Any, Literal
 import warnings
 
 
-
 import pyearthtools.data
 
 from pyearthtools.data import Petdt
@@ -33,10 +32,11 @@ from pyearthtools.data.indexes import ArchiveIndex, decorators
 from pyearthtools.data.transforms import Transform, TransformCollection
 from pyearthtools.data.archive import register_archive
 
-from site_archive_met_office.utilities import cached_exists, cached_iterdir, postprocess_dataset  
+from site_archive_met_office.utilities import cached_exists, cached_iterdir, postprocess_dataset
 
 
 MOGLOBAL_RESOLUTION = (6, "h")
+
 
 @register_archive("MOGLOBAL", sample_kwargs=dict(variable="2t"))
 class MOGLOBAL(ArchiveIndex):
@@ -95,7 +95,8 @@ class MOGLOBAL(ArchiveIndex):
 
         super().__init__(
             transforms=base_transform + (transforms or TransformCollection()),
-            data_interval=MOGLOBAL_RESOLUTION,)
+            data_interval=MOGLOBAL_RESOLUTION,
+        )
         self.record_initialisation()
 
     def filesystem(
@@ -107,7 +108,7 @@ class MOGLOBAL(ArchiveIndex):
         paths = {}
         querytime = Petdt(querytime)
         resolution = MOGLOBAL_RESOLUTION[0]
-        
+
         # Check if querytime is valid for the MOGLOBAL resolution
         if not int(querytime.hour) % resolution == 0:
             warnings.warn(
@@ -127,7 +128,7 @@ class MOGLOBAL(ArchiveIndex):
         relevant_files = [
             filename for filename in files_in_dir if query_date in str(filename) and f"_{model_time}_" in str(filename)
         ]
-        
+
         # PRINT STATEMENTS FOR DEBUGGING:
         # print(f'Number of files in directory: {len(files_in_dir)}')
         # print("Query date:", query_date)
@@ -143,7 +144,6 @@ class MOGLOBAL(ArchiveIndex):
             paths[str(filename)] = Path(MOGLOBAL_HOME) / filename
 
         return paths
-    
 
     # Override the __getitem__ method to apply postprocessing
     def __getitem__(self, key):
