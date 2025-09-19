@@ -1,6 +1,5 @@
 from pyearthtools.data.transforms import coordinates
 import xarray as xr
-import numpy as np
 import pytest
 
 
