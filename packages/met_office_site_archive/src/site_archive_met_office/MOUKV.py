@@ -28,7 +28,7 @@ from pyearthtools.data.indexes import ArchiveIndex, decorators
 from pyearthtools.data.transforms import Transform, TransformCollection
 from pyearthtools.data.archive import register_archive
 
-from site_archive_met_office.utilities import cached_exists, cached_iterdir, postprocess_dataset
+from site_archive_met_office.utilities import cached_iterdir, postprocess_dataset
 
 
 MOUKV_RESOLUTION = (6, "hour")

@@ -17,6 +17,7 @@
 from __future__ import annotations
 
 import functools
+import xarray as xr
 from pathlib import Path
 
 
@@ -37,9 +38,6 @@ def postprocess_dataset(ds: xr.Dataset) -> xr.Dataset:
     Interpolate all staggered grid variables (latitude_0, longitude_0)
     onto the centered grid (latitude, longitude).
     """
-
-    # Store the original dimensions sizes
-    original_dims = {dim: ds[dim].size for dim in ds.dims if dim in ds.coords}
 
     # Interpolate staggered grid variables to centered grid if they exist
     for var in ds.data_vars:
@@ -65,22 +63,6 @@ def postprocess_dataset(ds: xr.Dataset) -> xr.Dataset:
             arr = arr.assign_coords(longitude=ds["longitude"])
         ds[var] = arr
 
-        # if 'latitude_0' in dims:
-        #     interp_kwargs['latitude_0'] = ds.latitude
-        # if 'longitude_0' in dims:
-        #     interp_kwargs['longitude_0'] = ds.longitude
-        # if 'grid_latitude_0' in dims:
-        #     interp_kwargs['grid_latitude_0'] = ds.latitude
-        # if 'grid_longitude_0' in dims:
-        #     interp_kwargs['grid_longitude_0'] = ds.longitude
-
-        # if interp_kwargs:
-        #     ds[var] = ds[var].interp(**interp_kwargs)
-
-        # # Now slice to ensure the original dimensions are maintained.
-        # for dim in ['latitude', 'longitude']:
-        #     if dim in dims and dim in original_dims:
-        #         ds[var] = ds[var].isel({dim: slice(0, original_dims[dim])})
 
     # Keep only latitude, longitude, and time as coordinates
     keep_coords = {"latitude", "longitude", "time"}

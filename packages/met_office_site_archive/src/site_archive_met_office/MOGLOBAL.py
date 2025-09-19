@@ -19,7 +19,6 @@ Met Office Global (subset)
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Literal
 import warnings
 
 
@@ -32,7 +31,7 @@ from pyearthtools.data.indexes import ArchiveIndex, decorators
 from pyearthtools.data.transforms import Transform, TransformCollection
 from pyearthtools.data.archive import register_archive
 
-from site_archive_met_office.utilities import cached_exists, cached_iterdir, postprocess_dataset
+from site_archive_met_office.utilities import cached_iterdir, postprocess_dataset
 
 
 MOGLOBAL_RESOLUTION = (6, "h")
@@ -151,7 +150,6 @@ class MOGLOBAL(ArchiveIndex):
         ds = postprocess_dataset(ds)
         return ds
 
-    # Do we need this?
     @property
     def _import(self):
         """module to import when this class is used"""
